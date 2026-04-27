@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OHE-Pecanha Login</title></head>
+<body style="font-family:Georgia,serif;background:#f4ead6;color:#24170b;padding:24px">
+<main style="max-width:420px;margin:40px auto;background:#fffaf0;border:1px solid #d8c399;border-radius:18px;padding:20px">
+<h1>OHE-Pecanha</h1>
+<p>Entrada restrita da Oficina Heteronimica da Escrita.</p>
+<label>Perfil</label><br>
+<select id="perfil" style="width:100%;padding:12px;margin:8px 0"><option>Admin</option><option>Heteronimo</option><option>Wagner Planas</option></select>
+<label>Chave local</label><br>
+<input id="chave" type="password" style="width:100%;padding:12px;margin:8px 0" placeholder="chave local"><br>
+<button onclick="entrar()" style="width:100%;padding:12px;border-radius:999px;background:#b8862f;border:0;font-weight:bold">Entrar</button>
+<p id="aviso"></p>
+</main>
+<script>
+function entrar(){var p=document.getElementById('perfil').value;var c=document.getElementById('chave').value; if(c.length>=4){localStorage.setItem('ohe_login','ativo');localStorage.setItem('ohe_perfil',p);location.href='index.html'}else{document.getElementById('aviso').innerText='Informe a chave local.'}}
+</script>
+</body></html>
