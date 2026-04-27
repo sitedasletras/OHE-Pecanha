@@ -1,18 +1,36 @@
 <!doctype html>
 <html lang="pt-BR">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OHE-Pecanha Login</title></head>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OHE-Pecanha Login</title>
+</head>
 <body style="font-family:Georgia,serif;background:#f4ead6;color:#24170b;padding:24px">
-<main style="max-width:420px;margin:40px auto;background:#fffaf0;border:1px solid #d8c399;border-radius:18px;padding:20px">
+<main style="max-width:460px;margin:40px auto;background:#fffaf0;border:1px solid #d8c399;border-radius:18px;padding:22px;box-shadow:0 12px 30px #0002">
 <h1>OHE-Pecanha</h1>
-<p>Entrada restrita da Oficina Heteronimica da Escrita.</p>
-<label>Perfil</label><br>
-<select id="perfil" style="width:100%;padding:12px;margin:8px 0"><option>Admin</option><option>Heteronimo</option><option>Wagner Planas</option></select>
-<label>Chave local</label><br>
-<input id="chave" type="password" style="width:100%;padding:12px;margin:8px 0" placeholder="chave local"><br>
-<button onclick="entrar()" style="width:100%;padding:12px;border-radius:999px;background:#b8862f;border:0;font-weight:bold">Entrar</button>
-<p id="aviso"></p>
+<p><b>Entrada restrita da Oficina Heteronimica da Escrita.</b></p>
+<p>Os tres perfis abaixo possuem acesso total. Eles servem apenas para separar o contexto de trabalho dentro da OHE.</p>
+<label>Entrar como</label><br>
+<select id="perfil" style="width:100%;padding:12px;margin:8px 0;border:1px solid #d8c399;border-radius:10px;background:#fffdf8"><option>Admin</option><option>Heteronimo</option><option>Wagner Planas</option></select>
+<label>Chave local da OHE</label><br>
+<input id="chave" type="password" style="width:100%;padding:12px;margin:8px 0;border:1px solid #d8c399;border-radius:10px;background:#fffdf8" placeholder="chave local"><br>
+<button onclick="entrar()" style="width:100%;padding:12px;border-radius:999px;background:#b8862f;border:0;font-weight:bold;cursor:pointer">Entrar na OHE</button>
+<p id="aviso" style="color:#7b1e1e;font-weight:bold"></p>
+<hr style="border:0;border-top:1px solid #eadbbc;margin:18px 0">
+<p style="font-size:13px;color:#735f42">Ponte futura: o login do Celeiro Literario devera gravar uma sessao local compatível para abrir a OHE automaticamente e permitir Catapulta entre OHE e Lapidar.</p>
 </main>
 <script>
-function entrar(){var p=document.getElementById('perfil').value;var c=document.getElementById('chave').value; if(c.length>=4){localStorage.setItem('ohe_login','ativo');localStorage.setItem('ohe_perfil',p);location.href='index.html'}else{document.getElementById('aviso').innerText='Informe a chave local.'}}
+function entrar(){
+ var p=document.getElementById('perfil').value;
+ var c=document.getElementById('chave').value;
+ if(c.length>=4){
+  localStorage.setItem('ohe_login','ativo');
+  localStorage.setItem('ohe_perfil',p);
+  localStorage.setItem('celeiro_ohe_conexao','ativa');
+  location.href='index.html';
+ }else{
+  document.getElementById('aviso').innerText='Informe a chave local.';
+ }
+}
 </script>
 </body></html>
