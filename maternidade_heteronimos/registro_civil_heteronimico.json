@@ -1,0 +1,34 @@
+{
+  "registro": "Registro Civil Heteronimico Central",
+  "versao": "1.0",
+  "origem": "Maternidade dos Heteronimos",
+  "regra_mestra": "Nenhum modulo cria identidade isolada. Toda identidade nasce na Maternidade dos Heteronimos e os demais modulos recebem fichas funcionais derivadas.",
+  "modulos_derivados": {
+    "literario": "OHE-Pecanha / Lapidar",
+    "sonoro": "SIGMAL Music / Silo Sonoro / Silo Music",
+    "visual": "Nucleo Elenco SIGMAL / Silo Cinematografico / Web TV / HQ"
+  },
+  "estrutura_certidao": {
+    "codigo": "",
+    "nome": "",
+    "data_criacao": "",
+    "origem_criacao": "manual | Trajano Estrada | antologia | edital | desejo pessoal | expansao de obra",
+    "ala_principal": "literaria | sonora | visual | hibrida",
+    "alas_secundarias": [],
+    "territorio_principal": "",
+    "territorio_secundario": "",
+    "campo_artistico": "",
+    "idioma_base": "pt-BR",
+    "idiomas_possiveis": [],
+    "contraponto": "",
+    "prefaciador_natural": "",
+    "voz_associada": "",
+    "rosto_associado": "",
+    "destino_literario": "",
+    "destino_sonoro": "",
+    "destino_visual": "",
+    "status": "ativo | latente | reservado | em_formacao | conhecido | muito_usado | muito_registrado | famoso",
+    "observacoes": ""
+  },
+  "heteronimos": []
+}
