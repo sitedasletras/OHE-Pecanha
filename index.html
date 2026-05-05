@@ -3,31 +3,276 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OHE-Pecanha</title>
-<script>
-if(localStorage.getItem('ohe_login')!=='ativo' && localStorage.getItem('celeiro_ohe_conexao')!=='ativa'){
-  location.href='login.html';
-}
-</script>
+<title>OHE — Máquina de Dados</title>
 <style>
-body{margin:0;background:#f4ead6;color:#25170b;font-family:Georgia,serif}header{background:#3b210f;color:white;text-align:center;padding:28px;border-bottom:5px solid #b8862f}main{max-width:1050px;margin:auto;padding:20px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.card{background:#fffaf0;border:1px solid #d8c399;border-radius:18px;padding:18px;box-shadow:0 10px 28px #0002}.btn{display:block;background:#b8862f;color:#1c1005;text-decoration:none;padding:12px;border-radius:999px;text-align:center;font-weight:bold;margin-top:12px}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}.nav a{background:#fff6df;color:#4b2a12;border:1px solid #d8c399;border-radius:999px;text-decoration:none;padding:9px 12px}.route{background:#fff5d9;border-left:5px solid #b8862f;padding:12px;border-radius:12px;line-height:1.6}.perfil{background:#eef6eb;border:1px solid #b8d5ae;color:#245b22;border-radius:12px;padding:10px;margin-bottom:14px}.logout{float:right;background:#f1d2ca;color:#6a1b12;border:0;border-radius:999px;padding:8px 12px;font-weight:bold;cursor:pointer}</style>
+:root{--azul:#10233f;--ouro:#d8b56d;--papel:#fffaf0;--texto:#243044;--verde:#6c8756;--linha:#d8d0c1;--claro:#eef4fb}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(135deg,#0c1d35,#17365f);font-family:Georgia,'Times New Roman',serif;color:var(--texto);padding:18px}
+.wrap{max-width:1220px;margin:0 auto}
+.hero,.box{background:var(--papel);border:1px solid rgba(216,181,109,.55);border-radius:26px;padding:22px;box-shadow:0 18px 42px rgba(0,0,0,.18)}
+.hero{margin-bottom:18px}
+.selo{display:inline-block;background:#edf4e7;color:#48663f;border-radius:999px;padding:8px 18px;font-weight:900;letter-spacing:.07em;text-transform:uppercase}
+h1{font-size:clamp(2.1rem,6vw,4rem);line-height:.95;margin:18px 0;color:var(--azul)}
+h2{color:var(--azul);margin-top:0}
+.lead{font-size:1.25rem;line-height:1.45;color:#626b75}
+.grid{display:grid;grid-template-columns:380px 1fr;gap:18px}
+.stack{display:grid;gap:18px}
+label{display:block;font-weight:900;color:var(--azul);margin:12px 0 6px}
+textarea,input,select{width:100%;border:1px solid var(--linha);border-radius:14px;background:#fffdf7;padding:11px;font:15px Georgia,serif}
+textarea{min-height:155px;resize:vertical}
+.btn{border:0;border-radius:999px;background:var(--azul);color:white;padding:12px 16px;font-weight:900;cursor:pointer;font-family:Georgia,'Times New Roman',serif;text-decoration:none;display:inline-flex;justify-content:center;align-items:center;margin-top:10px}
+.btn.verde{background:var(--verde)}
+.btn.ouro{background:var(--ouro);color:#211a10}
+.btn.full{width:100%}
+.status{background:#fff7df;border:1px solid var(--ouro);border-radius:16px;padding:12px;margin-top:12px;color:#634a16}
+.a4wrap{background:#e8dfcd;border-radius:18px;padding:18px;overflow:auto}
+.a4{width:595px;min-height:842px;background:white;margin:auto;padding:70px 58px;box-shadow:0 16px 36px rgba(0,0,0,.24);font-size:16px;line-height:1.55;color:#111}
+.a4 h1{font-size:28px;line-height:1.15;text-align:center;margin:0 0 24px;color:#111}
+.a4 p{text-align:justify;text-indent:2em;margin:0 0 .45em}
+.a4 img{max-width:100%;display:block;margin:18px auto;border-radius:8px}
+.previewImg{max-width:100%;border-radius:14px;margin-top:10px;display:none}
+.dados{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:12px}
+.dado{background:var(--claro);border:1px solid #bccce1;border-radius:14px;padding:10px}
+.dado strong{display:block;color:var(--azul);margin-bottom:5px}
+.hiddenFile{display:none}
+.acoes{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.a4{width:100%;min-height:720px;padding:48px 32px}}
+@media print{body{background:white;padding:0}.hero,.grid>.stack,.status,.dados,.acoes{display:none}.wrap{max-width:none}.box{box-shadow:none;border:0;padding:0}.a4wrap{background:white;padding:0}.a4{box-shadow:none;width:auto;min-height:auto}}
+</style>
 </head>
 <body>
-<header><h1>OHE-Pecanha</h1><p>Oficina Heteronimica da Escrita</p></header>
-<main>
-<div class="perfil"><button class="logout" onclick="sair()">Sair</button><b>Perfil ativo:</b> <span id="perfilAtivo"></span><br>Todos os perfis autorizados possuem acesso total: Admin, Heteronimo e Wagner Planas.</div>
-<nav class="nav"><a href="caixa_de_direcao.html">Caixa</a><a href="mpal.html">MPAL</a><a href="arauto.html">Arauto</a><a href="observatorio.html">Observatorio</a><a href="confraria.html">Confraria</a><a href="centro_hospitalar.html">Centro Hospitalar</a><a href="calabouco.html">Calabouco</a><a href="pipeline.html">Pipeline</a></nav>
-<section class="card"><h2>Entrada oficial</h2><p>A OHE e privada e pertence ao nucleo autoral do seu criador. Aqui a obra nasce, recebe direcao, passa por escrita heteronimica, humanizacao interna e fica guardada no Calabouco ate decisao do autor.</p></section>
-<div class="grid">
-<div class="card"><h3>Modo Automatico</h3><p>Usa a MPAL para gerar dados narrativos.</p><a class="btn" href="mpal.html">Entrar na MPAL</a></div>
-<div class="card"><h3>Modo Manual</h3><p>Usa o Arauto para interpretar edital, concurso ou antologia.</p><a class="btn" href="arauto.html">Entrar no Arauto</a></div>
-<div class="card"><h3>Modo Observatorio</h3><p>Usa video, imagem e musica como atmosfera criativa.</p><a class="btn" href="observatorio.html">Entrar no Observatorio</a></div>
+<main class="wrap">
+<section class="hero">
+<span class="selo">OHE — Máquina de Dados</span>
+<h1>Entrada de Texto, Ideia, Concurso e Imagem</h1>
+<p class="lead">Máquina simples e funcional: você sobe texto, registra ideia ou concurso, envia imagem de referência e gera uma saída A4 normal. Sem personagem no meio, sem identificação pública, sem complicação.</p>
+</section>
+
+<section class="grid">
+<div class="stack">
+
+<section class="box">
+<h2>📄 Porta de Texto</h2>
+<label>Título do material</label>
+<input id="titulo" placeholder="Título, chamada ou nome do arquivo">
+<input class="hiddenFile" id="uploadTexto" type="file" accept=".txt,text/plain">
+<button class="btn ouro full" onclick="document.getElementById('uploadTexto').click()">Enviar TXT</button>
+<label>Texto normal</label>
+<textarea id="texto" placeholder="Cole ou escreva o texto aqui..."></textarea>
+<button class="btn full" onclick="salvarTudo()">Salvar texto na máquina</button>
+</section>
+
+<section class="box">
+<h2>💡 Ideia ou Concurso</h2>
+<label>Tipo de entrada</label>
+<select id="tipo">
+<option value="ideia">Ideia</option>
+<option value="concurso">Concurso / edital / antologia</option>
+</select>
+<label>Dados da ideia ou concurso</label>
+<textarea id="dados" placeholder="Cole aqui a ideia, edital, tema, regra, prazo, imagem imaginada, observação etc."></textarea>
+<button class="btn full" onclick="salvarTudo()">Salvar dados</button>
+</section>
+
+<section class="box">
+<h2>🖼️ Porta de Imagem</h2>
+<p>Use para imagem de ideia, imagem de concurso, referência de capa, personagem ou cenário.</p>
+<input class="hiddenFile" id="uploadImagem" type="file" accept="image/*">
+<button class="btn ouro full" onclick="document.getElementById('uploadImagem').click()">Enviar imagem</button>
+<img id="previewImagem" class="previewImg" alt="Prévia da imagem">
+<button class="btn full" onclick="salvarTudo()">Salvar imagem na máquina</button>
+</section>
+
+<section class="box">
+<h2>⚙️ Saídas</h2>
+<div class="acoes">
+<button class="btn verde" onclick="gerarA4()">Gerar A4</button>
+<button class="btn" onclick="catapultarLapidar()">Enviar ao Lapidar</button>
+<button class="btn ouro" onclick="window.print()">Imprimir / PDF A4</button>
+<button class="btn" onclick="exportarJSON()">Exportar JSON</button>
+<button class="btn ouro" onclick="limparTudo()">Limpar</button>
 </div>
-<section class="card"><h2>Fluxo principal</h2><div class="route">Caixa de Direcao &gt; MPAL / Arauto / Observatorio &gt; Motor de Fatos &gt; Direcao por Capitulo &gt; Confraria &gt; Motor Escritor &gt; 6 Camadas &gt; Humanizacao &gt; Calabouco &gt; envio manual ao Lapidar</div></section>
+<div class="status" id="status">Máquina aguardando entrada.</div>
+<div class="dados">
+<div class="dado"><strong>Texto</strong><span id="statTexto">vazio</span></div>
+<div class="dado"><strong>Dados</strong><span id="statDados">vazio</span></div>
+<div class="dado"><strong>Imagem</strong><span id="statImagem">vazio</span></div>
+</div>
+</section>
+
+</div>
+
+<section class="box">
+<h2>📄 Saída A4</h2>
+<div class="a4wrap">
+<article class="a4" id="a4">
+<h1>Material OHE</h1>
+<p>A saída A4 aparecerá aqui.</p>
+</article>
+</div>
+</section>
+
+</section>
 </main>
+
 <script>
-document.getElementById('perfilAtivo').innerText=localStorage.getItem('ohe_perfil')||'Sessao Celeiro/OHE';
-function sair(){localStorage.removeItem('ohe_login');localStorage.removeItem('ohe_perfil');localStorage.removeItem('celeiro_ohe_conexao');location.href='login.html'}
+const $=id=>document.getElementById(id);
+let imagemData='';
+
+$('uploadTexto').addEventListener('change',e=>{
+const f=e.target.files[0];
+if(!f)return;
+const r=new FileReader();
+r.onload=()=>{
+$('texto').value=r.result;
+if(!$('titulo').value)$('titulo').value=f.name.replace(/\.txt$/i,'');
+salvarTudo();
+gerarA4();
+};
+r.readAsText(f);
+});
+
+$('uploadImagem').addEventListener('change',e=>{
+const f=e.target.files[0];
+if(!f)return;
+const r=new FileReader();
+r.onload=()=>{
+imagemData=r.result;
+$('previewImagem').src=imagemData;
+$('previewImagem').style.display='block';
+localStorage.setItem('ohe_imagem_nome',f.name);
+salvarTudo();
+gerarA4();
+};
+r.readAsDataURL(f);
+});
+
+function esc(s){
+return String(s||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+}
+
+function salvarTudo(){
+localStorage.setItem('ohe_saida_titulo',$('titulo').value||'material_ohe');
+localStorage.setItem('ohe_saida_texto',$('texto').value||'');
+localStorage.setItem('ohe_tipo_entrada',$('tipo').value);
+localStorage.setItem('ohe_dados_entrada',$('dados').value||'');
+if(imagemData)localStorage.setItem('ohe_imagem_data',imagemData);
+atualizarStats();
+status('Material salvo na Máquina de Dados.');
+}
+
+function atualizarStats(){
+const t=localStorage.getItem('ohe_saida_texto')||'';
+const d=localStorage.getItem('ohe_dados_entrada')||'';
+const i=localStorage.getItem('ohe_imagem_data')||'';
+$('statTexto').textContent=t? t.length+' caracteres':'vazio';
+$('statDados').textContent=d? d.length+' caracteres':'vazio';
+$('statImagem').textContent=i?'carregada':'vazio';
+}
+
+function gerarA4(){
+salvarTudo();
+const titulo=localStorage.getItem('ohe_saida_titulo')||'Material OHE';
+const texto=localStorage.getItem('ohe_saida_texto')||'';
+const tipo=localStorage.getItem('ohe_tipo_entrada')||'ideia';
+const dados=localStorage.getItem('ohe_dados_entrada')||'';
+const img=localStorage.getItem('ohe_imagem_data')||'';
+
+let html='<h1>'+esc(titulo)+'</h1>';
+
+if(dados.trim()){
+html+='<p><strong>'+esc(tipo.toUpperCase())+':</strong> '+esc(dados)+'</p>';
+}
+
+if(img){
+html+='<img src="'+img+'" alt="Imagem de referência">';
+}
+
+if(texto.trim()){
+html+=texto.split(/\n\s*\n|\n/).map(p=>p.trim()).filter(Boolean).map(p=>'<p>'+esc(p)+'</p>').join('');
+}else{
+html+='<p>Sem texto principal carregado.</p>';
+}
+
+$('a4').innerHTML=html;
+status('Saída A4 gerada.');
+}
+
+function catapultarLapidar(){
+salvarTudo();
+const texto=localStorage.getItem('ohe_saida_texto')||'';
+if(!texto.trim()){
+status('Não há texto principal para enviar ao Lapidar. Suba ou cole um texto primeiro.');
+return;
+}
+localStorage.setItem('lapidar_entrada_silenciosa_texto',texto);
+localStorage.setItem('lapidar_entrada_silenciosa_titulo',localStorage.getItem('ohe_saida_titulo')||'material_ohe');
+location.href='../preparacao_da_obra.html?auto=diagramacao';
+}
+
+function exportarJSON(){
+salvarTudo();
+const pacote={
+titulo:localStorage.getItem('ohe_saida_titulo'),
+texto:localStorage.getItem('ohe_saida_texto'),
+tipo:localStorage.getItem('ohe_tipo_entrada'),
+dados:localStorage.getItem('ohe_dados_entrada'),
+imagem:{
+nome:localStorage.getItem('ohe_imagem_nome'),
+presente:!!localStorage.getItem('ohe_imagem_data')
+}
+};
+const blob=new Blob([JSON.stringify(pacote,null,2)],{type:'application/json'});
+const a=document.createElement('a');
+a.href=URL.createObjectURL(blob);
+a.download='maquina-dados-ohe.json';
+a.click();
+URL.revokeObjectURL(a.href);
+status('Pacote JSON exportado.');
+}
+
+function limparTudo(){
+[
+'ohe_saida_titulo',
+'ohe_saida_texto',
+'ohe_tipo_entrada',
+'ohe_dados_entrada',
+'ohe_imagem_data',
+'ohe_imagem_nome',
+'lapidar_entrada_silenciosa_texto',
+'lapidar_entrada_silenciosa_titulo'
+].forEach(k=>localStorage.removeItem(k));
+
+$('titulo').value='';
+$('texto').value='';
+$('dados').value='';
+imagemData='';
+$('previewImagem').style.display='none';
+$('a4').innerHTML='<h1>Material OHE</h1><p>A saída A4 aparecerá aqui.</p>';
+atualizarStats();
+status('Máquina limpa.');
+}
+
+function status(t){
+$('status').textContent=t;
+}
+
+function carregar(){
+$('titulo').value=localStorage.getItem('ohe_saida_titulo')||'';
+$('texto').value=localStorage.getItem('ohe_saida_texto')||'';
+$('tipo').value=localStorage.getItem('ohe_tipo_entrada')||'ideia';
+$('dados').value=localStorage.getItem('ohe_dados_entrada')||'';
+
+imagemData=localStorage.getItem('ohe_imagem_data')||'';
+if(imagemData){
+$('previewImagem').src=imagemData;
+$('previewImagem').style.display='block';
+}
+atualizarStats();
+gerarA4();
+}
+
+carregar();
 </script>
 </body>
 </html>
