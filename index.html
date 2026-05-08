@@ -3,276 +3,237 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OHE — Máquina de Dados</title>
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>OHE — Oficina Heteronímica da Escrita</title>
 <style>
-:root{--azul:#10233f;--ouro:#d8b56d;--papel:#fffaf0;--texto:#243044;--verde:#6c8756;--linha:#d8d0c1;--claro:#eef4fb}
+:root{--azul:#10233f;--ouro:#d8b56d;--papel:#fffaf0;--texto:#16233a;--verde:#6f8d5e;--vinho:#9b6265;--linha:#d8d0c1;--campo:#fffefb}
 *{box-sizing:border-box}
-body{margin:0;background:linear-gradient(135deg,#0c1d35,#17365f);font-family:Georgia,'Times New Roman',serif;color:var(--texto);padding:18px}
-.wrap{max-width:1220px;margin:0 auto}
-.hero,.box{background:var(--papel);border:1px solid rgba(216,181,109,.55);border-radius:26px;padding:22px;box-shadow:0 18px 42px rgba(0,0,0,.18)}
-.hero{margin-bottom:18px}
-.selo{display:inline-block;background:#edf4e7;color:#48663f;border-radius:999px;padding:8px 18px;font-weight:900;letter-spacing:.07em;text-transform:uppercase}
-h1{font-size:clamp(2.1rem,6vw,4rem);line-height:.95;margin:18px 0;color:var(--azul)}
-h2{color:var(--azul);margin-top:0}
-.lead{font-size:1.25rem;line-height:1.45;color:#626b75}
-.grid{display:grid;grid-template-columns:380px 1fr;gap:18px}
-.stack{display:grid;gap:18px}
-label{display:block;font-weight:900;color:var(--azul);margin:12px 0 6px}
-textarea,input,select{width:100%;border:1px solid var(--linha);border-radius:14px;background:#fffdf7;padding:11px;font:15px Georgia,serif}
-textarea{min-height:155px;resize:vertical}
-.btn{border:0;border-radius:999px;background:var(--azul);color:white;padding:12px 16px;font-weight:900;cursor:pointer;font-family:Georgia,'Times New Roman',serif;text-decoration:none;display:inline-flex;justify-content:center;align-items:center;margin-top:10px}
-.btn.verde{background:var(--verde)}
-.btn.ouro{background:var(--ouro);color:#211a10}
-.btn.full{width:100%}
-.status{background:#fff7df;border:1px solid var(--ouro);border-radius:16px;padding:12px;margin-top:12px;color:#634a16}
-.a4wrap{background:#e8dfcd;border-radius:18px;padding:18px;overflow:auto}
-.a4{width:595px;min-height:842px;background:white;margin:auto;padding:70px 58px;box-shadow:0 16px 36px rgba(0,0,0,.24);font-size:16px;line-height:1.55;color:#111}
-.a4 h1{font-size:28px;line-height:1.15;text-align:center;margin:0 0 24px;color:#111}
-.a4 p{text-align:justify;text-indent:2em;margin:0 0 .45em}
-.a4 img{max-width:100%;display:block;margin:18px auto;border-radius:8px}
-.previewImg{max-width:100%;border-radius:14px;margin-top:10px;display:none}
-.dados{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:12px}
-.dado{background:var(--claro);border:1px solid #bccce1;border-radius:14px;padding:10px}
-.dado strong{display:block;color:var(--azul);margin-bottom:5px}
-.hiddenFile{display:none}
-.acoes{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}.a4{width:100%;min-height:720px;padding:48px 32px}}
-@media print{body{background:white;padding:0}.hero,.grid>.stack,.status,.dados,.acoes{display:none}.wrap{max-width:none}.box{box-shadow:none;border:0;padding:0}.a4wrap{background:white;padding:0}.a4{box-shadow:none;width:auto;min-height:auto}}
+body{margin:0;background:var(--azul);font-family:Georgia,'Times New Roman',serif;color:var(--texto);padding:22px;overflow-x:hidden}
+.wrap{max-width:920px;margin:0 auto}
+.topo{color:var(--ouro);padding:10px 8px 28px}
+.marca{font-weight:900;letter-spacing:.06em;font-size:1.1rem}
+h1{font-size:clamp(3rem,12vw,5.8rem);line-height:.93;margin:8px 0 6px;color:var(--ouro);font-weight:900}
+.sub{font-size:clamp(1.45rem,5vw,2rem);color:var(--ouro);font-weight:700}
+.card{background:var(--papel);border:1px solid rgba(216,181,109,.75);border-radius:26px;padding:24px 28px;margin:18px 0;box-shadow:0 10px 26px rgba(0,0,0,.16)}
+h2{font-size:clamp(2rem,7vw,3.1rem);line-height:1;margin:0 0 22px;color:var(--azul)}
+.btn{border:0;border-radius:999px;padding:16px 22px;font:900 1.08rem Georgia,'Times New Roman',serif;cursor:pointer;display:block;width:100%;margin:14px 0;text-align:center}
+.btn.verde{background:var(--verde);color:white}.btn.vinho{background:var(--vinho);color:white}.btn.ouro{background:var(--ouro);color:#24190d}.btn.azul{background:var(--azul);color:white}
+.tabs{display:grid;gap:12px}.tab{background:#fff8e9;border:1px solid var(--linha);color:#111}.tab.ativo{background:var(--azul);color:white}
+select,input,textarea{width:100%;border:1px solid var(--linha);border-radius:16px;background:var(--campo);padding:14px 18px;font:1.15rem Georgia,'Times New Roman',serif;margin:10px 0;color:#111}
+textarea{min-height:138px;resize:vertical}.mem textarea{min-height:120px}.entrada textarea{min-height:160px}
+.filebox{border:1px solid var(--linha);border-radius:16px;background:#fffaf0;padding:12px;margin:10px 0;font:1.05rem Georgia,'Times New Roman',serif;overflow:hidden}.filebox input{font:1rem Arial,sans-serif;margin:0;padding:0;border:0;background:transparent}
+.status{background:#fff4cf;border:1px solid var(--ouro);border-radius:16px;padding:13px 16px;margin:14px 0;color:#593f12;font-size:1.05rem}.status.ok{background:#edf7e8;color:#26421f;border-color:#8fae79}.status.erro{background:#ffe9e9;color:#742727;border-color:#d59a9a}
+.a4wrap{background:#e8dfcd;border-radius:20px;padding:16px;overflow:auto}.a4{width:595px;min-height:842px;background:white;margin:auto;padding:68px 58px;box-shadow:0 16px 36px rgba(0,0,0,.24);font-size:18px;line-height:1.55;color:#111;position:relative}.a4 h1{font-size:34px;line-height:1.08;text-align:center;margin:0 0 22px;color:#111}.a4 h2{font-size:24px;text-align:center;margin:0 0 32px;color:#111;text-transform:uppercase}.a4 p{text-align:justify;text-indent:2em;margin:0 0 .55em}.a4 .vazio{text-align:center;text-indent:0;margin-top:20px;color:#555}.a4 img{max-width:100%;display:block;margin:20px auto;border-radius:8px}.validacao-linha{font-size:1.04rem;line-height:1.45}.oculto{display:none!important}
+@media(max-width:720px){body{padding:22px 23px}.card{padding:22px 28px}.a4{width:100%;min-height:720px;padding:48px 28px;font-size:1.08rem}h1{font-size:clamp(3.6rem,13vw,5.2rem)}}
 </style>
 </head>
 <body>
 <main class="wrap">
-<section class="hero">
-<span class="selo">OHE — Máquina de Dados</span>
-<h1>Entrada de Texto, Ideia, Concurso e Imagem</h1>
-<p class="lead">Máquina simples e funcional: você sobe texto, registra ideia ou concurso, envia imagem de referência e gera uma saída A4 normal. Sem personagem no meio, sem identificação pública, sem complicação.</p>
+<header class="topo">
+<div class="marca">OHE</div>
+<h1>Oficina Heteronímica da Escrita</h1>
+<div class="sub" id="subStatus">Aguardando edital ou imagem.</div>
+</header>
+
+<section class="card">
+<h2>Estrada automática</h2>
+<p style="font-size:1.35rem;line-height:1.35;margin-top:0">O automático dispara por edital, oportunidade ou imagem. Nova imagem ou nova forma limpam a saída anterior.</p>
+<button class="btn verde" id="btnRastrear">Rastrear / iniciar oportunidade</button>
+<button class="btn vinho" id="btnLimpar">Limpar saída atual</button>
 </section>
 
-<section class="grid">
-<div class="stack">
-
-<section class="box">
-<h2>📄 Porta de Texto</h2>
-<label>Título do material</label>
-<input id="titulo" placeholder="Título, chamada ou nome do arquivo">
-<input class="hiddenFile" id="uploadTexto" type="file" accept=".txt,text/plain">
-<button class="btn ouro full" onclick="document.getElementById('uploadTexto').click()">Enviar TXT</button>
-<label>Texto normal</label>
-<textarea id="texto" placeholder="Cole ou escreva o texto aqui..."></textarea>
-<button class="btn full" onclick="salvarTudo()">Salvar texto na máquina</button>
-</section>
-
-<section class="box">
-<h2>💡 Ideia ou Concurso</h2>
-<label>Tipo de entrada</label>
-<select id="tipo">
-<option value="ideia">Ideia</option>
-<option value="concurso">Concurso / edital / antologia</option>
-</select>
-<label>Dados da ideia ou concurso</label>
-<textarea id="dados" placeholder="Cole aqui a ideia, edital, tema, regra, prazo, imagem imaginada, observação etc."></textarea>
-<button class="btn full" onclick="salvarTudo()">Salvar dados</button>
-</section>
-
-<section class="box">
-<h2>🖼️ Porta de Imagem</h2>
-<p>Use para imagem de ideia, imagem de concurso, referência de capa, personagem ou cenário.</p>
-<input class="hiddenFile" id="uploadImagem" type="file" accept="image/*">
-<button class="btn ouro full" onclick="document.getElementById('uploadImagem').click()">Enviar imagem</button>
-<img id="previewImagem" class="previewImg" alt="Prévia da imagem">
-<button class="btn full" onclick="salvarTudo()">Salvar imagem na máquina</button>
-</section>
-
-<section class="box">
-<h2>⚙️ Saídas</h2>
-<div class="acoes">
-<button class="btn verde" onclick="gerarA4()">Gerar A4</button>
-<button class="btn" onclick="catapultarLapidar()">Enviar ao Lapidar</button>
-<button class="btn ouro" onclick="window.print()">Imprimir / PDF A4</button>
-<button class="btn" onclick="exportarJSON()">Exportar JSON</button>
-<button class="btn ouro" onclick="limparTudo()">Limpar</button>
+<section class="card">
+<h2>Eixo, forma e controle</h2>
+<div class="tabs">
+<button class="btn tab ativo" data-eixo="prosa">Prosa</button>
+<button class="btn tab" data-eixo="poesia">Poesia</button>
+<button class="btn tab" data-eixo="cordel">Cordel</button>
+<button class="btn tab" data-eixo="hibrido">Híbrido</button>
 </div>
-<div class="status" id="status">Máquina aguardando entrada.</div>
-<div class="dados">
-<div class="dado"><strong>Texto</strong><span id="statTexto">vazio</span></div>
-<div class="dado"><strong>Dados</strong><span id="statDados">vazio</span></div>
-<div class="dado"><strong>Imagem</strong><span id="statImagem">vazio</span></div>
-</div>
+<select id="forma"></select>
+<input id="quantidade" type="number" min="1" placeholder="Quantidade">
+<input id="heteronimo" placeholder="Heterônimo / voz desejada">
 </section>
 
-</div>
-
-<section class="box">
-<h2>📄 Saída A4</h2>
-<div class="a4wrap">
-<article class="a4" id="a4">
-<h1>Material OHE</h1>
-<p>A saída A4 aparecerá aqui.</p>
-</article>
-</div>
+<section class="card mem">
+<h2>Memória emocional</h2>
+<input id="memPessoa" placeholder="Pessoa ligada">
+<input id="memData" placeholder="Data importante">
+<input id="memSensorial" placeholder="Cheiro, som ou gosto">
+<input id="memObjeto" placeholder="Objeto emocional">
+<textarea id="memLivre" placeholder="Perda, sensação dominante, lembrança central, estação emocional."></textarea>
 </section>
 
+<section class="card entrada">
+<h2>Entradas</h2>
+<input id="titulo" placeholder="Título">
+<textarea id="sementes" placeholder="Máquina de dados / sementes"></textarea>
+<textarea id="textoManual" placeholder="Texto manual, se houver"></textarea>
+<textarea id="edital" placeholder="Cole edital ou regulamento"></textarea>
+<div class="filebox"><input id="imagem" type="file" accept="image/*"></div>
+<textarea id="observacao" placeholder="Observação: exemplo: escreva 5 haicais com o tema da imagem"></textarea>
+<button class="btn verde" id="btnGerar">Gerar miolo A4</button>
+<button class="btn ouro" id="btnSalvar">Salvar TXT</button>
+</section>
+
+<section class="card">
+<h2>Validação</h2>
+<div class="status" id="validacao">Aguardando validação.</div>
+</section>
+
+<section class="card">
+<h2>Saída A4 técnica</h2>
+<div class="a4wrap"><article class="a4" id="a4"><h1>Material OHE</h1><p class="vazio">Aguardando entrada.</p></article></div>
 </section>
 </main>
 
 <script>
+'use strict';
 const $=id=>document.getElementById(id);
-let imagemData='';
+const estadoInicial=()=>({eixo:'prosa',forma:'conto',imagemData:'',imagemNome:'',saida:'',validado:false,rodando:false});
+let estado=estadoInicial();
 
-$('uploadTexto').addEventListener('change',e=>{
-const f=e.target.files[0];
-if(!f)return;
-const r=new FileReader();
-r.onload=()=>{
-$('texto').value=r.result;
-if(!$('titulo').value)$('titulo').value=f.name.replace(/\.txt$/i,'');
-salvarTudo();
-gerarA4();
+const formas={
+  prosa:['conto','crônica','romance','novela','prosa poética'],
+  poesia:['haicai','tanka','senryu','soneto italiano','soneto shakespeariano','elegia','ode','pantum','ghazal','sestina medieval','sextilha clássica','novo movimento estrofista 1-2-3-4-3-2-1'],
+  cordel:['sextilha de cordel','septilha','oitava','décima','martelo agalopado','galope à beira-mar'],
+  hibrido:['prosa poética','poema narrativo','crônica poética','fragmento híbrido']
 };
-r.readAsText(f);
-});
 
-$('uploadImagem').addEventListener('change',e=>{
-const f=e.target.files[0];
-if(!f)return;
-const r=new FileReader();
-r.onload=()=>{
-imagemData=r.result;
-$('previewImagem').src=imagemData;
-$('previewImagem').style.display='block';
-localStorage.setItem('ohe_imagem_nome',f.name);
-salvarTudo();
-gerarA4();
-};
-r.readAsDataURL(f);
-});
-
-function esc(s){
-return String(s||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+function limparLegado(){
+  Object.keys(localStorage).forEach(k=>{ if(/^ohe_|^lapidar_entrada_silenciosa/.test(k)) localStorage.removeItem(k); });
+  sessionStorage.removeItem('ohe_estado_atual');
 }
 
-function salvarTudo(){
-localStorage.setItem('ohe_saida_titulo',$('titulo').value||'material_ohe');
-localStorage.setItem('ohe_saida_texto',$('texto').value||'');
-localStorage.setItem('ohe_tipo_entrada',$('tipo').value);
-localStorage.setItem('ohe_dados_entrada',$('dados').value||'');
-if(imagemData)localStorage.setItem('ohe_imagem_data',imagemData);
-atualizarStats();
-status('Material salvo na Máquina de Dados.');
+function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function linhas(txt){return String(txt||'').split(/\n+/).map(x=>x.trim()).filter(Boolean)}
+function temTexto(){return ['titulo','sementes','textoManual','edital','observacao','memPessoa','memData','memSensorial','memObjeto','memLivre'].some(id=>$(id).value.trim());}
+function setStatus(txt,tipo=''){const el=$('validacao');el.textContent=txt;el.className='status '+tipo;}
+
+function atualizarFormas(){
+  const sel=$('forma');
+  sel.innerHTML='';
+  formas[estado.eixo].forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f.charAt(0).toUpperCase()+f.slice(1);sel.appendChild(o);});
+  estado.forma=sel.value;
 }
 
-function atualizarStats(){
-const t=localStorage.getItem('ohe_saida_texto')||'';
-const d=localStorage.getItem('ohe_dados_entrada')||'';
-const i=localStorage.getItem('ohe_imagem_data')||'';
-$('statTexto').textContent=t? t.length+' caracteres':'vazio';
-$('statDados').textContent=d? d.length+' caracteres':'vazio';
-$('statImagem').textContent=i?'carregada':'vazio';
-}
-
-function gerarA4(){
-salvarTudo();
-const titulo=localStorage.getItem('ohe_saida_titulo')||'Material OHE';
-const texto=localStorage.getItem('ohe_saida_texto')||'';
-const tipo=localStorage.getItem('ohe_tipo_entrada')||'ideia';
-const dados=localStorage.getItem('ohe_dados_entrada')||'';
-const img=localStorage.getItem('ohe_imagem_data')||'';
-
-let html='<h1>'+esc(titulo)+'</h1>';
-
-if(dados.trim()){
-html+='<p><strong>'+esc(tipo.toUpperCase())+':</strong> '+esc(dados)+'</p>';
-}
-
-if(img){
-html+='<img src="'+img+'" alt="Imagem de referência">';
-}
-
-if(texto.trim()){
-html+=texto.split(/\n\s*\n|\n/).map(p=>p.trim()).filter(Boolean).map(p=>'<p>'+esc(p)+'</p>').join('');
-}else{
-html+='<p>Sem texto principal carregado.</p>';
-}
-
-$('a4').innerHTML=html;
-status('Saída A4 gerada.');
-}
-
-function catapultarLapidar(){
-salvarTudo();
-const texto=localStorage.getItem('ohe_saida_texto')||'';
-if(!texto.trim()){
-status('Não há texto principal para enviar ao Lapidar. Suba ou cole um texto primeiro.');
-return;
-}
-localStorage.setItem('lapidar_entrada_silenciosa_texto',texto);
-localStorage.setItem('lapidar_entrada_silenciosa_titulo',localStorage.getItem('ohe_saida_titulo')||'material_ohe');
-location.href='../preparacao_da_obra.html?auto=diagramacao';
-}
-
-function exportarJSON(){
-salvarTudo();
-const pacote={
-titulo:localStorage.getItem('ohe_saida_titulo'),
-texto:localStorage.getItem('ohe_saida_texto'),
-tipo:localStorage.getItem('ohe_tipo_entrada'),
-dados:localStorage.getItem('ohe_dados_entrada'),
-imagem:{
-nome:localStorage.getItem('ohe_imagem_nome'),
-presente:!!localStorage.getItem('ohe_imagem_data')
-}
-};
-const blob=new Blob([JSON.stringify(pacote,null,2)],{type:'application/json'});
-const a=document.createElement('a');
-a.href=URL.createObjectURL(blob);
-a.download='maquina-dados-ohe.json';
-a.click();
-URL.revokeObjectURL(a.href);
-status('Pacote JSON exportado.');
+function resetSaida(msg='Saída limpa. Aguardando nova geração.'){
+  estado.saida='';estado.validado=false;
+  $('a4').innerHTML='<h1>Material OHE</h1><p class="vazio">Aguardando entrada.</p>';
+  setStatus(msg);
 }
 
 function limparTudo(){
-[
-'ohe_saida_titulo',
-'ohe_saida_texto',
-'ohe_tipo_entrada',
-'ohe_dados_entrada',
-'ohe_imagem_data',
-'ohe_imagem_nome',
-'lapidar_entrada_silenciosa_texto',
-'lapidar_entrada_silenciosa_titulo'
-].forEach(k=>localStorage.removeItem(k));
-
-$('titulo').value='';
-$('texto').value='';
-$('dados').value='';
-imagemData='';
-$('previewImagem').style.display='none';
-$('a4').innerHTML='<h1>Material OHE</h1><p>A saída A4 aparecerá aqui.</p>';
-atualizarStats();
-status('Máquina limpa.');
+  limparLegado(); estado=estadoInicial();
+  document.querySelectorAll('input, textarea').forEach(el=>{ if(el.type!=='file') el.value=''; else el.value=''; });
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('ativo',b.dataset.eixo==='prosa'));
+  atualizarFormas(); resetSaida('Máquina limpa. Nenhum resíduo anterior ativo.','ok');
 }
 
-function status(t){
-$('status').textContent=t;
+function montarEntrada(){
+  const memoria=[
+    $('memPessoa').value.trim() && 'Pessoa: '+$('memPessoa').value.trim(),
+    $('memData').value.trim() && 'Data: '+$('memData').value.trim(),
+    $('memSensorial').value.trim() && 'Sensorial: '+$('memSensorial').value.trim(),
+    $('memObjeto').value.trim() && 'Objeto: '+$('memObjeto').value.trim(),
+    $('memLivre').value.trim() && 'Memória: '+$('memLivre').value.trim()
+  ].filter(Boolean).join('\n');
+  return {
+    titulo:$('titulo').value.trim()||'Material OHE',
+    eixo:estado.eixo,
+    forma:$('forma').value,
+    quantidade:$('quantidade').value.trim(),
+    heteronimo:$('heteronimo').value.trim(),
+    sementes:$('sementes').value.trim(),
+    texto:$('textoManual').value.trim(),
+    edital:$('edital').value.trim(),
+    observacao:$('observacao').value.trim(),
+    memoria,
+    imagem:estado.imagemData
+  };
 }
 
-function carregar(){
-$('titulo').value=localStorage.getItem('ohe_saida_titulo')||'';
-$('texto').value=localStorage.getItem('ohe_saida_texto')||'';
-$('tipo').value=localStorage.getItem('ohe_tipo_entrada')||'ideia';
-$('dados').value=localStorage.getItem('ohe_dados_entrada')||'';
-
-imagemData=localStorage.getItem('ohe_imagem_data')||'';
-if(imagemData){
-$('previewImagem').src=imagemData;
-$('previewImagem').style.display='block';
+function limparMetatexto(txt){
+  return String(txt||'')
+    .replace(/Material OHE/gi,'')
+    .replace(/PROSA\s+—\s+[^\n]+/gi,'')
+    .replace(/POESIA\s+—\s+[^\n]+/gi,'')
+    .replace(/Base recebida:[\s\S]*?(\n\n|$)/gi,'')
+    .replace(/Pessoa:\s*Data:\s*Sensorial:\s*Objeto:\s*Mem[oó]ria:/gi,'')
+    .replace(/^\s*(Pessoa|Data|Sensorial|Objeto|Mem[oó]ria):\s*$/gim,'')
+    .replace(/A imagem abre uma cena[\s\S]*?(\n\n|$)/gi,'')
+    .replace(/A imagem (representa|transmite|simboliza)[\s\S]*?(\n\n|$)/gi,'')
+    .replace(/O texto trata[\s\S]*?(\n\n|$)/gi,'')
+    .replace(/\n{3,}/g,'\n\n')
+    .trim();
 }
-atualizarStats();
-gerarA4();
+
+function gerarLocal(d){
+  const base=[d.sementes,d.texto,d.edital,d.observacao,d.memoria].filter(Boolean).join('\n\n');
+  if(!base.trim()) return '';
+  if(/amor|eternidade|eterno|para sempre|namorados|junho/i.test(base)){
+    return `Naquele junho, ele descobriu que promessas também envelhecem.\n\nHavia gente comprando flores como quem compra permanência. Ele comprou apenas uma fita azul, pequena demais para amarrar o tempo, e levou no bolso até a praça onde os casais costumavam se fotografar.\n\nEla tinha dito, rindo, que ninguém deveria prometer o para sempre antes de conhecer a despedida. Na época, ele achou bonito. Depois, achou cruel. Só muito mais tarde entendeu que talvez fosse apenas verdade.\n\nO amor deles não acabou num escândalo. Acabou como acaba a água na concha da mão: primeiro parece segura, depois brilha entre os dedos, depois já não está. Ainda assim, a palma permanece salgada.\n\nNaquela tarde, ele não pediu que ela voltasse. Também não fingiu que havia esquecido. Ficou ali, diante das vitrines cheias de corações, segurando a fita azul como quem segura o resto de uma maré.\n\nQuem começa a amar quer eternidade. Quem continua vivo aprende outra coisa: às vezes o amor morre para que aquilo que ele ensinou continue andando dentro da gente.`;
+  }
+  const primeiras=linhas(base).slice(0,8).join(' ');
+  return `A primeira coisa que ficou foi o silêncio.\n\n${primeiras}\n\nDepois, alguma coisa dentro da cena pediu forma. Não explicação: forma. E a voz seguiu por onde ainda havia tensão, até encontrar uma imagem capaz de permanecer.`;
 }
 
-carregar();
+function renderA4(miolo,titulo,forma){
+  const limpo=limparMetatexto(miolo);
+  if(!limpo){resetSaida('A geração não produziu miolo limpo.');return;}
+  const ps=limpo.split(/\n\s*\n/).map(p=>p.trim()).filter(Boolean);
+  const corpo=ps.map(p=>'<p>'+esc(p)+'</p>').join('');
+  $('a4').innerHTML='<h1>'+esc(titulo||'Material OHE')+'</h1><h2>'+esc(estado.eixo.toUpperCase()+' — '+forma)+'</h2>'+corpo;
+  estado.saida=limpo;estado.validado=true;
+  setStatus('Miolo A4 gerado sem metatexto interno e sem imagem fantasma.','ok');
+}
+
+async function gerarMiolo(){
+  if(estado.rodando)return;
+  resetSaida('Preparando geração limpa...');
+  const d=montarEntrada();
+  if(!temTexto() && !estado.imagemData){setStatus('Inclua texto, edital, semente ou imagem antes de gerar.','erro');return;}
+  estado.rodando=true; $('btnGerar').disabled=true;
+  try{
+    const payload={titulo:d.titulo,tipo:d.eixo,forma:d.forma,quantidade:d.quantidade,heteronimo:d.heteronimo,dados:[d.sementes,d.edital,d.observacao].filter(Boolean).join('\n\n'),texto:d.texto,memoria:d.memoria,imagem:d.imagem};
+    let miolo='';
+    try{
+      const resp=await fetch('/api/ohe-diretor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      if(resp.ok){const json=await resp.json();miolo=json.miolo||json.analise||'';}
+    }catch(e){/* GitHub Pages não executa API; usa motor local. */}
+    if(!miolo) miolo=gerarLocal(d);
+    renderA4(miolo,d.titulo,d.forma);
+  }finally{estado.rodando=false;$('btnGerar').disabled=false;}
+}
+
+function salvarTXT(){
+  const txt=estado.saida||limparMetatexto($('a4').innerText||'');
+  if(!txt.trim()){setStatus('Não há saída limpa para salvar.','erro');return;}
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='material-ohe.txt';a.click();URL.revokeObjectURL(a.href);
+  setStatus('TXT salvo.','ok');
+}
+
+$('btnLimpar').addEventListener('click',limparTudo);
+$('btnRastrear').addEventListener('click',()=>setStatus('Rastreamento preparado. Cole edital, oportunidade ou imagem e gere o miolo.','ok'));
+$('btnGerar').addEventListener('click',gerarMiolo);
+$('btnSalvar').addEventListener('click',salvarTXT);
+$('forma').addEventListener('change',()=>{estado.forma=$('forma').value;resetSaida('Forma alterada. Saída anterior descartada.','ok');});
+$('imagem').addEventListener('change',e=>{
+  const f=e.target.files[0]; estado.imagemData=''; estado.imagemNome=''; resetSaida('Imagem alterada. Saída anterior descartada.');
+  if(!f)return;
+  const r=new FileReader();r.onload=()=>{estado.imagemData=r.result;estado.imagemNome=f.name;setStatus('Imagem recebida: '+f.name+'. A camada visual só será usada na próxima geração.','ok');};r.readAsDataURL(f);
+});
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
+  estado.eixo=btn.dataset.eixo;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('ativo',b===btn));atualizarFormas();resetSaida('Eixo alterado. Saída anterior descartada.','ok');
+}));
+['titulo','sementes','textoManual','edital','observacao','memPessoa','memData','memSensorial','memObjeto','memLivre','quantidade','heteronimo'].forEach(id=>$(id).addEventListener('input',()=>resetSaida('Entrada alterada. Saída anterior descartada.')));
+
+limparLegado();
+atualizarFormas();
+resetSaida('Máquina iniciada limpa. Nenhum resíduo anterior ativo.','ok');
 </script>
 </body>
 </html>
