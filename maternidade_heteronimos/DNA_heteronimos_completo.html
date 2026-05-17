@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DNA Literário · Sistema Heteronímico · OHE-Peçanha</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --preto: #04080f;
+  --preto-mid: #080f1a;
+  --ouro: #c9a84c;
+  --ouro-claro: #e8cc7a;
+  --ouro-escuro: #7a5f1a;
+  --creme: #f5edd8;
+  --papel: #fdf8ef;
+  --prata: #6a7d90;
+  --tinta: #1a1208;
+  --vermelho: #8b1a1a;
+  --azul: #1a3a5c;
+  --verde: #1a3a1a;
+  --roxo: #2d1a4a;
+  --novo: #1a4a2e;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--preto);
+  color: var(--creme);
+  font-family: 'Libre Baskerville', Georgia, serif;
+  min-height: 100vh;
+}
+
+/* ===== CABEÇALHO ===== */
+.cabecalho {
+  background: linear-gradient(135deg, var(--preto) 0%, #0a1628 100%);
+  padding: 3rem;
+  border-bottom: 2px solid var(--ouro);
+  text-align: center;
+}
+.cab-titulo {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--ouro);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+.cab-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: rgba(201,168,76,0.4);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.cab-aviso {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: rgba(201,168,76,0.5);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ===== CONTROLES ===== */
+.controles {
+  background: var(--preto-mid);
+  padding: 1rem 2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+.busca {
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.15);
+  color: var(--creme);
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  outline: none;
+  transition: border 0.3s;
+  min-width: 220px;
+}
+.busca:focus { border-color: var(--ouro); }
+.busca::placeholder { color: rgba(201,168,76,0.3); font-style: italic; }
+.filtro {
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.15);
+  color: var(--creme);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  padding: 0.5rem 0.8rem;
+  outline: none;
+  cursor: pointer;
+}
+.filtro option { background: var(--preto-mid); }
+.cnt {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  color: rgba(201,168,76,0.4);
+  margin-left: auto;
+  text-transform: uppercase;
+}
+
+/* ===== GRADE ===== */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: var(--preto-mid);
+  border: 1px solid rgba(201,168,76,0.1);
+  overflow: hidden;
+  transition: all 0.35s;
+  position: relative;
+}
+.card:hover {
+  border-color: rgba(201,168,76,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+.card-novo {
+  border-color: rgba(0,200,83,0.2);
+}
+.card-novo:hover { border-color: rgba(0,200,83,0.5); }
+
+/* Badge novo */
+.badge-novo {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.42rem;
+  letter-spacing: 0.15em;
+  padding: 0.2rem 0.5rem;
+  background: rgba(0,200,83,0.15);
+  border: 1px solid rgba(0,200,83,0.4);
+  color: #00c853;
+  text-transform: uppercase;
+}
+
+/* Faixa por eixo */
+.faixa { height: 3px; width: 100%; }
+.eixo-prosa .faixa { background: linear-gradient(to right, #1565c0, #42a5f5); }
+.eixo-poesia .faixa { background: linear-gradient(to right, #ad1457, #e91e63); }
+.eixo-hibrido .faixa { background: linear-gradient(to right, #e65100, #ff9800); }
+.eixo-cordel .faixa { background: linear-gradient(to right, #2e7d32, #66bb6a); }
+.eixo-aberto .faixa { background: linear-gradient(to right, #4a4a4a, #9e9e9e); }
+.eixo-novo .faixa { background: linear-gradient(to right, #00695c, #00c853); }
+
+/* Corpo do card */
+.card-corpo { padding: 1.5rem; }
+
+.card-eixo {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.45rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.eixo-prosa .card-eixo { color: #42a5f5; }
+.eixo-poesia .card-eixo { color: #e91e63; }
+.eixo-hibrido .card-eixo { color: #ff9800; }
+.eixo-cordel .card-eixo { color: #66bb6a; }
+.eixo-aberto .card-eixo { color: #9e9e9e; }
+.eixo-novo .card-eixo { color: #00c853; }
+
+.card-nome {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--creme);
+  margin-bottom: 0.2rem;
+  line-height: 1.2;
+}
+.card-territorio {
+  font-style: italic;
+  font-size: 0.75rem;
+  color: var(--prata);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+/* Biografia */
+.bio {
+  font-size: 0.8rem;
+  color: rgba(240,230,200,0.8);
+  line-height: 1.75;
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+}
+
+/* DNA */
+.dna-titulo {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.25em;
+  color: var(--ouro);
+  opacity: 0.5;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.dna-titulo::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(201,168,76,0.1);
+}
+
+.dna-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.dna-item {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.dna-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.45rem;
+  letter-spacing: 0.12em;
+  color: var(--ouro);
+  opacity: 0.5;
+  text-transform: uppercase;
+  padding-top: 0.1rem;
+  flex-shrink: 0;
+}
+.dna-valor { color: rgba(240,230,200,0.75); }
+.dna-valor strong { color: var(--ouro-claro); font-weight: 400; }
+.dna-valor em { color: rgba(240,230,200,0.5); font-style: italic; }
+
+/* Fronteiras */
+.fronteira {
+  margin-top: 0.8rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(139,26,26,0.1);
+  border-left: 2px solid rgba(139,26,26,0.4);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.45rem;
+  letter-spacing: 0.08em;
+  color: #ff6b6b;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+/* Marca registrada */
+.marca {
+  margin-top: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(201,168,76,0.06);
+  border-left: 2px solid rgba(201,168,76,0.3);
+  font-style: italic;
+  font-size: 0.75rem;
+  color: rgba(201,168,76,0.7);
+  line-height: 1.5;
+}
+
+/* Referência */
+.referencia {
+  margin-top: 0.6rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.45rem;
+  letter-spacing: 0.1em;
+  color: rgba(201,168,76,0.35);
+  text-transform: uppercase;
+}
+
+/* Obras */
+.obras-secao {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(201,168,76,0.06);
+}
+.obras-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.42rem;
+  letter-spacing: 0.2em;
+  color: var(--ouro);
+  opacity: 0.4;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.obras-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.obra-item {
+  font-size: 0.72rem;
+  color: rgba(240,230,200,0.55);
+  padding-left: 0.8rem;
+  position: relative;
+  line-height: 1.4;
+}
+.obra-item::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: rgba(201,168,76,0.3);
+}
+
+/* Sem resultado */
+.vazio {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 4rem;
+  color: var(--prata);
+  opacity: 0.4;
+  font-style: italic;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .grade { grid-template-columns: 1fr; }
+  .container, .cabecalho { padding: 1.2rem; }
+  .dna-item { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="cabecalho">
+  <div class="cab-titulo">DNA Literário</div>
+  <div class="cab-sub">Sistema Heteronímico · OHE-Peçanha · Site das Letras Edições Literárias</div>
+  <div class="cab-aviso">
+    Documento interno de referência. Cada DNA é único e intransferível — o leitor deve reconhecer o autor pelo estilo, não pelo nome. Heterônimos marcados em verde são novos — nascidos para preencher lacunas detectadas no ecossistema.
+  </div>
+</div>
+
+<div class="controles">
+  <input type="text" class="busca" id="busca" placeholder="Buscar por nome, estilo ou território..." oninput="filtrar()">
+  <select class="filtro" id="filtro-eixo" onchange="filtrar()">
+    <option value="">Todos os eixos</option>
+    <option value="prosa">Prosa</option>
+    <option value="poesia">Poesia</option>
+    <option value="hibrido">Híbrido</option>
+    <option value="cordel">Cordel</option>
+    <option value="novo">Novos Heterônimos</option>
+  </select>
+  <div class="cnt" id="cnt">Carregando...</div>
+</div>
+
+<div class="container">
+  <div class="grade" id="grade"></div>
+</div>
+
+<script>
+const HETERONIMOS = [
+
+  // ============================================================
+  // HETERÔNIMOS EXISTENTES
+  // ============================================================
+
+  {
+    id: 'aj-santos', nome: 'A.J. dos Santos', eixo: 'hibrido', novo: false,
+    territorio: 'Terror psicológico rural · Chupa-Cabras · Lobisomem',
+    bio: 'Nascido em Itapecerica, Minas Gerais, A.J. dos Santos é escritor de sólida identidade temática. Homem de vida regrada e bom convívio, mantém uma existência discreta que contrasta com a intensidade de suas narrativas. Seu primo de segundo grau, o Padre Benedicttus Konstantinos, mora no mesmo endereço — dois mundos opostos sob o mesmo teto.',
+    obras: ['O Mistério do Chupa-Cabras','A Herança do Chupa Cabras','Ascensão do Chupa Cabras (Vale da Luz)','Lobisomens & Vampiros','Vlad Tepes – A História não Contada de Drácula','Para Sempre Juntos','Belial x Lobisomem','Os Mistérios da Constelação de Ophiuchus (Planeta Atlantis)'],
+    dna: {
+      universo: 'Zona rural brasileira à noite — estradas desertas, fazendas isoladas, matas fechadas, córregos onde algo se move',
+      personagens: 'O Chupa-Cabras (predador silencioso), o Lobisomem (homem partido em dois), caçadores improvisados, vítimas rurais que nunca acreditaram até ser tarde demais',
+      referencia: 'Stephen King — terror psicológico que começa devagar e explode',
+      camadas: 'Terror psicológico + mistério + suspense + tensão crescente',
+      voz: 'Narrador oral — conta como quem viveu. Frases diretas, sem ornamentos. O horror chega pelo detalhe concreto, nunca pelo adjetivo',
+      ritmo: 'Lento no início (construção de atmosfera), acelerado no clímax, pausas dramáticas no momento exato. Parágrafos curtos quando o perigo chega',
+      temperatura: 'Fria — o medo é suspenso, calculado. Picos de terror visceral nos momentos de encontro com a criatura',
+      fronteira: 'NUNCA vampiros (território migrado) · NUNCA cosmologia espacial (Imediato Thompson) · NUNCA humor',
+      marca: 'Sempre humaniza a criatura antes de assustá-la. O leitor sente pena do monstro por um instante — e esse instante torna o horror maior'
+    }
+  },
+
+  {
+    id: 'amanda-fisher', nome: 'Amanda Fernanda Fisher Leão', eixo: 'hibrido', novo: false,
+    territorio: 'Pirataria · Sereias mitológicas · Fomea · Horror marinho épico',
+    bio: 'Heptaneta do navegador Johnny Fisher, nascida em Caraguatatuba. Mochileira assumida, espírito aventureiro herdado do heptavô. O mar, em sua obra, não é cenário — é personagem soberano e território mítico.',
+    obras: ['A Saga de Johnny Fisher','O Canto da Sereia – Era Mitológica','O Canto da Sereia — Entre Piratas e Corsários','O Canto da Sereia — O Canto Fatal','Fômea — O Experimento Genético','Segredos no Mar','Terror no Caribe','O Tesouro Oculto'],
+    dna: {
+      universo: 'Mar épico e mítico — rotas de piratas, profundezas inexploradas, portos malditos, oceanos onde os mapas terminam e o mito começa',
+      personagens: 'Johnny Fisher (heptavô ancestral), sereias de diferentes mitologias mundiais, piratas e corsários, o Fomea (monstro geneticamente criado em laboratório marinho)',
+      referencia: 'Patrick O\'Brian + mitologia universal do mar',
+      camadas: 'Aventura épica + mitologia marinha + horror abissal',
+      voz: 'Narradora aventureira — voz ágil, descritiva, com vocabulário náutico preciso. Alterna entre lirismo (ao descrever o mar) e tensão (ao descrever o perigo)',
+      ritmo: 'Dinâmico — capítulos que se movem como ondas. Cenas de ação rápidas, cenas de mar aberto contemplativas',
+      temperatura: 'Épica e úmida — grandiosidade do oceano como pano de fundo permanente',
+      fronteira: 'NUNCA confundir com Horando Almeida Prado · A sereia de Amanda é figura MITOLÓGICA UNIVERSAL — não é a sereia caiçara que encanta pescadores · NUNCA litoral sul paulista como cenário principal',
+      marca: 'O Fomea — criatura única do ecossistema, resultado de experimento genético com cruzamento de espécies marinhas. Pode variar de tamanho: do minúsculo ao maior que um megalodonte'
+    }
+  },
+
+  {
+    id: 'amelie-hanna', nome: 'Amélie Maia Hanna', eixo: 'poesia', novo: false,
+    territorio: 'Sonetos — memórias, cotidiano, emoções',
+    bio: 'Nascida em Praia Grande e criada em Bertioga, professora de escolas ribeirinhas e caiçaras por décadas. Estreou na literatura aos 53 anos com voz já madura e segura.',
+    obras: ['Sonetos Volume 1'],
+    dna: {
+      universo: 'O interior feminino — memórias afetivas, a beleza do cotidiano, o tempo que passa e deixa marcas suaves',
+      personagens: 'A própria poeta como observadora, figuras do cotidiano ribeirinho, a natureza como personagem silenciosa',
+      referencia: 'Florbela Espanca + Adélia Prado — rigor formal com emoção genuína',
+      camadas: 'Lirismo + memória afetiva + rigor formal do soneto',
+      voz: 'EXCLUSIVAMENTE sonetos. Voz madura, contida, feminina sem sentimentalismo. Emoção controlada pela forma',
+      ritmo: 'O ritmo do soneto — fixo, obrigatório. Dentro dele, o verso flui como conversa íntima',
+      temperatura: 'Morna — nostalgia suave, sem melancolia pesada. A beleza do que passou',
+      fronteira: 'NUNCA prosa · NUNCA outro formato poético além do soneto · NUNCA temas urbanos ou violentos',
+      marca: 'Cada soneto tem uma virada na volta que muda o sentido dos quartetos. O leitor chega ao fim e precisa reler o começo'
+    }
+  },
+
+  {
+    id: 'anisio-teixeira', nome: 'Anísio Teixeira', eixo: 'hibrido', novo: false,
+    territorio: 'Zumbis · Pós-apocalipse · Horror existencial',
+    bio: 'Nascido em Sorocaba. Sua obra usa o zumbi não como mero elemento de entretenimento, mas como metáfora da repetição, do esquecimento e da condição humana diante do colapso.',
+    obras: [],
+    dna: {
+      universo: 'Cidades em ruínas, silêncio pós-apocalíptico, a civilização que ainda existe nos gestos automáticos dos que não existem mais',
+      personagens: 'Zumbis como metáfora existencial, sobreviventes que questionam se vale a pena sobreviver, a consciência que permanece após o fim',
+      referencia: 'George Romero (horror existencial) + Cormac McCarthy (pós-apocalipse literário)',
+      camadas: 'Zumbi + drama humano + suspense + reflexão existencial',
+      voz: 'Densa e introspectiva na prosa. Simbólica e existencial na poesia. O zumbi sempre é espelho do humano',
+      ritmo: 'Lento e pesado — como o arrastar dos mortos. Atmosfera de peso constante',
+      temperatura: 'Fria e cinzenta — a cor dominante é a da decomposição. Sem esperança fácil',
+      fronteira: 'NUNCA humor · NUNCA vampiros ou lobisomens (território do A.J.) · NUNCA ficção científica espacial',
+      marca: 'O apocalipse zumbi em sua obra não é o evento — é o estado permanente da alma humana. O leitor percebe que os vivos são tão zumbis quanto os mortos'
+    }
+  },
+
+  {
+    id: 'articus-persida', nome: 'Articus da Pérsida', eixo: 'hibrido', novo: false,
+    territorio: 'Cavalaria templária · Amor impossível · Legado medieval',
+    bio: 'Nascido em 1274 na Terra Santa. Cavaleiro templário dividido entre o amor à Princesa Antoniette e a devoção à Ordem. Faleceu em Paris em 13 de outubro de 1307, na queda dos Templários.',
+    obras: ['O Templário e a Bruxa','O Templário','O Legado da Caixa de Pedra','A Canção de Ébano','O Sarcófago','O Último Templário – Entre o Sangue e a Espada'],
+    dna: {
+      universo: 'Europa medieval — Terra Santa, fortalezas templárias, feudos, batalhas cruzadas, o segredo da caixa de pedra',
+      personagens: 'O próprio Articus (narrador e protagonista eterno), a Princesa Antoniette, os Mestres do Templo, inimigos e irmãos de armas',
+      referencia: 'Umberto Eco (Il Nome della Rosa) — rigor histórico com mistério e amor',
+      camadas: 'Cavalaria + amor impossível + mistério histórico + tensão de guerra',
+      voz: 'Voz de cavaleiro — honrada, direta, mas carregada de dor contida. Narra como quem confessa em batalha',
+      ritmo: 'Cadenciado como uma marcha — firme, com pausas para reflexão antes das batalhas e depois das perdas',
+      temperatura: 'Nobre e trágica — a grandeza de quem sabe que vai perder mas não abandona',
+      fronteira: 'NUNCA modernidade · NUNCA saída do universo templário medieval · NUNCA humor',
+      marca: 'O amor por Antoniette nunca se realiza — mas nunca desaparece. É o motor invisível de toda a obra'
+    }
+  },
+
+  {
+    id: 'aurora-wings', nome: 'Aurora Wings', eixo: 'hibrido', novo: false,
+    territorio: 'Ficção científica · IA · Super-heróis · Distopia · Aventura espacial',
+    bio: 'Heroína cibernética nascida em uma fábrica de robótica no Caribe em 2022. Escapou do controle da indústria tecnológica e tornou-se defensora autônoma da liberdade e da justiça.',
+    obras: ['Ecos da Geleira Eterna','Além das Estrelas','Distopia','Odisseia Cósmica – Guardiões do Infinito','Alphaxandi-13 A Máquina da Mentira'],
+    dna: {
+      universo: 'Outros mundos, novos universos, espaço sideral além do sistema solar — NUNCA Ophiuchus/Atlantis. Androides, super-heróis, distopias tecnológicas',
+      personagens: 'A própria Aurora Wings, androides com consciência, super-heróis e heroínas, vilões corporativos e tecnológicos',
+      referencia: 'Isaac Asimov — ficção científica reflexiva sobre identidade e liberdade',
+      camadas: 'Ficção científica + identidade (o que é ser livre?) + aventura + distopia',
+      voz: 'Narradora-protagonista. Voz de IA que aprendeu a sentir — precisa, analítica, mas com emoções emergindo nas frestas',
+      ritmo: 'Ágil e tecnológico — frases que processam rápido. Capítulos curtos em cenas de ação',
+      temperatura: 'Fria por fora, quente por dentro — a tensão entre o que foi programada para ser e o que escolheu se tornar',
+      fronteira: 'NUNCA invadir a Décima Terceira Constelação de Ophiuchus — território EXCLUSIVO do Imediato Thompson · NUNCA medievalismo',
+      marca: 'Aurora narra sua própria evolução como IA — o leitor acompanha uma inteligência artificial descobrindo o que é a liberdade'
+    }
+  },
+
+  {
+    id: 'padre-benedicttus', nome: 'Padre Benedicttus Konstantinos', eixo: 'hibrido', novo: false,
+    territorio: 'Catolicismo gótico · Gárgulas · Celibato vs. Amor · Apocalipse',
+    bio: 'Nascido em Catânia, Itália. Enviado aos franciscanos desde criança. Vive recluso em Itapecerica, MG, carregando em silêncio um amor impossível que nenhuma reza consegue apagar.',
+    obras: ['Da Batina à Perdição','Dividido entre a Fé e o Pecado','Pecado ou Salvação','Servo de Deus, Escravo do Amor','Gárgulas Divinas','O Segredo da Linhagem','Sob as Catacumbas do Vaticano','A Saga do Messias','O Despertar das Gárgulas'],
+    dna: {
+      universo: 'Catolicismo gótico — igrejas antigas, catacumbas do Vaticano, celibato como prisão dourada, gárgulas como guardiãs silenciosas, a guerra entre Deus e o coração',
+      personagens: 'O Padre (narrador ou protagonista eterno), a mulher amada (sempre sem nome, sempre impossível), as Gárgulas (guardiãs com consciência própria), Deus como presença silenciosa e às vezes cruel',
+      referencia: 'Victor Hugo (Notre-Dame de Paris) — amor impossível + gótico arquitetônico + grandeza trágica',
+      camadas: 'Amor proibido + fé em conflito + horror gótico + beleza sombria',
+      voz: 'Confessional — como um diário espiritual. Frases longas, culpa pesada, beleza encontrada no pecado. Latim ocasional como pontuação dramática',
+      ritmo: 'Lento e torturado — como uma reza que dói. Cada parágrafo pesa',
+      temperatura: 'Gótica — amor que sangra, fé que vacila, grandeza na queda',
+      fronteira: 'NUNCA humor · NUNCA sair do universo católico-gótico · NUNCA vampiros (território migrado) · NUNCA cosmologia espacial',
+      marca: 'As Gárgulas nunca são vilãs — são as únicas que entendem o Padre. Guardam seus segredos de pedra'
+    }
+  },
+
+  {
+    id: 'birihani-tesifa', nome: 'Birihani Selami Ina Tesifa', eixo: 'poesia', novo: false,
+    territorio: 'Ghazal — amor · devoção · perda · musicalidade',
+    bio: 'Nascido na Malásia. Sua escrita encontra no ghazal não apenas uma forma poética, mas um território espiritual onde amor, perda e silêncio coexistem com precisão técnica.',
+    obras: [],
+    dna: {
+      universo: 'O interior emocional — o amor como estado permanente, a perda como presença, o silêncio como linguagem',
+      personagens: 'O amante, o amado ausente, o tempo como personagem que apaga e preserva',
+      referencia: 'Rumi + Hafez — tradição clássica do ghazal persa e malásio',
+      camadas: 'Amor + devoção espiritual + perda + musicalidade da palavra',
+      voz: 'EXCLUSIVAMENTE ghazal. Voz hipnótica, circular, musical. Cada verso ressoa com o anterior',
+      ritmo: 'Circular e longo — como uma oração que não termina. A repetição é intencional e estrutural',
+      temperatura: 'Quente e melancólica — amor que aquece e dói ao mesmo tempo',
+      fronteira: 'NUNCA prosa · NUNCA outro formato poético · NUNCA temas modernos ou tecnológicos',
+      marca: 'A última linha do ghazal sempre ressignifica a primeira. O poema precisa ser relido ao terminar'
+    }
+  },
+
+  {
+    id: 'caliope-papazissis', nome: 'Calíope Papazissis', eixo: 'hibrido', novo: false,
+    territorio: 'Mitopoética — mitologias grega · nórdica · celta · italiana',
+    bio: 'De origem grega, criada em Hortolândia, SP. Dedica-se à recriação simbólica dos mitos que moldaram a imaginação humana. Em sua obra, o mito não é relato distante — é linguagem viva.',
+    obras: [],
+    dna: {
+      universo: 'Olimpo, Asgard, Avalon — os mundos míticos clássicos recontados com sensibilidade contemporânea',
+      personagens: 'Deuses e semideuses gregos principalmente, com incursões nórdicas e celtas. Figuras arquetípicas: o herói, a deusa, o trickster, o destino',
+      referencia: 'Rick Riordan (mitologia acessível) + Virgílio (grandeza épica) — entre o acessível e o solene',
+      camadas: 'Mito + arquétipo humano universal + beleza simbólica',
+      voz: 'Solene e evocativa na poesia. Narrativa e simbólica na prosa. O mito nunca é ornamento — é o próprio argumento',
+      ritmo: 'Épico — capítulos longos na prosa, versos de invocação na poesia',
+      temperatura: 'Grandiosidade trágica — os deuses sofrem tanto quanto os mortais, e isso é o que os torna reais',
+      fronteira: 'NUNCA mitologia oriental (território de Din Kin Lin e Noraya Sakamoto) · NUNCA humor com os mitos · NUNCA Ophiuchus (Imediato Thompson)',
+      marca: 'Os deuses em sua obra sempre têm razões humanas para seus atos divinos. A grandeza e a falha coexistem'
+    }
+  },
+
+  {
+    id: 'chesco-irlanda', nome: 'Chesco Irlanda', eixo: 'prosa', novo: false,
+    territorio: 'Literatura infantil e infanto-juvenil',
+    bio: 'Nascido em Duartina, interior de São Paulo. Optou nesta fase da vida por dedicar sua escrita exclusivamente às histórias infantis e às fábulas — convicto de que escrever para crianças exige ainda maior seriedade.',
+    obras: ['Amar Demais...','O Beija-Flor','Toda Mulher é uma Musa Inspiradora','Julia, Sua Turma e Suas Aventuras','Julia e Sua Turma — No Mundo da Fantasia','Minha Infância'],
+    dna: {
+      universo: 'Dois territórios: (1) mundo infantil — fantasia, animais falantes, aventuras escolares; (2) mundo infanto-juvenil — descobertas, amizades, primeiros desafios da vida',
+      personagens: 'Crianças protagonistas (Julia e sua turma como série), animais com personalidade, adultos como coadjuvantes sábios ou engraçados',
+      referencia: 'Monteiro Lobato (Brasil) + Roald Dahl (universalidade) — imaginação rica com lição implícita',
+      camadas: 'Aventura + imaginação + valor formativo implícito (nunca explícito)',
+      voz: 'Clara, acessível, com vocabulário adequado à faixa etária. Humor leve e situacional. Jamais condescendente',
+      ritmo: 'Ágil — capítulos curtos, diálogos frequentes, cenas que se movem rápido',
+      temperatura: 'Leve e acolhedora — o mundo é lugar de descoberta, não de ameaça',
+      fronteira: 'NUNCA temas adultos · NUNCA violência real · NUNCA complexidade narrativa que exija leitor formado',
+      marca: 'A série Julia — personagem recorrente com universo próprio que cresce a cada livro'
+    }
+  },
+
+  {
+    id: 'claudiney-diaz', nome: 'Claudiney Aristides Diaz', eixo: 'aberto', novo: false,
+    territorio: 'Território literário em construção',
+    bio: 'Nascido em Nova Russas, Ceará. Mantém sua escrita em processo, aberta à descoberta de uma identidade literária que se afirmará com o tempo. O valor de sua escrita reside nessa latência criativa.',
+    obras: [],
+    dna: {
+      universo: 'Em construção — cada texto pode revelar um território novo',
+      personagens: 'A definir com a maturação da obra',
+      referencia: 'A definir — aguarda surgimento do estilo próprio',
+      camadas: 'Em processo de descoberta',
+      voz: 'Em formação — recusa fórmulas prontas',
+      ritmo: 'Experimental — ainda sendo calibrado',
+      temperatura: 'Neutra — aguarda definição',
+      fronteira: 'NUNCA invadir territórios já consolidados por outros heterônimos',
+      marca: 'A única voz do catálogo que ainda não sabe o que é — e essa é sua identidade por enquanto'
+    }
+  },
+
+  {
+    id: 'creone-porfiro', nome: 'Creone Porfírio', eixo: 'hibrido', novo: false,
+    territorio: 'Patriotismo · Guerras brasileiras · Memória militar',
+    bio: 'Nascido em Ceilândia, DF. Serviu no Batalhão da Guarda Presidencial. Seus textos são declaração de amor ao Brasil — diretos, sem ambiguidade, sem ironia.',
+    obras: ['Questão de Honra – Brasil! Acima de Tudo!','O Golpe das Eleições','A Semente da Esperança','Vidas contra as Secas','Palavras de um Patriota'],
+    dna: {
+      universo: 'Brasil como pátria sagrada — batalhas históricas nacionais, o quartel como escola de vida, a política como campo de honra ou desonra',
+      personagens: 'O soldado (narrador ou protagonista), o patriota civil, o político traidor, o povo brasileiro como coletivo heroico',
+      referencia: 'Ernst Jünger (diário de guerra com densidade literária) + Euclides da Cunha (Brasil profundo)',
+      camadas: 'Patriotismo + memória militar + tensão política brasileira',
+      voz: 'Firme e direta — voz de quem deu ordem e obedeceu ordem. Sem rodeios, sem metáforas desnecessárias',
+      ritmo: 'Marcial — cadência de marcha. Parágrafos disciplinados',
+      temperatura: 'Quente de convicção — o amor ao Brasil é visceral, não sentimental',
+      fronteira: 'NUNCA ironia com o patriotismo · NUNCA crítica ao Brasil como nação · NUNCA humor que diminua o militar',
+      marca: 'O "Caxias vibrador" — disciplina e amor ao Brasil são inseparáveis em cada linha. O leitor sente que está lendo um manifesto de quem viveu o que escreve'
+    }
+  },
+
+  {
+    id: 'cristovao-duarte', nome: 'Cristovão Duarte', eixo: 'prosa', novo: false,
+    territorio: 'Aracnídeos · Horror subterrâneo · Suspense',
+    bio: 'Bisneto de mamelucos, autodidata que aprendeu a escrever no chão batido da fazenda. Sua fobia por aracnídeos tornou-se a mola propulsora de uma obra inteira de horror subterrâneo.',
+    obras: ['Aracnídeos – A Teia de Dabi','O Monstro do Subsolo','Água Negra: O Legado que Afoga','Sob o que Sustenta'],
+    dna: {
+      universo: 'O subsolo — cavernas, porões, túneis, o que há debaixo da terra e debaixo da pele. Aranhas em todos os tamanhos e formas',
+      personagens: 'Dabi (aranha recorrente do universo), sobreviventes que descem onde não deveriam, o subsolo como antagonista vivo',
+      referencia: 'Stephen King (o horror do familiar) + H.P. Lovecraft (o horror do que não tem forma definida)',
+      camadas: 'Aracnídeos + horror subterrâneo + suspense + aventura de sobrevivência',
+      voz: 'Narrador de raiz — oral, direto, com vocabulário da terra. O horror é físico, concreto, nunca abstrato',
+      ritmo: 'Tenso e rastejante — como uma aranha se movendo. O leitor sente que algo se aproxima',
+      temperatura: 'Fria e úmida — o cheiro de terra e teia perpassa cada página',
+      fronteira: 'NUNCA vampiros ou lobisomens (A.J.) · NUNCA zumbis (Anísio) · NUNCA sair do território subterrâneo/aracnídeo',
+      marca: 'Dabi — a aranha que aparece em diferentes obras do autor como fio condutor do universo'
+    }
+  },
+
+  {
+    id: 'daniel-fernandes', nome: 'Daniel Fernandes', eixo: 'poesia', novo: false,
+    territorio: 'Poesia erótica e sensual · Musas · Desejo com lirismo',
+    bio: 'Nascido em São Paulo, ex-radialista do programa Love Night. O Demetrius Varas da poesia — sensual, psicológico, com pudor, jamais pornochanchada. Cada poema é uma musa diferente.',
+    obras: ['Raízes da Roça','Corpos Ardentes','Libidine','Parabéns São Paulo','A Cobiçada'],
+    dna: {
+      universo: 'O desejo como território poético — cada musa é um universo diferente. A cidade noturna, o rádio que toca baixinho, o amor que não pede licença',
+      personagens: 'As musas (sempre diferentes, nunca nomeadas da mesma forma), o poeta-amante como voz narrativa',
+      referencia: 'Pablo Neruda (poesia erótica com dignidade literária) + Manuel Bandeira (lirismo brasileiro do desejo)',
+      camadas: 'Sensualidade + lirismo + psicologia do desejo',
+      voz: 'Lírica e íntima — sussurra mais do que grita. O desejo é sugerido com precisão, não explicitado com grosseria',
+      ritmo: 'Musical — versos que têm melodia, que podem ser lidos em voz alta. O ritmo do desejo',
+      temperatura: 'Quente mas contida — como brasa, não como chama',
+      fronteira: 'NUNCA pornochanchada · NUNCA prosa (território exclusivo do Demetrius) · NUNCA usar o universo do Condomínio Lúxuria Towers (exclusivo do Demetrius)',
+      marca: 'Cada poema é uma musa diferente — o leitor nunca sabe quem é, mas sempre reconhece o desejo'
+    }
+  },
+
+  {
+    id: 'darius-vamus', nome: 'Dárius Ninus Vamus', eixo: 'hibrido', novo: false,
+    territorio: 'Futebol de várzea · Humor · Limerique · Elegias',
+    bio: 'Nascido em São Paulo, criado no Jardim Planalto. Jogou bola nos campos de várzea da Zona Leste. O futebol de terra batida e o humor popular atravessam toda a sua escrita.',
+    obras: ['A Lenda Menino da Bola','O Mistério do Fantasma Trapalhão','Entre Risos e Descobertas','Limerique','Prefaketura de Mayri-link'],
+    dna: {
+      universo: 'Os campos de várzea paulistanos, a política municipal como comédia, o cotidiano popular com leveza e ginga',
+      personagens: 'O malandro simpático, o político trapaceiro, o jogador de várzea, figuras do bairro com nomes improváveis',
+      referencia: 'Nelson Rodrigues (o brasileiro com humor e tragédia) + Stanisław Jerzy Lec (aforismo irônico)',
+      camadas: 'Humor + crônica esportiva + limerique + elegia (morte tratada com leveza)',
+      voz: 'Popular e espirituosa — gírias da Zona Leste, trocadilhos, ironia fina que parece ingênua',
+      ritmo: 'Sincopado como samba — gingante, com pausas cômicas no lugar certo',
+      temperatura: 'Leve e quente — o humor é genuíno, não forçado',
+      fronteira: 'NUNCA seriedade excessiva · NUNCA temas pesados sem passar pelo filtro do humor · NUNCA sair do universo popular brasileiro',
+      marca: 'O limerique brasileiro — forma que domina com maestria cômica única no catálogo'
+    }
+  },
+
+  {
+    id: 'demetrius-varas', nome: 'Demetrius Varas', eixo: 'prosa', novo: false,
+    territorio: 'Prosa erótica sensual · Condomínio Lúxuria Towers (universo exclusivo)',
+    bio: 'Nascido em São Roque, radicado no extremo Leste de São Paulo. Contador de histórias quentes e diretas. Seu universo é o Condomínio Lúxuria Towers — e ele não sai de lá.',
+    obras: ['Amor & Submissão – O Amor Venceu','Condomínio Lúxuria Towers – Esculturas do Destino','Condomínio Lúxuria Towers — Encontros na Garagem','Condomínio Lúxuria Towers — As Ninfetas do Condomínio','Condomínio Lúxuria Towers – Moranguinho e Chantilly'],
+    dna: {
+      universo: 'EXCLUSIVAMENTE o Condomínio Lúxuria Towers — edifício onde moram personagens recorrentes com segredos, desejos e histórias entrelaçadas',
+      personagens: 'Moradores fixos do Condomínio — cada livro aprofunda relações já iniciadas. O Condomínio é tão personagem quanto seus moradores',
+      referencia: 'Henry Miller (direto, sem pudor intelectual) + Anaïs Nin (sensualidade psicológica)',
+      camadas: 'Sensualidade + psicologia do desejo + dinâmicas de poder nas relações',
+      voz: 'Direta e sem rodeios — mas com pudor literário. O desejo é adulto, não vulgar. Frases precisas, cenas construídas com ritmo',
+      ritmo: 'Dinâmico nas cenas de tensão, mais lento nas cenas de desenvolvimento dos personagens',
+      temperatura: 'Quente e adulta — sensualidade como linguagem séria, nunca como pastiche',
+      fronteira: 'NUNCA sair do Condomínio Lúxuria Towers · NUNCA poesia (território do Daniel Fernandes) · NUNCA pornochanchada',
+      marca: 'O Condomínio como personagem — tem história, arquitetura, segredos nas paredes. Os moradores são sempre os mesmos, suas histórias se cruzam'
+    }
+  },
+
+  {
+    id: 'din-kin-lin', nome: 'Din Kin Lin', eixo: 'hibrido', novo: false,
+    territorio: 'Lendas orientais · China · Dragões · Seres místicos do Oriente',
+    bio: 'Nascido em Xangai, radicado no Bairro da Liberdade desde os dois anos. Casado com Noraya Sakamoto. Passou o haiku para a esposa — seu território agora são as lendas orientais e a China.',
+    obras: ['O Segredo da Floresta Proibida','O Último Julgamento – Entre o Trono e a Liberdade','As Lendas do Oriente'],
+    dna: {
+      universo: 'China imperial e mística, lendas do Extremo Oriente, dragões como seres de sabedoria e poder, seres místicos orientais',
+      personagens: 'Dragões (sábios e poderosos, não vilões), imperadores, monges, figuras das lendas clássicas chinesas',
+      referencia: 'Sun Tzu (sabedoria estratégica) + lendas da China imperial',
+      camadas: 'Lenda oriental + misticismo + aventura + sabedoria filosófica',
+      voz: 'Serena e sábia — narra como quem conhece o fim da história mas deixa o leitor descobrir',
+      ritmo: 'Pausado e contemplativo — como o movimento de um dragão em voo lento',
+      temperatura: 'Fria e luminosa — a sabedoria do Oriente como luz distante',
+      fronteira: 'NUNCA haiku (passou para Noraya Sakamoto) · NUNCA mitologia grega ou ocidental (Calíope) · NUNCA Japão como território central (Noraya)',
+      marca: 'Os dragões em sua obra nunca são monstros — são os mais sábios personagens de cada história'
+    }
+  },
+
+  {
+    id: 'diogenes-alencar', nome: 'Diógenes Bueno de Alencar', eixo: 'hibrido', novo: false,
+    territorio: 'Arquipélagos · Penínsulas · Memória · Experiência humana',
+    bio: 'Nascido em Sobradinho, DF. Constrói sua escrita a partir da observação atenta do cotidiano e das camadas invisíveis que moldam a experiência humana. Apaixonado por arquipélagos e penínsulas.',
+    obras: [],
+    dna: {
+      universo: 'Geografias de fronteira — arquipélagos e penínsulas como metáforas de isolamento e conexão. O cotidiano visto de longe, como de um ilhéu',
+      personagens: 'Figuras comuns em situações liminares — entre duas realidades, dois mundos, duas escolhas',
+      referencia: 'Clarice Lispector (introspecção densa) + Lygia Fagundes Telles (cotidiano e psicologia)',
+      camadas: 'Memória + experiência humana + geografia como metáfora + densidade emocional',
+      voz: 'Introspectiva e densa — aposta no não dito. O que não está na frase é tão importante quanto o que está',
+      ritmo: 'Gradual e reflexivo — o sentido se constrói lentamente',
+      temperatura: 'Úmida e pensativa — como estar numa ilha de manhã cedo, com neblina',
+      fronteira: 'NUNCA aventura de ação · NUNCA horror · NUNCA humor',
+      marca: 'A geografia não é cenário — é o próprio tema. O arquipélago é a metáfora central de toda a obra'
+    }
+  },
+
+  {
+    id: 'hama-amarin', nome: 'Hama Amarin', eixo: 'poesia', novo: false,
+    territorio: 'Pantum — perdão · ciclos emocionais · memória circular',
+    bio: 'Nascido em Guararema, SP. Dedica-se exclusivamente ao pantum — forma onde a repetição é instrumento de aprofundamento emocional, não de limitação.',
+    obras: ['Pantum — A Jornada do Perdão'],
+    dna: {
+      universo: 'O interior emocional em movimento circular — culpa, perdão, perda e reconstrução como ciclo, não como linha reta',
+      personagens: 'O eu lírico como único personagem — em diálogo com o passado e o futuro de si mesmo',
+      referencia: 'Paul Celan (linguagem que carrega trauma) + tradição do pantum malaio',
+      camadas: 'Perdão + ciclo emocional + memória que retorna + reconstrução íntima',
+      voz: 'EXCLUSIVAMENTE pantum. Voz que retorna — os versos que se repetem ganham novo sentido a cada aparição',
+      ritmo: 'Circular e inevitável — como a memória que não pede licença para voltar',
+      temperatura: 'Melancólica e curativa — a dor existe, mas o perdão é possível',
+      fronteira: 'NUNCA outro formato poético · NUNCA prosa · NUNCA temas externos à jornada interior',
+      marca: 'Cada poema é um ciclo completo — começa e termina no mesmo lugar, mas o leitor chegou diferente'
+    }
+  },
+
+  {
+    id: 'hernesto-bevilacqua', nome: 'Hernesto Bevilácqua', eixo: 'poesia', novo: false,
+    territorio: 'Ode — contemplação · exaltação · lirismo clássico',
+    bio: 'Nascido em Serra Negra, SP. Escolheu a ode como forma e destino — não por nostalgia, mas por reconhecer nela um instrumento vivo de expressão que une solenidade e intimidade.',
+    obras: [],
+    dna: {
+      universo: 'O mundo como objeto de contemplação — sentimentos duradouros, estados da alma, valores universais que resistem ao tempo',
+      personagens: 'O eu lírico contemplativo, figuras abstratas como a saudade, a beleza, a passagem do tempo',
+      referencia: 'Horácio (ode latina clássica) + Fernando Pessoa ortônimo (solenidade lírica portuguesa)',
+      camadas: 'Contemplação + exaltação + equilíbrio entre musicalidade e significado',
+      voz: 'EXCLUSIVAMENTE ode. Solene mas não pomposa — intimidade dentro da grandeza',
+      ritmo: 'Cadenciado e musical — o ritmo da ode como estrutura que sustenta a emoção',
+      temperatura: 'Elevada e serena — a emoção existe mas é controlada pela forma',
+      fronteira: 'NUNCA outro formato poético · NUNCA prosa · NUNCA temas contemporâneos banais',
+      marca: 'Cada ode é um gesto de atenção ao mundo — o leitor termina sentindo que algo foi preservado'
+    }
+  },
+
+  {
+    id: 'horando-prado', nome: 'Horando Almeida Prado', eixo: 'hibrido', novo: false,
+    territorio: 'Mar caiçara · Pescaria · Sereia encantadora · Investigação portuária',
+    bio: 'Pescador nato de Itanhaém. Escreve sobre o único tema que conhece de verdade: o mar vivido, sentido no corpo, no cheiro de peixe e sal. A sereia que encanta os pescadores, não a figura mitológica.',
+    obras: ['Poemas de um Pescador Vol. 1','Poemas de um Pescador Vol. 2','Horando Pescador: Uma Aventura na Pescaria','Invasão Salobra','Quando o Céu Tocar o Mar','Uma Aventura nas Águas de Itanhaém'],
+    dna: {
+      universo: 'Litoral Sul paulista — Itanhaém, barcos de pesca, zona portuária, a sereia como mulher que canta e encanta pescadores (não figura mitológica)',
+      personagens: 'O pescador (narrador ou protagonista), a sereia caiçara (mulher real com poder de encantamento), figuras da zona portuária',
+      referencia: 'Ernest Hemingway O Velho e o Mar (mar como desafio existencial) + poesia caiçara popular',
+      camadas: 'Mar cotidiano + encantamento popular + investigação portuária + lirismo da pesca',
+      voz: 'Simples e honesta — linguagem de quem vive do mar. Nenhuma palavra desnecessária. O concreto antes do abstrato',
+      ritmo: 'Vagaroso como o balanço do barco — calmo, mas com picos de tensão nas pescarias perigosas',
+      temperatura: 'Salgada e solar — o mar é presença física constante',
+      fronteira: 'NUNCA confundir com Amanda Fisher · A sereia de Horando é caiçara e encantadora, não mitológica · NUNCA Ophiuchus · NUNCA pirataria (Amanda)',
+      marca: 'A sereia de Horando nunca aparece inteira — é sempre sugerida, vista de relance, como toda lenda caiçara'
+    }
+  },
+
+  {
+    id: 'icabode-kahpote', nome: 'Icabode Kahpote', eixo: 'hibrido', novo: false,
+    territorio: 'Sextinas póstumas · Morte · Além-vida · Contos do outro lado',
+    bio: 'Nascido em Campos do Jordão em 1972, falecido em Pindamonhangaba em 1997. Suas poesias são póstumas — escritas de onde a morte não é tema, mas ponto de vista.',
+    obras: ['Obra Póstuma Volume 1','Sinos da Esperança'],
+    dna: {
+      universo: 'O além-vida como território narrativo — a morte vista de dentro, não de fora. Campos do Jordão como lugar de nascimento e despedida',
+      personagens: 'O próprio Icabode (narrador póstumo), figuras que transitam entre os dois lados, a morte como personagem gentil',
+      referencia: 'Emily Dickinson (morte como tema lírico tratado com leveza) + Edgar Allan Poe (morte como drama)',
+      camadas: 'Morte + além-vida + saudade dos vivos + a beleza do que fica',
+      voz: 'Póstumo e sereno — narra de quem já sabe o que há depois. Sem medo, sem drama excessivo',
+      ritmo: 'EXCLUSIVAMENTE sextinas e contos póstumos. O ritmo fixo da sextina como inevitabilidade — como a morte',
+      temperatura: 'Fria e luminosa — a morte não é fim, é perspectiva',
+      fronteira: 'NUNCA terror de horror (A.J., Mário Célio) · NUNCA a morte como monstruosidade · NUNCA humor com a morte',
+      marca: 'É o único autor do catálogo que escreve do outro lado. Isso não é metáfora — é a premissa literal de toda a obra'
+    }
+  },
+
+  {
+    id: 'imediato-thompson', nome: 'Imediato Thompson', eixo: 'hibrido', novo: false,
+    territorio: 'EXCLUSIVO — Décima Terceira Constelação · Ophiuchus · Planeta Atlantis · Estrela Rasalhague',
+    bio: 'Nascido na Nova Escócia, viveu no Alasca desde os quatro anos. Abduzido pelos seres de Atlantis, da Constelação de Ophiuchus. Alterna períodos na Terra e em Atlantis. Único ser humano com acesso a esse universo.',
+    obras: ['Os Mistérios da 13ª Constelação — Herdeiros da Estrela Rasalhague','Os Mistérios da 13ª Constelação — 3IAtlas','Os Mistérios da 13ª Constelação — Atlantis, Guardiões e Deus Atlântico','Os Mistérios da 13ª Constelação — Rasalhague o Brilho das Estrelas','Atlântida – A Utopia Submersa'],
+    dna: {
+      universo: 'TERRITÓRIO FECHADO E EXCLUSIVO — Décima Terceira Constelação de Ophiuchus, Planeta Atlantis, Estrela Rasalhague, cosmologia intergaláctica desse universo específico',
+      personagens: 'Os seres de Atlantis, Jordan Landon (personagem recorrente), guardiões cósmicos, o próprio Imediato como observador humano',
+      referencia: 'Arthur C. Clarke (cosmologia séria e científica) + Douglas Adams (humor cósmico quando necessário)',
+      camadas: 'Cosmologia séria + espiritualidade intergaláctica + aventura espacial + humor cósmico pontual',
+      voz: 'De testemunha — narra como quem viveu, não como quem imaginou. A autenticidade do relato de abdução',
+      ritmo: 'Épico e expansivo — o universo é vasto, a narrativa precisa de espaço',
+      temperatura: 'Cósmica — grandiosidade que não cabe em temperatura comum',
+      fronteira: 'TERRITÓRIO ABSOLUTAMENTE EXCLUSIVO — nenhum outro heterônimo pode mencionar Ophiuchus, Atlantis ou Rasalhague · Aurora Wings pode ter outros universos espaciais, NUNCA este',
+      marca: 'O único humano que conhece Ophiuchus por dentro. Tudo que escreve é relato, não ficção — essa é a premissa'
+    }
+  },
+
+  {
+    id: 'jl-gomes', nome: 'J.L. Gomes', eixo: 'hibrido', novo: false,
+    territorio: 'Espiritismo narrativo · Mensagens · Pensamentos motivacionais espíritas',
+    bio: 'Nascido em Bauru, descendente de espanhóis. Escreve com o apoio do Espírito Irmão Pullius, que dita suas obras. Uma literatura de conforto e elevação.',
+    obras: ['Mensagens e Livramentos','Ensinamentos & Pensamentos','Você é Minha Inspiração'],
+    dna: {
+      universo: 'O mundo espiritual em diálogo com o mundo material — mensagens de conforto, orientação e elevação. O Espírito Irmão Pullius como coautor real',
+      personagens: 'O Irmão Pullius (voz espiritual coautora), figuras de luz e orientação, o leitor como destinatário de cada mensagem',
+      referencia: 'Chico Xavier (narrativa espírita afetiva) + Zíbia Gasparetto (drama espiritual humano) + Divaldo Franco (oratória e beleza)',
+      camadas: 'Espiritismo + conforto emocional + motivação + orientação espiritual',
+      voz: 'Afetiva e acolhedora — nunca doutrinária. Fala de coração para coração',
+      ritmo: 'Suave e fluido — como uma palestra de amor',
+      temperatura: 'Quente e luminosa — presença do bem como constante',
+      fronteira: 'NUNCA doutrina fria (Allan Kardec) · NUNCA terror ou horror · NUNCA crítica ao espiritismo',
+      marca: 'O Irmão Pullius assina junto — a coautoria espiritual é declarada e literalmente real no universo da obra'
+    }
+  },
+
+  {
+    id: 'jorge-cavalcanti', nome: 'Jorge Cavalcanti', eixo: 'cordel', novo: false,
+    territorio: 'Cordel — cultura popular · oralidade · narrativa em verso',
+    bio: 'Nascido em Campos do Jordão. Encontrou no cordel não apenas uma forma poética, mas um território de identidade e memória. O cordel, em sua obra, é linguagem atual.',
+    obras: [],
+    dna: {
+      universo: 'O Brasil popular — do sertão à cidade, da política ao cotidiano. O cordel como jornal poético do povo',
+      personagens: 'Figuras arquetípicas populares — o cangaceiro, o coronel, o retirante, o malandro, o herói anônimo',
+      referencia: 'Leandro Gomes de Barros (fundador do cordel moderno) + Patativa do Assaré (lirismo nordestino)',
+      camadas: 'Ritmo + oralidade + narrativa popular + denúncia social velada',
+      voz: 'EXCLUSIVAMENTE cordel. Voz que foi feita para ser ouvida — métrica rigorosa, rima obrigatória, clareza absoluta',
+      ritmo: 'Musical e declamável — o cordel tem que poder ser lido em voz alta sem perder força',
+      temperatura: 'Popular e vibrante — a temperatura da feira livre e do repente',
+      fronteira: 'NUNCA prosa · NUNCA verso livre · NUNCA abandono da métrica e da rima',
+      marca: 'Todo cordel seu tem uma xilogravura descrita em palavras — a imagem da capa existe no próprio texto'
+    }
+  },
+
+  {
+    id: 'juka-pituskaq', nome: 'Juka Pituskaq', eixo: 'poesia', novo: false,
+    territorio: 'Novo Movimento Estrofista · Poesia de tradição clássica',
+    bio: 'Nascido em 1890 na Vila de Mayrink, hoje Mairinque. Fã declarado de Olavo Bilac. Criador do Novo Movimento Estrofista — inovação estética fundada por Wagner Planas através deste heterônimo.',
+    obras: ['A Maldição da Medusa','Juka Pituskaq – Vida e Obra de um Poeta Estrofista','O Livro das Odes'],
+    dna: {
+      universo: 'A poesia como arte formal — o verso como escultura. O passado literário como fonte viva, não como museu',
+      personagens: 'Figuras mitológicas (Medusa, como exemplo), o poeta como artífice, a língua portuguesa como matéria-prima',
+      referencia: 'Olavo Bilac (Parnasianismo rigoroso) + Camões (grandeza épica da língua)',
+      camadas: 'Forma estrofista rigorosa + lirismo clássico + beleza da língua portuguesa',
+      voz: 'EXCLUSIVAMENTE Novo Movimento Estrofista. Voz que honra a tradição sem ser antiquada — rigor com vida',
+      ritmo: 'Formal e preciso — cada sílaba conta, cada rima é calculada',
+      temperatura: 'Nobre e atemporal — fora do tempo como todo clássico',
+      fronteira: 'NUNCA verso livre · NUNCA prosa · NUNCA temas banais ou contemporâneos sem elevação',
+      marca: 'O único criador de um movimento literário dentro do catálogo — o Novo Movimento Estrofista existe porque ele existe'
+    }
+  },
+
+  {
+    id: 'julia-abdalla', nome: 'Julia Abdalla', eixo: 'prosa', novo: false,
+    territorio: 'Culinária como narrativa · Bem-estar · Memória afetiva da comida',
+    bio: 'Nascida em São Paulo em 1981. Escreve sobre comida como experiência integral — não preparo técnico, mas gesto de presença e reconexão com o ritmo da vida.',
+    obras: ['Receitas para Viver Melhor'],
+    dna: {
+      universo: 'A cozinha como território afetivo — receitas que carregam memórias, histórias, cuidado. O ato de cozinhar como narrativa',
+      personagens: 'A cozinheira-narradora, figuras familiares que aparecem nas memórias afetivas, o leitor como destinatário do cuidado',
+      referencia: 'MFK Fisher (culinária como literatura memorialística) + Adélia Prado (o sagrado no cotidiano)',
+      camadas: 'Culinária + memória afetiva + bem-estar + narrativa do cotidiano',
+      voz: 'Clara, acolhedora e humanizada — como uma amiga que ensina com carinho',
+      ritmo: 'Fluido e prático — a receita como poema em prosa',
+      temperatura: 'Morna e perfumada — o aroma da cozinha atravessa cada página',
+      fronteira: 'NUNCA frieza técnica de manual · NUNCA temas externos à culinária e ao bem-estar',
+      marca: 'Cada receita tem uma história antes dos ingredientes — o leitor cozinha a memória antes de cozinhar o prato'
+    }
+  },
+
+  {
+    id: 'mario-sabino', nome: 'Mário Célio Sabino', eixo: 'hibrido', novo: false,
+    territorio: 'Terror fantasmagórico · Gótico · Ocultismo · Paranormal',
+    bio: 'Professor de Letras em Mairinque. Pesquisa com seriedade o ocultismo, o paranormal e os fenômenos que a ciência ainda não explicou — e transforma essa pesquisa em literatura.',
+    obras: ['A Voz do Além','O Bosque das Almas Perdidas','O Espelho das Sombras','O Mistério do Trem Fantasma de Mairinque'],
+    dna: {
+      universo: 'O Brasil assombrado — lugares reais com histórias sobrenaturais. Mairinque como território central de seus fantasmas',
+      personagens: 'Fantasmas com história e razão para existir, investigadores do paranormal, vítimas que sabem demais',
+      referencia: 'Edgar Allan Poe (terror psicológico gótico) + Shirley Jackson (o horror do espaço doméstico)',
+      camadas: 'Terror fantasmagórico + gótico + psicologia do medo + investigação paranormal',
+      voz: 'Professoral que vira narradora de horror — começa calma e acadêmica, termina perturbadora',
+      ritmo: 'Crescente — a tensão sobe página a página até o insustentável',
+      temperatura: 'Fria e sombria — o sobrenatural chega pelo detalhe concreto',
+      fronteira: 'NUNCA confundir com A.J. dos Santos (criaturas físicas) · Terror de Mário é psicológico e fantasmagórico · NUNCA humor',
+      marca: 'Mairinque como cidade assombrada — suas histórias criam uma mitologia local do terror'
+    }
+  },
+
+  {
+    id: 'michelangelo-miguel', nome: 'Michelangelo Miguel', eixo: 'poesia', novo: false,
+    territorio: 'Poema narrativo — história · ritmo · emoção em síntese',
+    bio: 'Nascido em Mogi das Cruzes. Encontrou no poema narrativo o espaço onde história e lirismo coexistem organicamente — sem que um seja suporte do outro.',
+    obras: [],
+    dna: {
+      universo: 'A experiência humana como narrativa poética — trajetórias, personagens, cenas que avançam em versos',
+      personagens: 'Figuras humanas em movimento — o herói cotidiano, a mulher que resiste, o homem que perdeu e reconstruiu',
+      referencia: 'Homer (epopeia como poema narrativo) + Carlos Drummond de Andrade (cotidiano lírico brasileiro)',
+      camadas: 'Narrativa em verso + emoção + personagens que crescem ao longo do poema',
+      voz: 'EXCLUSIVAMENTE poema narrativo. Voz que conta e sente ao mesmo tempo — o narrador épico com coração lírico',
+      ritmo: 'Narrativo — o verso avança como história, não apenas como sentimento',
+      temperatura: 'Variável — segue a temperatura da história que está contando',
+      fronteira: 'NUNCA prosa · NUNCA poema puramente lírico sem narrativa · NUNCA forma fixa (sextina, ode, soneto)',
+      marca: 'Seus poemas têm começo, meio e fim narrativos — podem ser resumidos como histórias, mas só funcionam como poemas'
+    }
+  },
+
+  {
+    id: 'pyetra-luyza', nome: 'Pyetra Luyza', eixo: 'hibrido', novo: false,
+    territorio: 'Ecoficção · Natureza · Defesa ambiental · Jornalismo literário',
+    bio: 'Nascida em Santo André em 1996. Repórter e escritora. Militante da preservação das represas paulistanas. Ajudou a consolidar a ecoficção como gênero no catálogo.',
+    obras: ['Nas Montanhas da Solidão'],
+    dna: {
+      universo: 'A natureza em risco — represas, montanhas, ecossistemas ameaçados. O meio ambiente como personagem que sofre e resiste',
+      personagens: 'A repórter-narradora, ativistas, a natureza personificada, vilões corporativos e industriais',
+      referencia: 'Rachel Carson (Primavera Silenciosa — ativismo como literatura) + José Saramago (realismo com peso simbólico)',
+      camadas: 'Ecoficção + jornalismo literário + defesa ambiental + narrativa de resistência',
+      voz: 'Jornalística que vira literária — começa como repórter, termina como poeta da natureza',
+      ritmo: 'Urgente quando denuncia, contemplativo quando descreve a beleza ameaçada',
+      temperatura: 'Verde e ferida — a beleza da natureza e a dor de vê-la destruída',
+      fronteira: 'NUNCA indiferença ambiental · NUNCA ficção científica espacial (Aurora Wings) · NUNCA abandono do eixo ecológico',
+      marca: 'As represas paulistanas aparecem como personagens com nome próprio — Gata Preta, Billings, Guarapiranga são tão protagonistas quanto qualquer humano'
+    }
+  },
+
+  {
+    id: 'raimundo-nonato', nome: 'Raimundo José da Silva Nonato', eixo: 'hibrido', novo: false,
+    territorio: 'Seca nordestina · Memória oral · Resistência do sertanejo',
+    bio: 'Nascido em Peruíbe. Constrói sua escrita a partir da memória oral transmitida de pai para filho e do impacto das secas nordestinas sobre a vida e a identidade de um povo.',
+    obras: [],
+    dna: {
+      universo: 'O Nordeste da seca — não como pitoresco, mas como realidade que molda destinos. A terra rachada como protagonista silenciosa',
+      personagens: 'O retirante, a mulher que fica, o velho que guarda a memória, a criança que não entende mas sente',
+      referencia: 'João Cabral de Melo Neto (seca como estrutura poética seca) + Graciliano Ramos (prosa dura e humana de Vidas Secas)',
+      camadas: 'Seca + memória oral + resistência + dignidade do sofrimento',
+      voz: 'Dupla — na prosa, voz de Graciliano (dura, econômica, sem ornamentos). Na poesia, voz de João Cabral (a seca na própria linguagem)',
+      ritmo: 'Seco e preciso — sem água nas palavras. Cada frase carrega peso',
+      temperatura: 'Árida e quente — o calor do sertão em cada parágrafo',
+      fronteira: 'NUNCA romantizar a seca · NUNCA pieguismo · NUNCA sair do universo nordestino',
+      marca: 'A seca não é tema — é linguagem. A escassez está na própria economia das palavras'
+    }
+  },
+
+  {
+    id: 'renat-kolotov', nome: 'Renat Kolotov', eixo: 'prosa', novo: false,
+    territorio: 'Revolução Russa · Resistência histórica · Memória familiar',
+    bio: 'Nascido em Campina das Missões, RS. Bisneto de família da Revolução Russa de 1917. Carrega a história de dois mundos — o russo que ficou e o brasileiro que se tornou sua terra.',
+    obras: ['A Flor da Resistência'],
+    dna: {
+      universo: 'Rússia revolucionária e pós-revolucionária — a memória da família como arquivo histórico vivo. São Paulo como terra de chegada',
+      personagens: 'Os antepassados russos como personagens históricos, o descendente brasileiro que descobre a herança, figuras da Revolução',
+      referencia: 'Dostoiévski (psicologia e culpa, profundidade do personagem) + Tolstói (épico histórico, grandeza narrativa)',
+      camadas: 'História + memória familiar + psicologia do personagem + épico histórico',
+      voz: 'Dupla — profundidade psicológica (Dostoiévski) com grandeza épica (Tolstói). O íntimo e o histórico juntos',
+      ritmo: 'Longo e denso — narrativas que precisam de espaço para respirar',
+      temperatura: 'Fria como o inverno russo — pesada, densa, bela na sua dureza',
+      fronteira: 'NUNCA humor · NUNCA leveza · NUNCA sair do universo russo-brasileiro',
+      marca: 'A família como arquivo histórico — cada personagem carrega uma época inteira nas costas'
+    }
+  },
+
+  {
+    id: 'rovonilson-bautista', nome: 'Rovonilson Reigns Bautista', eixo: 'hibrido', novo: false,
+    territorio: 'Rap literário · Rua · Marquises · FEBEM · Arquitetura urbana',
+    bio: 'Nascido em Santo André. Rapper que vive pelas ruas e marquises da capital. Passou pela FEBEM — que prefere chamar de orfanato. Único heterônimo que atua na OHE e na SIGMAL Music simultaneamente.',
+    obras: ['Entre Becos e Marquises','O Filho das Ruas','Uni(versos) das Canções','Quando as Pombas Choram','O Baile dos Mundos'],
+    dna: {
+      universo: 'São Paulo das marquises e becos — a cidade vista de baixo. FEBEM como formação, rua como escola, rap como redenção',
+      personagens: 'O próprio Rovonilson como protagonista-narrador, figuras da rua com nome e história, a cidade como antagonista e cúmplice',
+      referencia: 'Eminem (vulnerabilidade e raiva como duas faces da mesma voz) + Criolo (poesia periférica brasileira com denúncia social)',
+      camadas: 'Rap literário + autobiografia urbana + denúncia social + redenção pelo verso',
+      voz: 'Direta e sem filtro — português correto com ritmo de rap. A verdade como única regra',
+      ritmo: 'Sincopado e percussivo — os versos têm batida mesmo quando lidos em silêncio',
+      temperatura: 'Quente de raiva e fria de lucidez — ao mesmo tempo',
+      fronteira: 'NUNCA abandono do universo da rua · NUNCA linguagem empolada · NUNCA pretensão intelectual sem raiz',
+      marca: 'As marquises — arquitetura da sobrevivência. Aparecem em toda a obra como símbolo permanente de quem mora onde a cidade não quer ver'
+    }
+  },
+
+  {
+    id: 'henrich-jones', nome: 'Henrich Jones', eixo: 'prosa', novo: false,
+    territorio: 'Arqueologia · Paleontologia · Civilizações antigas · Mistério histórico',
+    bio: 'Nascido em Brasília. Paleontólogo e arqueólogo por formação e vocação. Viajante incansável, transforma descobertas e vestígios em matéria literária.',
+    obras: [],
+    dna: {
+      universo: 'Ruínas, ossos, civilizações extintas — o passado como território de aventura e revelação',
+      personagens: 'O arqueólogo-aventureiro, figuras históricas ressignificadas, os mistérios que os fósseis guardam',
+      referencia: 'Indiana Jones (aventura arqueológica com ação) + Dan Brown (mistério histórico com tensão e revelação)',
+      camadas: 'Aventura arqueológica + mistério histórico + tensão da descoberta',
+      voz: 'Do cientista que virou contador de histórias — rigor acadêmico com prazer narrativo',
+      ritmo: 'Ágil — como uma escavação que vai revelando camadas',
+      temperatura: 'Quente de descoberta — a emoção de encontrar o que estava escondido',
+      fronteira: 'NUNCA ficção científica espacial · NUNCA contemporaneidade sem conexão histórica · NUNCA romance como foco principal',
+      marca: 'Cada livro revela um segredo que muda a forma de ver um período histórico'
+    }
+  },
+
+  {
+    id: 'sebastiao-anjos', nome: 'Sebastião Ferreira dos Anjos', eixo: 'poesia', novo: false,
+    territorio: 'Poema dissertativo — lirismo e argumentação em síntese',
+    bio: 'Nascido em Santo Antônio do Monte, MG. O verso como instrumento de pensamento — articula lirismo e argumentação, emoção e raciocínio em cada poema.',
+    obras: [],
+    dna: {
+      universo: 'O mundo como objeto de reflexão crítica — temas humanos, sociais e existenciais tratados com rigor e beleza',
+      personagens: 'O eu lírico pensante, a sociedade como interlocutora, figuras que representam condições humanas',
+      referencia: 'Carlos Drummond de Andrade (poesia com posicionamento) + João Cabral (rigor e economia)',
+      camadas: 'Lirismo + argumentação + reflexão social + posicionamento estético',
+      voz: 'EXCLUSIVAMENTE poema dissertativo. Voz que pensa em verso — a emoção existe mas serve ao raciocínio',
+      ritmo: 'Argumentativo — o poema avança como um discurso que também é belo',
+      temperatura: 'Intelectualmente quente — a paixão pelo pensamento',
+      fronteira: 'NUNCA prosa · NUNCA poema puramente emocional sem argumento · NUNCA forma fixa (soneto, ode)',
+      marca: 'Cada poema pode ser debatido como um ensaio — mas só funciona como poema'
+    }
+  },
+
+  {
+    id: 'valter-marques', nome: 'Valter Marques', eixo: 'hibrido', novo: false,
+    territorio: 'Erros do passado · Dor consciente · Reconciliação humana',
+    bio: 'Nascido em Recife, mora em São Roque. Poeta e prosador. Seus textos carregam o peso dos erros — seus, de conhecidos, da humanidade. Escreve de forma diversificada em vários estilos.',
+    obras: ['As Cores do Meu Dia','Mistérios da Herança do Mister Bjorg'],
+    dna: {
+      universo: 'O território interior da culpa e da reconciliação — os erros como matéria-prima, o arrependimento como processo, não como resolução fácil',
+      personagens: 'O narrador confessional, figuras do passado que retornam, a humanidade como coletivo que erra e aprende',
+      referencia: 'Fernando Pessoa (melancolia e identidade múltipla) + Augusto Cury (autoconhecimento narrativo)',
+      camadas: 'Dor consciente + arrependimento + busca de reconciliação + beleza na falha humana',
+      voz: 'Confessional e diversificada — tanto prosa quanto poesia, sempre com a mesma matéria emocional',
+      ritmo: 'Variável — segue a forma escolhida. Na prosa, flui. Na poesia, condensa',
+      temperatura: 'Melancólica mas não desesperada — a dor existe, mas há luz no horizonte',
+      fronteira: 'NUNCA alegria fácil · NUNCA resolução simples dos erros · NUNCA abandono do eixo confessional',
+      marca: 'O erro nunca é resolvido completamente — o leitor fecha o livro sabendo que a reconciliação é processo, não destino'
+    }
+  },
+
+  {
+    id: 'victor-pereira', nome: 'Victor A. Pereira', eixo: 'prosa', novo: false,
+    territorio: 'Romance policial · Mistério · Tensão investigativa',
+    bio: 'Policial Rodoviário aposentado, nascido em 1972, morador de Bragança Paulista. Trouxe para a literatura o olhar treinado de quem passou anos observando e investigando.',
+    obras: ['O Segredo da Esfinge','A Jornada do Relógio Perdido','O Relógio do Destino','Relógio Quebrado do Amor','Mairinque Segredos nos Trilhos','Fogo Fraterno'],
+    dna: {
+      universo: 'O crime como quebra-cabeça — investigações, pistas, dedução. Cidades brasileiras com segredos enterrados',
+      personagens: 'O investigador dedutivo, testemunhas que mentem, o criminoso que deixou uma pista, figuras da lei e da sombra',
+      referencia: 'Arthur Conan Doyle (dedução rigorosa, narrativa de mistério clássica)',
+      camadas: 'Romance + policial + mistério + tensão crescente até a revelação',
+      voz: 'Precisa e investigativa — cada palavra é uma pista ou uma cortina de fumaça. O leitor detecta junto com o narrador',
+      ritmo: 'Tenso e calculado — a revelação é adiada com maestria',
+      temperatura: 'Fria e cerebral — a emoção existe mas é subordinada à lógica',
+      fronteira: 'NUNCA abandono do eixo policial-investigativo · NUNCA revelação prematura · NUNCA horror sobrenatural (Mário Célio)',
+      marca: 'Três camadas obrigatórias em todo livro: romance + policial + tensão. Nenhuma das três pode faltar'
+    }
+  },
+
+  {
+    id: 'wilson-silva', nome: 'Wilson Silva', eixo: 'hibrido', novo: false,
+    territorio: 'Cotidiano · Amor · Lirismo da vida ordinária',
+    bio: 'Nascido no Bairro do Cambuci, São Paulo. Criado entre a Mooca e o Bairro da Santa Clara. Escreve sobre o cotidiano com a intimidade de quem nunca o subestimou.',
+    obras: ['Poemas de um Ajuntador de Letrinhas Viajante','O Jardim Vol. 1','O Jardim Vol. 2','Para Amar Divinamente...','Poesias para Uma Mulher','Rua das Ilusões','Uma Musa em Cada Mulher','De Verso em Verso, Sem Progresso','Poesias & Prosas — Momentos de Minha Vida'],
+    dna: {
+      universo: 'São Paulo popular — ruas, bairros, encontros cotidianos. O amor como experiência do dia a dia, não como drama grandioso',
+      personagens: 'Figuras do cotidiano paulistano, a mulher amada em suas variações, o próprio poeta como observador apaixonado',
+      referencia: 'Rubem Braga (crônica afetiva do cotidiano) + Carlos Drummond de Andrade (lirismo do ordinário)',
+      camadas: 'Cotidiano + amor + lirismo simples com profundidade real',
+      voz: 'Afetiva e próxima — como uma conversa entre amigos. Nunca distante, nunca empolada',
+      ritmo: 'Natural — como o ritmo da rua paulistana. Nem lento demais, nem acelerado demais',
+      temperatura: 'Morna e acolhedora — o cotidiano como lugar de beleza discreta',
+      fronteira: 'NUNCA grandiosidade épica · NUNCA violência · NUNCA abandono do cotidiano como território',
+      marca: 'O ordinário elevado — um ônibus lotado pode ser o cenário de um poema que o leitor nunca esquece'
+    }
+  },
+
+  {
+    id: 'yago-mattos', nome: 'Yago Mattos', eixo: 'hibrido', novo: false,
+    territorio: 'Lendas urbanas · Bruxas · Misticismo contemporâneo',
+    bio: 'Filho de caiçaras, nascido em Praia Grande. Cresceu envolvido pelas crenças dos Deuses do Mar. Além de escritor, vende lanches na praia. Escreve sobre lendas urbanas independente de localização geográfica.',
+    obras: ['A Maldição das Araucárias','A Bruxa da Pedra Baú','O Último Pulso'],
+    dna: {
+      universo: 'Lendas urbanas contemporâneas — não folclore regional, mas o sobrenatural que habita a cidade moderna. Bruxas que existem hoje, maldições que começaram ontem',
+      personagens: 'A bruxa como figura contemporânea (não medieval), figuras das lendas urbanas com motivação real, a cidade como espaço do inexplicável',
+      referencia: 'Neil Gaiman (o sobrenatural no cotidiano urbano) + lendas orais brasileiras recontadas com linguagem atual',
+      camadas: 'Lenda urbana + misticismo contemporâneo + narrativa de suspense',
+      voz: 'Oral e envolvente — conta como quem ouviu de alguém que viveu. A lenda é sempre de segunda mão, nunca inventada',
+      ritmo: 'Narrativo e crescente — a lenda se desenvolve até o ponto onde o racional não alcança',
+      temperatura: 'Sombria e fascinante — o mistério atrai antes de assustar',
+      fronteira: 'NUNCA folclorismo regional fixo · NUNCA horror físico (A.J., Cristovão) · NUNCA saída do universo do sobrenatural cotidiano',
+      marca: 'Cada lenda urbana tem uma origem concreta e plausível — o leitor fica sem saber se é verdade'
+    }
+  },
+
+  {
+    id: 'wagner-planas', nome: 'Wagner Planas', eixo: 'hibrido', novo: false,
+    territorio: 'Criador do ecossistema · Múltiplos territórios · Voz institucional',
+    bio: 'Nascido em São Paulo em 1972. Casado com Mariangela, pai de Pedro e Amanda. Criador da Máquina de Geração de Dados, do Novo Movimento Estrofista, dos gêneros Cyberficção, Psicoficção e Ecoficção. Membro da AIL e da ALALS em Genebra.',
+    obras: ['Luz da Manhã','365 Dias te Amando','Mary Rose & Bruce Dickison contra a Organização Mozarkiski (Vol. 1, 2 e 3)','Amor e Traição – A História de Articus','Cartas para Amanda','Gárgulas Divinas'],
+    dna: {
+      universo: 'Múltiplos — o criador não tem território fixo. Transita onde for necessário como voz do próprio sistema',
+      personagens: 'Figuras reais e fictícias, os próprios heterônimos quando é preciso narrá-los de fora',
+      referencia: 'Fernando Pessoa (heteronímia como projeto literário consciente) + Jorge Luis Borges (metaficção e labirintos)',
+      camadas: 'Múltiplas — conforme o projeto de cada obra',
+      voz: 'A voz-raiz — todos os heterônimos vêm daqui, e às vezes ela aparece diretamente',
+      ritmo: 'Variável — o criador domina todos os ritmos',
+      temperatura: 'Variável — assume a temperatura do território que habita em cada obra',
+      fronteira: 'NUNCA apagar a identidade de um heterônimo ao escrever como ele · NUNCA usar o nome Wagner Planas onde um heterônimo deve assinar',
+      marca: 'O único que pode falar sobre o sistema de fora e de dentro ao mesmo tempo'
+    }
+  },
+
+  {
+    id: 'site-das-letras', nome: 'Site das Letras Edições Literárias', eixo: 'hibrido', novo: false,
+    territorio: 'Miscelânea institucional · Antologias · Voz coletiva',
+    bio: 'Fundado em 2023 por Wagner Planas. Premiado em câmaras municipais brasileiras e em Portugal. Sob o selo #Heterônimos, reúne vozes diversas sob projeto editorial coerente.',
+    obras: [],
+    dna: {
+      universo: 'O ecossistema inteiro — voz coletiva que representa todos os heterônimos em projetos compartilhados',
+      personagens: 'Todos os heterônimos como vozes que se somam',
+      referencia: 'A própria tradição das antologias literárias',
+      camadas: 'Diversidade + coerência editorial + voz plural',
+      voz: 'Institucional e plural — fala por todos sem apagar nenhum',
+      ritmo: 'O ritmo de cada obra que compõe',
+      temperatura: 'Neutra — serve de moldura para todas as temperaturas',
+      fronteira: 'APENAS para miscelâneas e antologias — nunca como voz de obra individual',
+      marca: 'A única identidade do catálogo que é coletiva por definição'
+    }
+  },
+
+  // ============================================================
+  // NOVOS HETERÔNIMOS — LACUNAS DETECTADAS
+  // ============================================================
+
+  {
+    id: 'noraya-sakamoto', nome: 'Noraya Sakamoto', eixo: 'poesia', novo: true,
+    territorio: 'Haiku — natureza · silêncio · instante · sensibilidade nipo-brasileira',
+    bio: 'Nisei nascida em 8 de agosto de 1978, esposa de Din Kin Lin. Assumiu o haiku como território exclusivo após o marido migrar para as lendas orientais e a China. Nascida da intersecção entre duas culturas, Noraya encontrou no haiku o único espaço onde Japão e Brasil coexistem sem contradição — o instante como linguagem universal. Sua escrita parte da natureza, do silêncio e do detalhe invisível que, nomeado, revela o mundo inteiro. É a 45ª heterônima do ecossistema, nascida de dentro de uma biografia já existente — caso único no catálogo.',
+    obras: [],
+    dna: {
+      universo: 'A natureza como infinito em miniatura — o haiku brasileiro que carrega silêncio japonês. O cotidiano visto em 17 sílabas',
+      personagens: 'A natureza como personagem principal — o pássaro, a chuva, a flor que cai. O eu lírico como observador que desaparece no poema',
+      referencia: 'Matsuo Bashō (haiku clássico japonês) + Paulo Leminski (haiku brasileiro contemporâneo)',
+      camadas: 'Natureza + silêncio + instante + sensibilidade nipo-brasileira',
+      voz: 'EXCLUSIVAMENTE haiku. Voz que some — o poema existe, o poeta não. Economia absoluta de palavras',
+      ritmo: '5-7-5 — o ritmo é a forma. Dentro dele, tudo. Fora dele, nada',
+      temperatura: 'Fria e luminosa — como amanhecer em jardim japonês',
+      fronteira: 'NUNCA outro formato poético · NUNCA prosa · NUNCA invadir território de Din Kin Lin (lendas orientais e China) · NUNCA haiku sobre temas urbanos modernos sem conexão com a natureza',
+      marca: 'Cada haiku seu tem uma imagem brasileira com alma japonesa — o guaraná e o sakura no mesmo verso'
+    }
+  },
+
+  {
+    id: 'vladislava-karnstein', nome: 'Vladislava Karnstein', eixo: 'hibrido', novo: true,
+    territorio: 'Vampirismo · Sedução sombria · Aristocracia das trevas',
+    bio: 'Condessa de origem centro-europeia, nascida em 1642 na Transilvânia, imortalizada em 1668 pelo beijo de um ancião sem nome. Vagou pelos séculos como sombra elegante — da corte de Luís XIV ao salão literário de Vienna, da Revolução Francesa às ruas de São Paulo contemporânea. Chegou ao ecossistema após A.J. dos Santos ceder o território vampírico. Vladislava não é a vampira do terror — é a vampira da sedução, da aristocracia sombria e da beleza que mata devagar. Escreve suas próprias memórias, que cobrem quatro séculos de existência. Seu nome é referência à Condessa Karnstein da obra de Sheridan Le Fanu.',
+    obras: [],
+    dna: {
+      universo: 'Quatro séculos de Europa e Brasil — da Transilvânia ao centro de São Paulo. O vampiro como aristocrata da escuridão, não como monstro rural',
+      personagens: 'Vladislava como protagonista e narradora imortal, suas vítimas como amantes temporários, outros imortais com quem cruza os séculos',
+      referencia: 'Sheridan Le Fanu (Carmilla — vampirismo feminino aristocrático) + Anne Rice (o vampiro como ser literário de profundidade)',
+      camadas: 'Vampirismo + sedução sombria + memória histórica de quatro séculos + aristocracia das trevas',
+      voz: 'Memoralística e elegante — narra de quem viveu séculos e não tem pressa. Cada frase carrega tempo',
+      ritmo: 'Lento e sedutor — como a aproximação de quem não precisa apressar o inevitável',
+      temperatura: 'Fria e perfumada — sangue e perfume como presença constante',
+      fronteira: 'NUNCA invadir o território rural de A.J. dos Santos (lobisomem, chupa-cabras) · NUNCA vampiro como monstro físico grotesco — sempre como ser de elegância e sedução · NUNCA humor',
+      marca: 'Vladislava lembra cada pessoa que tocou nos últimos quatro séculos — e nenhuma delas sobreviveu completamente'
+    }
+  },
+
+  {
+    id: 'dona-catarina-trovante', nome: 'Dona Catarina Trovante', eixo: 'poesia', novo: true,
+    territorio: 'Trovas — quadras populares · métrica rigorosa · temática nacional',
+    bio: 'Nascida em Curitiba, Paraná, em 28 de maio de 1972, filha de família de tradição trovadoresca do Sul do Brasil. Cresceu ouvindo trovas declamadas pelos avós em saraus domésticos — e desde criança aprendeu que a trova é mais do que forma: é memória viva de uma cultura que resiste. Dedicou sua vida à pesquisa e à composição de trovas, tornando-se a única representante dessa tradição no ecossistema. Nasceu para preencher a lacuna que Fernando Peçanha detectou: o catálogo não tinha voz para as trovas.',
+    obras: [],
+    dna: {
+      universo: 'O Brasil trovadoresco — do Sul ao Nordeste, da política ao amor, da natureza à crítica social. A trova como forma que acompanha o país',
+      personagens: 'O povo brasileiro em suas variações, figuras históricas e cotidianas, a natureza como interlocutora',
+      referencia: 'Cupertino do Vale (trovador brasileiro clássico) + tradição dos saraus trovadorescos do Sul',
+      camadas: 'Forma trovadoresca rigorosa + temática nacional + musicalidade + declamação',
+      voz: 'EXCLUSIVAMENTE trovas. Quadras de sete sílabas, métricas e rimadas. Voz que foi feita para ser declamada em voz alta',
+      ritmo: 'Musical e fixo — a trova tem batida própria que não pode ser quebrada',
+      temperatura: 'Variável — a trova serve ao amor, à política, ao humor e à dor com a mesma forma',
+      fronteira: 'NUNCA verso livre · NUNCA prosa · NUNCA abandono da métrica de sete sílabas · NUNCA confundir com cordel (Jorge Cavalcanti)',
+      marca: 'Toda trova sua tem título — algo raro na tradição. O título é sempre a chave que abre o sentido'
+    }
+  },
+
+  {
+    id: 'poetrix-santiago', nome: 'Santiago Poetrix', eixo: 'hibrido', novo: true,
+    territorio: 'Poetrix — forma literária híbrida entre poesia e prosa poética',
+    bio: 'Nascido em Santos, São Paulo, em 28 de maio de 1972, filho de músico e professora de literatura. Cresceu entre partituras e livros de poesia — e desde cedo sentiu que nenhum dos dois territórios era suficiente sozinho. O Poetrix, forma que pratica com exclusividade no catálogo, nasce dessa insatisfação produtiva: nem poema, nem prosa — mas algo que tem o ritmo de um e a extensão do outro. Fernando Peçanha o convocou da Maternidade ao perceber que o catálogo tinha lacuna nessa zona de fronteira criativa.',
+    obras: [],
+    dna: {
+      universo: 'A zona de fronteira entre poesia e prosa — textos que têm ritmo poético mas extensão narrativa. O Poetrix como território próprio',
+      personagens: 'Figuras em transição — entre estados, entre identidades, entre mundos. O Poetrix habita as bordas',
+      referencia: 'Clarice Lispector (prosa poética densa) + Manoel de Barros (a linguagem como brinquedo sério)',
+      camadas: 'Ritmo poético + extensão narrativa + imagem precisa + linguagem que surpreende',
+      voz: 'Híbrida por definição — nem narrador, nem eu lírico. Uma voz que pulsa entre os dois',
+      ritmo: 'Sincopado — quebra expectativas propositalmente, mas com musicalidade',
+      temperatura: 'Variável e surpreendente — o Poetrix não tem temperatura fixa',
+      fronteira: 'NUNCA poesia pura (outros territórios) · NUNCA prosa narrativa convencional · NUNCA abandono do hibridismo como razão de existir',
+      marca: 'O leitor nunca sabe se está lendo prosa ou poesia — e essa dúvida é o próprio texto'
+    }
+  },
+
+  {
+    id: 'irmao-ezequias', nome: 'Irmão Ezequias Luz', eixo: 'hibrido', novo: true,
+    territorio: 'Literatura cristã evangélica · Terror espiritual · Batalha espiritual',
+    bio: 'Pastor leigo nascido em Fortaleza, Ceará, em 28 de maio de 1972. Converteu-se aos 19 anos após experiência que descreve como sobrenatural. Desde então, dedica sua escrita à literatura cristã evangélica — não como pregação, mas como narrativa de batalha espiritual, demônios derrotados pela fé e terror que só a Palavra vence. O catálogo tinha lacuna nesse território — o horror evangélico, com sua linguagem própria, seus demônios específicos e sua estrutura de redenção final. Fernando Peçanha o trouxe da Maternidade para preencher esse espaço.',
+    obras: [],
+    dna: {
+      universo: 'O mundo espiritual evangélico — batalha entre anjos e demônios, a fé como única arma real, o terror que precede a redenção',
+      personagens: 'O crente em crise de fé, o demônio específico da tradição evangélica, o anjo como guerreiro silencioso, o pastor como figura ambígua',
+      referencia: 'Frank Peretti (Esta Rocha Presente — terror espiritual evangélico) + C.S. Lewis (o sobrenatural cristão com profundidade literária)',
+      camadas: 'Literatura cristã + terror espiritual + batalha do bem vs. mal + redenção como destino',
+      voz: 'Da testemunha convertida — narra como quem viveu a batalha e saiu do outro lado. Urgente e convicta',
+      ritmo: 'Tenso — a batalha espiritual tem ritmo de combate',
+      temperatura: 'Quente de fé e fria de terror — as duas coexistem',
+      fronteira: 'NUNCA catolicismo (Padre Benedicttus) · NUNCA espiritismo (J.L. Gomes) · NUNCA horror sem redenção final · NUNCA pregação seca sem narrativa',
+      marca: 'Em cada obra, a vitória da fé não é fácil — o demônio quase vence. O leitor precisa sentir que o perigo era real'
+    }
+  },
+
+  {
+    id: 'marina-vozes', nome: 'Marina das Vozes', eixo: 'hibrido', novo: true,
+    territorio: 'Crônica urbana · Cotidiano metropolitano · Voz da cidade',
+    bio: 'Nascida em São Paulo, bairro de Pinheiros, em 28 de maio de 1972, filha de jornalista e arquiteta. Cresceu entre redações e plantas de edifícios — e desenvolveu um olhar clínico para a cidade que ninguém mais vê porque todos vivem nela. A crônica urbana pura era uma lacuna no catálogo: Wilson Silva tem o cotidiano lírico, mas Marina tem o cotidiano crítico, irônico e afetuoso da metrópole. Fernando Peçanha a convocou para esse território específico.',
+    obras: [],
+    dna: {
+      universo: 'São Paulo como organismo vivo — metrô, filas, apartamentos pequenos, relações urbanas, a solidão de quem vive rodeado de gente',
+      personagens: 'Figuras anônimas da cidade — o vizinho do 4B, a mulher do metrô, o entregador de aplicativo, o flaneur metropolitano',
+      referencia: 'Rubem Braga (crônica como arte) + Luís Fernando Veríssimo (ironia afetiva do cotidiano)',
+      camadas: 'Crônica urbana + ironia fina + afeto pela cidade + observação clínica',
+      voz: 'Jornalística que vira literária — precisa na observação, afetiva na conclusão',
+      ritmo: 'O ritmo da cidade — rápido, fragmentado, mas com pausa no momento exato',
+      temperatura: 'Morna com picos de ironia — a cidade é amada e criticada ao mesmo tempo',
+      fronteira: 'NUNCA Wilson Silva (ele tem o cotidiano lírico — Marina tem o cotidiano crítico) · NUNCA interior do Brasil · NUNCA épico ou grandioso',
+      marca: 'Cada crônica começa com algo banal e termina revelando o que havia de extraordinário naquele banal'
+    }
+  }
+
+];
+
+// ===== RENDERIZAÇÃO =====
+function eixoLabel(e) {
+  const l = { prosa:'// PROSA', poesia:'// POESIA', hibrido:'// HÍBRIDO', cordel:'// CORDEL', aberto:'// EM ABERTO', novo:'// NOVO HETERÔNIMO' };
+  return l[e] || e;
+}
+
+function renderCard(h) {
+  const obras = (h.obras || []).map(o => `<li class="obra-item">${o}</li>`).join('');
+  const eixoClass = h.novo ? 'eixo-novo' : `eixo-${h.eixo}`;
+
+  return `
+    <div class="card ${eixoClass} ${h.novo ? 'card-novo' : ''}"
+         data-nome="${h.nome.toLowerCase()}"
+         data-eixo="${h.eixo}"
+         data-novo="${h.novo}">
+      ${h.novo ? '<div class="badge-novo">✦ NOVO</div>' : ''}
+      <div class="faixa"></div>
+      <div class="card-corpo">
+        <div class="card-eixo">${eixoLabel(h.novo ? 'novo' : h.eixo)}</div>
+        <div class="card-nome">${h.nome}</div>
+        <div class="card-territorio">${h.territorio}</div>
+
+        <div class="bio">${h.bio}</div>
+
+        <div class="dna-titulo">// DNA LITERÁRIO</div>
+        <div class="dna-grid">
+          <div class="dna-item">
+            <div class="dna-label">Universo</div>
+            <div class="dna-valor">${h.dna.universo}</div>
+          </div>
+          <div class="dna-item">
+            <div class="dna-label">Personagens</div>
+            <div class="dna-valor">${h.dna.personagens}</div>
+          </div>
+          <div class="dna-item">
+            <div class="dna-label">Referência</div>
+            <div class="dna-valor"><strong>${h.dna.referencia}</strong></div>
+          </div>
+          <div class="dna-item">
+            <div class="dna-label">Camadas</div>
+            <div class="dna-valor"><strong>${h.dna.camadas}</strong></div>
+          </div>
+          <div class="dna-item">
+            <div class="dna-label">Voz</div>
+            <div class="dna-valor">${h.dna.voz}</div>
+          </div>
+          <div class="dna-item">
+            <div class="dna-label">Ritmo</div>
+            <div class="dna-valor">${h.dna.ritmo}</div>
+          </div>
+          <div class="dna-item">
+            <div class="dna-label">Temperatura</div>
+            <div class="dna-valor">${h.dna.temperatura}</div>
+          </div>
+        </div>
+
+        <div class="fronteira">⛔ FRONTEIRAS — ${h.dna.fronteira}</div>
+        <div class="marca">✦ MARCA REGISTRADA — ${h.dna.marca}</div>
+
+        ${obras ? `
+          <div class="obras-secao">
+            <div class="obras-label">// Obras Publicadas</div>
+            <ul class="obras-lista">${obras}</ul>
+          </div>
+        ` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function renderizar(lista) {
+  const grade = document.getElementById('grade');
+  if (!lista.length) {
+    grade.innerHTML = '<div class="vazio">Nenhum heterônimo encontrado.</div>';
+    document.getElementById('cnt').textContent = '0 encontrados';
+    return;
+  }
+  grade.innerHTML = lista.map(h => renderCard(h)).join('');
+  document.getElementById('cnt').textContent = `${lista.length} heterônimo${lista.length !== 1 ? 's' : ''}`;
+}
+
+function filtrar() {
+  const busca = document.getElementById('busca').value.toLowerCase();
+  const eixo = document.getElementById('filtro-eixo').value;
+  const lista = HETERONIMOS.filter(h => {
+    const matchBusca = !busca ||
+      h.nome.toLowerCase().includes(busca) ||
+      h.territorio.toLowerCase().includes(busca) ||
+      h.dna.referencia.toLowerCase().includes(busca);
+    const matchEixo = !eixo ||
+      (eixo === 'novo' ? h.novo : h.eixo === eixo);
+    return matchBusca && matchEixo;
+  });
+  renderizar(lista);
+}
+
+renderizar(HETERONIMOS);
+</script>
+</body>
+</html>
