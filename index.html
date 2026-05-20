@@ -1,1 +1,1064 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store"><title>OHE — Motor Vivo</title><style>:root{--azul:#10233f;--ouro:#d8b56d;--papel:#fffaf0;--verde:#6f8d5e;--vinho:#9b6265;--linha:#d8d0c1}*{box-sizing:border-box}body{margin:0;background:var(--azul);font-family:Georgia,'Times New Roman',serif;color:#16233a;padding:22px;overflow-x:hidden}.wrap{max-width:940px;margin:auto}.topo{color:var(--ouro);padding:8px}.marca{font-weight:900}h1{font-size:clamp(3rem,12vw,5.4rem);line-height:.95;margin:6px 0;color:var(--ouro)}.sub{font-size:1.3rem;font-weight:700}.card{background:var(--papel);border:1px solid var(--ouro);border-radius:26px;padding:24px 28px;margin:18px 0;overflow:hidden}h2{font-size:clamp(2rem,7vw,3rem);margin:0 0 16px;color:#10233f}.btn{border:0;border-radius:999px;padding:15px 20px;font:900 1.05rem Georgia,'Times New Roman',serif;width:100%;margin:10px 0;cursor:pointer}.btn:disabled{opacity:.5}.verde{background:var(--verde);color:white}.vinho{background:var(--vinho);color:white}.ouro{background:var(--ouro);color:#21160b}.azul{background:var(--azul);color:white}.tab{background:#fff8e9;border:1px solid var(--linha);color:#111}.tab.ativo{background:var(--azul);color:white}input,textarea,select{width:100%;border:1px solid var(--linha);border-radius:15px;background:#fff;padding:14px 16px;font:1.1rem Georgia,'Times New Roman',serif;margin:8px 0}textarea{min-height:115px;resize:vertical}.status{background:#fff4cf;border:1px solid var(--ouro);border-radius:15px;padding:12px;margin:12px 0;line-height:1.35}.ok{background:#edf7e8}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.dado{background:#fff;border:1px solid var(--linha);border-radius:14px;padding:11px}.dado b{display:block;color:#10233f;margin-bottom:4px}.roleta{text-align:center;background:#fff8df;border:1px dashed var(--ouro);border-radius:18px;padding:14px;margin:10px 0}.docwrap{background:#e8dfcd;border-radius:18px;padding:14px}.doc{background:white;max-width:720px;min-height:720px;margin:auto;padding:52px 46px;font-size:18px;line-height:1.62}.doc h1{font-size:31px;text-align:center;color:#111;margin:0 0 18px}.doc h2{font-size:19px;text-align:center;text-transform:uppercase;color:#111}.doc p{text-align:justify;text-indent:2em;margin:.55em 0;hyphens:none;overflow-wrap:normal;word-break:normal}@media(max-width:720px){body{padding:22px}.card{padding:22px 26px}.doc{padding:38px 24px;font-size:17px}}</style></head><body><main class="wrap"><header class="topo"><div class="marca">OHE</div><h1>Oficina Heteronímica da Escrita</h1><div class="sub">Motor Vivo — eixo único com memória projetiva</div></header><section class="card"><h2>Eixo criativo</h2><button class="btn tab ativo" data-eixo="prosa">Prosa</button><button class="btn tab" data-eixo="poesia">Poesia</button><button class="btn tab" data-eixo="hibrido">Híbrido</button><button class="btn tab" data-eixo="cordel">Cordel</button><select id="especialidade"></select><select id="realidade"><option value="terra">Terra simbólica</option><option value="terrax">Terra expandida</option><option value="cosmos">Mundos externos / sci-fi</option><option value="meta">Realidade metafísica</option></select><button class="btn vinho" id="limpar">Limpar tudo</button></section><section class="card"><h2>Alavanca da Máquina</h2><p>Novo giro cria nova obra. Continuar desenvolve a obra atual usando memória passada e projeção futura.</p><div class="roleta" id="roleta">🎰 Máquina parada</div><button class="btn ouro" id="girar">🎰 Girar Máquina de Dados</button><div class="grid" id="painel"></div></section><section class="card"><h2>Execução</h2><textarea id="texto" placeholder="Texto manual, se houver. Pode ficar vazio."></textarea><textarea id="obs" placeholder="Ordem interna. Exemplo: desenvolver com 25 mil palavras, saga em cordel, ciclo de sonetos, conto psicológico etc. Este campo não vira obra."></textarea><button class="btn azul" id="ativar" disabled>Ativar dados para escrita</button><button class="btn verde" id="gerar" disabled>Gerar / continuar documento vivo</button><button class="btn ouro" id="salvar">Salvar TXT</button></section><section class="card"><h2>Memória projetiva</h2><div id="memoria" class="status">Aguardando nova obra.</div></section><section class="card"><h2>Diagnóstico interno</h2><div id="analise" class="status">Aguardando documento vivo.</div></section><section class="card"><h2>Documento contínuo OHE</h2><div class="docwrap"><article class="doc" id="doc"><h1>Material sem título</h1><p>Aguardando a máquina de dados.</p></article></div></section></main><script>const $=i=>document.getElementById(i);let st={eixo:'prosa',dados:null,ativo:false,saida:'',passado:null,futuro:null,etapa:0};const opt={prosa:['sci-fi','medieval','terror psicológico','fantasia sombria','realismo cotidiano','MitoPunkLogia','romance intimista','investigação noir'],poesia:['soneto','pantum','ghazal','ode','haikai','poetrix','limerique','elegia','sextina medieval'],hibrido:['prosa poética','poema narrativo','crônica poética','narrativa lírica','experimento fragmentário'],cordel:['sextilha de cordel','setilha','oitava','décima','martelo','galope à beira-mar','cordel épico','cordel humorístico','cordel sci-fi sertanejo']};const A={escala:['tribo','vila','pequena cidade','média cidade','metrópole','megalópole','fronteira','arquipélago','sertão','costa','montanha'],regiao:['norte','sul','leste','oeste','nordeste','sudeste','sudoeste','noroeste','interior','litoral'],pais:['Brasil','Portugal','Bolívia','Cabo Verde','Angola','Moçambique','França','Espanha'],cosmos:['galáxia periférica','constelação de Ophiuchus','sistema binário','lua artificial','mundo oceânico','estação orbital decadente','região além do buraco negro','cinturão de asteroides'],meta:['cidade impossível','plano de memória','deserto mental','biblioteca fora do tempo','rio que corre para o passado'],p:['mulher que restaura fotografias','homem que conserta relógios','bibliotecária de cartas sem remetente','professor que perdeu a voz','viajante orbital sem planeta'],s:['vizinha que sabe mais do que diz','irmão que voltou sem perdão','criança que encontra objetos impossíveis','androide com saudade programada','cantador que viu o impossível'],t:['carteiro de carta antiga','dona de pensão precisa','vendedor que viu a última conversa','piloto de cápsula quebrada','violeiro de feira antiga'],o:['mãe desaparecida','filho que nunca voltou','amor morto sem despedida','constelação consciente','sereia vista fora do mar'],ant:['memória que mente','casa da infância à venda','promessa em cartório','buraco negro que devolve lembranças','rei mecânico do sertão'],tema:['permanência contra abandono','amor sem posse','culpa familiar','identidade diante do espelho','humanidade contra máquina','destino contra cantoria'],mem:['cheiro de café requentado','som de chuva em telha antiga','botão guardado numa caixa','sal na palma da mão','luz azul de uma lua artificial'],voz:['primeira pessoa contida','terceira pessoa íntima','voz poética concreta','narrador cansado e lúcido','voz oral de cantador'],ritmo:['lento contemplativo','progressão sufocante','cenas curtas','espiral de memória','cadência de feira e viola'],imp:['envelope atrás de quadro','relógio parado às 17h40','chave sem porta','sinal vindo de Ophiuchus','sereia vista fora do mar','boi de ferro no sertão orbital'],prox:['aprofundar a ferida inicial','revelar uma consequência inesperada','aproximar o antagonismo','mudar a pressão emocional','abrir uma bifurcação de arco','preparar uma possível ruptura de livro']};const DNA={prosa:{'sci-fi':['autor de mundos externos','cosmos e tecnologia','conflito humano no impossível'],medieval:['autor de reinos e ruínas','honra e queda','tempo ancestral'], 'terror psicológico':['autor de medo íntimo','mente e sombra','ameaça invisível'], 'fantasia sombria':['autor de mito escuro','magia e perda','mundo ferido'], 'realismo cotidiano':['autor do humano comum','cidade e memória','gesto pequeno'], 'MitoPunkLogia':['autor mito-tecnológico','divindade e máquina','civilização híbrida'], 'romance intimista':['autor de interiores emocionais','afeto e silêncio','ferida humana'], 'investigação noir':['autor de sombra urbana','segredo e culpa','cidade moral']},poesia:{soneto:['Emily','forma fixa','tensão lírica'],pantum:['autor de pantum','refrão circular','memória repetida'],ghazal:['autor de ghazal','dístico autônomo','eco amoroso'],ode:['autor de odes','elevação','louvor e meditação'],haikai:['autor minimalista','instante','natureza cortante'],poetrix:['autor de síntese','três linhas','impacto breve'],limerique:['autor de humor métrico','graça','ritmo leve'],elegia:['autor elegíaco','luto','canto de perda'],'sextina medieval':['autor de sextina','palavras finais','engenharia poética']},hibrido:{'prosa poética':['autor híbrido lírico','imagem e narrativa','fronteira'], 'poema narrativo':['autor de canto narrativo','voz e acontecimento','cadência'], 'crônica poética':['autor cotidiano lírico','observação e símbolo','cidade íntima'], 'narrativa lírica':['autor de fluxo sensível','prosa e poesia','respiração'], 'experimento fragmentário':['autor experimental','fragmentos','montagem']},cordel:{'sextilha de cordel':['cordelista de sextilha','6 versos por estrofe','oralidade popular'],setilha:['cordelista de setilha','7 versos','cadência ampliada'],oitava:['cordelista de oitava','8 versos','narrativa folhetinesca'],décima:['cordelista de décima','10 versos','argumento forte'],martelo:['cantador de martelo','decassílabo popular','desafio'], 'galope à beira-mar':['cantador de galope','ritmo acelerado','mar e sertão'], 'cordel épico':['cordelista épico','saga e façanha','herói popular'], 'cordel humorístico':['cordelista de gracejo','riso e crítica','oralidade viva'], 'cordel sci-fi sertanejo':['cordelista cósmico sertanejo','sertão e espaço','tecnologia cantada']}};function r(a){return a[Math.floor(Math.random()*a.length)]}function especial(){let s=$('especialidade');s.innerHTML='';opt[st.eixo].forEach(x=>{let o=document.createElement('option');o.value=x;o.textContent=x;s.appendChild(o)})}function territorio(){let real=$('realidade').value;if(st.eixo==='cordel'&&real==='terra')return r(['sertão no nordeste do Brasil','feira de vila no interior','estrada de poeira e cantoria','cidade pequena em dia de folheto']);if(real==='cosmos')return r(A.cosmos);if(real==='meta')return r(A.meta);if(real==='terrax')return r(A.escala)+' no '+r(A.regiao)+' de uma Terra expandida';return r(A.escala)+' no '+r(A.regiao)+' de '+r(A.pais)}function painel(){let d=st.dados;$('painel').innerHTML=d?Object.entries(d).map(([k,v])=>'<div class="dado"><b>'+k+'</b>'+v+'</div>').join(''):''}function atualizarMemoria(){if(!st.passado){$('memoria').textContent='Aguardando nova obra.';return}$('memoria').innerHTML='<b>Memória passada:</b> '+st.passado+'<br><br><b>Projeção futura:</b> '+st.futuro}function criarMemoria(d){st.passado='Eixo '+d.eixo+', especialidade '+d.especialidade+', território '+d.territorio+', protagonista '+d.protagonista+', antagonismo '+d.antagonismo+', tema '+d.tema+', símbolo/memória '+d.memoria+'.';st.futuro='Livro/obra deve '+r(A.prox)+' mantendo '+d.tema+' e sem trocar o núcleo de '+d.protagonista+'.'}function girar(){let esp=$('especialidade').value,dna=(DNA[st.eixo]&&DNA[st.eixo][esp])||['DNA livre','campo aberto','execução aberta'];st.dados={eixo:st.eixo,especialidade:esp,autorDNA:dna[0],primario:dna[1],secundario:dna[2],territorio:territorio(),protagonista:r(A.p),apoio:r(A.s),terciario:r(A.t),oculto:r(A.o),antagonismo:r(A.ant),tema:r(A.tema),memoria:r(A.mem),voz:st.eixo==='cordel'?r(['cantador popular','voz de feira','narrador rimado','violeiro épico']):r(A.voz),ritmo:st.eixo==='cordel'?esp+' em cadência oral':r(A.ritmo),impulso:r(A.imp)};$('roleta').textContent='🎰 Dados narrativos gerados';painel();$('ativar').disabled=false;st.saida='';st.etapa=0;criarMemoria(st.dados);atualizarMemoria();render();$('analise').textContent='Nova obra detectada pelo giro. Memória projetiva criada.'}function ativar(){if(!st.dados)return;st.ativo=true;$('gerar').disabled=false;$('analise').textContent='Dados ativados. O botão verde desenvolve a obra atual seguindo a projeção futura.'}function bloco(){let d=st.dados,manual=$('texto').value.trim();st.etapa++;if(manual&&st.etapa===1)return manual;let continuidade=st.futuro||'prosseguir sem quebrar o núcleo narrativo';if(d.eixo==='cordel')return 'Movimento '+st.etapa+' do cordel.\n\nNo '+d.territorio+', '+d.protagonista+' recebeu '+d.impulso+'.\n\nA cantoria segue em '+d.especialidade+', com '+d.ritmo+', avançando para '+continuidade+'.\n\nA oposição será '+d.antagonismo+', enquanto o tema de fundo será '+d.tema+'.\n\nO apoio narrativo virá de '+d.apoio+', e a presença oculta será '+d.oculto+'.\n\nEste folheto pode virar parte maior se o arco pedir continuação.';if(d.eixo==='poesia')return 'Movimento poético '+st.etapa+'.\n\nSob o eixo '+d.especialidade+', a obra orbita '+d.tema+'.\n\nA imagem dominante será '+d.memoria+', atravessada por '+d.impulso+'.\n\nA voz poética seguirá '+d.voz+', com ritmo '+d.ritmo+'.\n\nA projeção desta sequência é '+continuidade+'.';return 'Movimento narrativo '+st.etapa+'.\n\nEm '+d.territorio+', '+d.protagonista+' encontrou '+d.impulso+'.\n\nA atmosfera vinha marcada por '+d.memoria+', enquanto o eixo pedia '+d.especialidade+'.\n\nO personagem de apoio era '+d.apoio+', e o terciário, '+d.terciario+'. O ausente era '+d.oculto+'.\n\nA força de oposição era '+d.antagonismo+'. O tema subterrâneo era '+d.tema+'.\n\nA continuidade prevista é: '+continuidade+'\n\nA voz escolhida era '+d.voz+', em ritmo '+d.ritmo+'. O título pertence ao heterônimo.'}function gerar(){if(!st.ativo)return;let add=bloco();st.saida+=(st.saida?'\n\n':'')+add;render();if(st.etapa>1)st.futuro='próximo avanço deve '+r(A.prox)+' sem abandonar '+st.dados.tema+'.';atualizarMemoria();$('analise').textContent='Sencal: atmosfera — '+st.dados.memoria+'. SAI: continuidade guiada por memória projetiva. Diretor: se houver ruptura grande, sugerir novo livro ou parte.'}function render(){let ps=(st.saida||'').split(/\n\s*\n/).filter(Boolean).map(p=>'<p>'+p.replace(/[&<>]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[s]))+'</p>').join('');$('doc').innerHTML='<h1>Material sem título</h1><h2>'+st.eixo.toUpperCase()+' — '+($('especialidade').value||'documento')+'</h2>'+(ps||'<p>Aguardando a máquina de dados.</p>')}function salvar(){if(!st.saida)return;let pacote='MEMÓRIA PASSADA:\n'+(st.passado||'')+'\n\nPROJEÇÃO FUTURA:\n'+(st.futuro||'')+'\n\nOBRA:\n'+st.saida;let b=new Blob([pacote],{type:'text/plain'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='ohe-'+st.eixo+'-'+$('especialidade').value+'.txt';a.click()}document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{st.eixo=b.dataset.eixo;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('ativo',x===b));especial();st.dados=null;st.ativo=false;st.saida='';st.passado=null;st.futuro=null;st.etapa=0;$('ativar').disabled=true;$('gerar').disabled=true;$('roleta').textContent='🎰 Máquina ajustada para '+st.eixo;$('painel').innerHTML='';render();atualizarMemoria();$('analise').textContent='Eixo alterado. Gire a máquina para nova obra.'});$('girar').onclick=girar;$('ativar').onclick=ativar;$('gerar').onclick=gerar;$('salvar').onclick=salvar;$('limpar').onclick=()=>location.reload();especial();render();atualizarMemoria();</script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-store">
+<title>OHE — Motor Vivo v2</title>
+<style>
+:root{
+  --azul:#10233f;
+  --azul-mid:#162d4f;
+  --azul-light:#1e3a60;
+  --ouro:#d8b56d;
+  --ouro-claro:#f0d090;
+  --ouro-escuro:#8a6a1f;
+  --papel:#fffaf0;
+  --papel-mid:#f5eed8;
+  --verde:#4a7c59;
+  --verde-claro:#6aaa7a;
+  --vinho:#9b4a50;
+  --linha:#d8d0c1;
+  --prata:#8899aa;
+  --vermelho:#c0392b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  background:var(--azul);
+  font-family:Georgia,'Times New Roman',serif;
+  color:#16233a;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* BARRA DE STATUS PERMANENTE */
+#barra-status{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:200;
+  background:rgba(16,35,63,0.97);
+  border-bottom:2px solid var(--ouro);
+  padding:6px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  backdrop-filter:blur(6px);
+}
+.bs-marca{
+  font-family:'Courier New',monospace;
+  font-size:0.7rem;
+  color:var(--ouro);
+  letter-spacing:0.2em;
+  font-weight:700;
+}
+.bs-info{
+  font-family:'Courier New',monospace;
+  font-size:0.62rem;
+  color:var(--prata);
+  letter-spacing:0.1em;
+}
+.bs-info span{color:var(--ouro-claro);}
+#bs-salvo{
+  font-family:'Courier New',monospace;
+  font-size:0.62rem;
+  color:#39ff8f;
+  letter-spacing:0.12em;
+  transition:opacity 0.5s;
+}
+#bs-salvo.apagando{opacity:0;}
+
+/* BOTÃO DE SAÍDA/EXPORTAÇÃO PRINCIPAL */
+#btn-cofre{
+  background:linear-gradient(135deg,var(--ouro-escuro),var(--ouro));
+  color:#111;
+  font-family:'Courier New',monospace;
+  font-size:0.62rem;
+  font-weight:700;
+  letter-spacing:0.15em;
+  padding:5px 14px;
+  border:none;
+  cursor:pointer;
+  text-transform:uppercase;
+  border-radius:3px;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+#btn-cofre:hover{opacity:0.85;transform:translateY(-1px);}
+
+.wrap{max-width:960px;margin:auto;padding:80px 20px 40px;}
+
+/* TOPO */
+.topo{
+  color:var(--ouro);
+  padding:10px 0 6px;
+}
+.marca{font-weight:900;font-family:'Courier New',monospace;font-size:0.8rem;letter-spacing:0.3em;}
+h1{font-size:clamp(2.8rem,10vw,5rem);line-height:.95;margin:6px 0;color:var(--ouro);}
+.sub{font-size:1.1rem;font-weight:700;color:var(--ouro-claro);}
+.sub2{font-size:0.75rem;color:var(--prata);font-style:italic;margin-top:4px;font-family:'Courier New',monospace;}
+
+/* CARDS */
+.card{
+  background:var(--papel);
+  border:1px solid var(--ouro);
+  border-radius:20px;
+  padding:22px 26px;
+  margin:16px 0;
+  overflow:hidden;
+}
+h2{font-size:clamp(1.6rem,5vw,2.4rem);margin:0 0 14px;color:#10233f;}
+
+/* CONTADORES */
+.contadores{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:10px;
+  margin-bottom:14px;
+}
+.contador{
+  background:var(--azul);
+  border-radius:12px;
+  padding:10px 14px;
+  text-align:center;
+}
+.contador-num{
+  font-size:1.8rem;
+  font-weight:900;
+  color:var(--ouro);
+  font-family:'Courier New',monospace;
+  line-height:1;
+}
+.contador-label{
+  font-family:'Courier New',monospace;
+  font-size:0.52rem;
+  color:var(--prata);
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  margin-top:4px;
+}
+
+/* BOTÕES */
+.btn{
+  border:0;border-radius:999px;
+  padding:13px 18px;
+  font:900 1rem Georgia,'Times New Roman',serif;
+  width:100%;margin:8px 0;cursor:pointer;
+  transition:all 0.2s;
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.08);}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+.verde{background:var(--verde);color:white;}
+.vinho{background:var(--vinho);color:white;}
+.ouro{background:var(--ouro);color:#21160b;}
+.azul-btn{background:var(--azul);color:white;}
+.tab{background:#fff8e9;border:1px solid var(--linha);color:#111;}
+.tab.ativo{background:var(--azul);color:white;}
+
+/* ALERTA DE COFRE */
+.alerta-cofre{
+  background:linear-gradient(135deg,rgba(216,181,109,0.15),rgba(216,181,109,0.05));
+  border:1px solid rgba(216,181,109,0.4);
+  border-radius:12px;
+  padding:12px 16px;
+  margin-bottom:12px;
+  font-family:'Courier New',monospace;
+  font-size:0.7rem;
+  color:var(--ouro-escuro);
+  letter-spacing:0.08em;
+  line-height:1.6;
+}
+
+/* INPUTS */
+input,textarea,select{
+  width:100%;
+  border:1px solid var(--linha);
+  border-radius:12px;
+  background:#fff;
+  padding:12px 14px;
+  font:1rem Georgia,'Times New Roman',serif;
+  margin:6px 0;
+  transition:border 0.2s;
+}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--ouro);}
+textarea{min-height:100px;resize:vertical;}
+
+.status{
+  background:#fff4cf;
+  border:1px solid var(--ouro);
+  border-radius:12px;
+  padding:12px;margin:10px 0;
+  line-height:1.4;font-size:0.9rem;
+}
+.ok{background:#edf7e8;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.dado{background:#fff;border:1px solid var(--linha);border-radius:12px;padding:10px;}
+.dado b{display:block;color:#10233f;margin-bottom:4px;font-size:0.85rem;}
+.dado span{font-size:0.9rem;}
+.roleta{
+  text-align:center;background:#fff8df;
+  border:1px dashed var(--ouro);
+  border-radius:16px;padding:12px;margin:8px 0;
+}
+
+/* DOCUMENTO */
+.docwrap{background:#e8dfcd;border-radius:16px;padding:12px;}
+.doc{
+  background:white;
+  max-width:720px;min-height:600px;
+  margin:auto;padding:48px 44px;
+  font-size:17px;line-height:1.65;
+}
+.doc h1{font-size:28px;text-align:center;color:#111;margin:0 0 14px;}
+.doc h2{font-size:17px;text-align:center;text-transform:uppercase;color:#111;margin:0 0 18px;}
+.doc p{text-align:justify;text-indent:2em;margin:.5em 0;}
+
+/* PAINEL DO COFRE / HISTÓRICO */
+#painel-cofre{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:300;
+  background:rgba(7,14,25,0.95);
+  backdrop-filter:blur(8px);
+  overflow-y:auto;
+}
+#painel-cofre.aberto{display:block;}
+.cofre-inner{
+  max-width:900px;
+  margin:0 auto;
+  padding:30px 20px 60px;
+}
+.cofre-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+  padding-bottom:16px;
+  border-bottom:1px solid rgba(216,181,109,0.25);
+}
+.cofre-titulo{
+  font-family:'Courier New',monospace;
+  font-size:clamp(1.2rem,4vw,2rem);
+  color:var(--ouro);
+  letter-spacing:0.2em;
+}
+.cofre-fechar{
+  background:transparent;
+  border:1px solid rgba(216,181,109,0.3);
+  color:var(--prata);
+  font-family:'Courier New',monospace;
+  font-size:0.6rem;
+  letter-spacing:0.15em;
+  padding:8px 16px;
+  cursor:pointer;
+  text-transform:uppercase;
+  transition:all 0.2s;
+}
+.cofre-fechar:hover{color:var(--ouro);border-color:var(--ouro);}
+
+.cofre-acoes-topo{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.cofre-btn{
+  font-family:'Courier New',monospace;
+  font-size:0.62rem;
+  letter-spacing:0.12em;
+  padding:8px 16px;
+  border:none;
+  cursor:pointer;
+  text-transform:uppercase;
+  border-radius:6px;
+  transition:all 0.2s;
+}
+.cofre-btn-p{background:var(--ouro);color:#111;font-weight:700;}
+.cofre-btn-p:hover{opacity:0.85;}
+.cofre-btn-s{background:rgba(216,181,109,0.12);color:var(--ouro);border:1px solid rgba(216,181,109,0.3);}
+.cofre-btn-s:hover{background:rgba(216,181,109,0.2);}
+.cofre-btn-d{background:rgba(192,57,43,0.15);color:#ff8888;border:1px solid rgba(192,57,43,0.3);}
+.cofre-btn-d:hover{background:rgba(192,57,43,0.25);}
+
+.cofre-stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:10px;
+  margin-bottom:24px;
+}
+.cofre-stat{
+  background:rgba(255,250,240,0.05);
+  border:1px solid rgba(216,181,109,0.15);
+  border-radius:10px;
+  padding:12px 16px;
+  text-align:center;
+}
+.cofre-stat-num{
+  font-family:'Courier New',monospace;
+  font-size:1.6rem;
+  color:var(--ouro);
+  font-weight:700;
+  line-height:1;
+}
+.cofre-stat-label{
+  font-family:'Courier New',monospace;
+  font-size:0.5rem;
+  color:var(--prata);
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  margin-top:4px;
+}
+
+.cofre-filtros{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.cofre-filtro{
+  font-family:'Courier New',monospace;
+  font-size:0.58rem;
+  letter-spacing:0.1em;
+  padding:5px 12px;
+  border:1px solid rgba(216,181,109,0.2);
+  background:transparent;
+  color:var(--prata);
+  cursor:pointer;
+  text-transform:uppercase;
+  border-radius:4px;
+  transition:all 0.2s;
+}
+.cofre-filtro.ativo,
+.cofre-filtro:hover{
+  border-color:var(--ouro);
+  color:var(--ouro);
+  background:rgba(216,181,109,0.08);
+}
+
+/* CARDS DO COFRE */
+.obra-card{
+  background:rgba(255,250,240,0.04);
+  border:1px solid rgba(216,181,109,0.12);
+  border-radius:12px;
+  margin-bottom:12px;
+  overflow:hidden;
+  transition:border-color 0.2s;
+}
+.obra-card:hover{border-color:rgba(216,181,109,0.35);}
+.obra-card-header{
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  cursor:pointer;
+}
+.obra-info{flex:1;}
+.obra-titulo{
+  font-family:Georgia,serif;
+  font-size:1rem;
+  color:var(--ouro-claro);
+  margin-bottom:4px;
+}
+.obra-meta{
+  font-family:'Courier New',monospace;
+  font-size:0.52rem;
+  color:var(--prata);
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+}
+.obra-acoes{
+  display:flex;
+  gap:6px;
+  flex-shrink:0;
+  flex-wrap:wrap;
+}
+.oa-btn{
+  font-family:'Courier New',monospace;
+  font-size:0.5rem;
+  letter-spacing:0.1em;
+  padding:5px 10px;
+  border:1px solid rgba(216,181,109,0.2);
+  background:transparent;
+  color:var(--prata);
+  cursor:pointer;
+  text-transform:uppercase;
+  border-radius:4px;
+  transition:all 0.2s;
+}
+.oa-btn:hover{color:var(--ouro);border-color:var(--ouro);}
+.oa-btn.dl{background:rgba(74,124,89,0.15);color:#6aaa7a;border-color:rgba(74,124,89,0.3);}
+.oa-btn.dl:hover{background:rgba(74,124,89,0.25);}
+.oa-btn.rm{background:rgba(192,57,43,0.1);color:#ff8888;border-color:rgba(192,57,43,0.2);}
+.oa-btn.rm:hover{background:rgba(192,57,43,0.2);}
+
+.obra-preview{
+  display:none;
+  padding:0 18px 16px;
+  border-top:1px solid rgba(216,181,109,0.08);
+}
+.obra-preview.aberto{display:block;}
+.obra-preview-txt{
+  background:rgba(0,0,0,0.2);
+  border-radius:8px;
+  padding:14px;
+  font-family:Georgia,serif;
+  font-size:0.88rem;
+  color:#d4c9aa;
+  line-height:1.65;
+  max-height:200px;
+  overflow-y:auto;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+/* BUSCA */
+.cofre-busca{
+  display:flex;
+  gap:8px;
+  margin-bottom:16px;
+}
+.cofre-busca input{
+  flex:1;
+  background:rgba(255,250,240,0.05);
+  border:1px solid rgba(216,181,109,0.2);
+  border-radius:8px;
+  color:var(--ouro-claro);
+  font-family:'Courier New',monospace;
+  font-size:0.8rem;
+  padding:8px 14px;
+  margin:0;
+}
+.cofre-busca input:focus{border-color:var(--ouro);}
+.cofre-busca input::placeholder{color:var(--prata);opacity:0.6;}
+
+/* VAZIO */
+.cofre-vazio{
+  text-align:center;
+  padding:50px 20px;
+  color:var(--prata);
+  opacity:0.5;
+}
+.cofre-vazio-icon{font-size:3rem;margin-bottom:12px;}
+.cofre-vazio-txt{
+  font-family:Georgia,serif;
+  font-style:italic;
+  font-size:0.95rem;
+  line-height:1.6;
+}
+
+/* TOAST */
+#toast{
+  position:fixed;
+  bottom:24px;right:24px;
+  z-index:400;
+  background:var(--azul);
+  border:1px solid var(--ouro);
+  border-radius:10px;
+  padding:12px 20px;
+  font-family:'Courier New',monospace;
+  font-size:0.7rem;
+  color:var(--ouro);
+  letter-spacing:0.1em;
+  display:none;
+  max-width:300px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.4);
+  animation:slideIn 0.3s ease;
+}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:720px){
+  body{padding:0;}
+  .wrap{padding:72px 14px 40px;}
+  .card{padding:18px 16px;}
+  .doc{padding:32px 18px;font-size:16px;}
+  .cofre-inner{padding:20px 14px 50px;}
+  .obra-card-header{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- BARRA DE STATUS FIXA -->
+<div id="barra-status">
+  <div class="bs-marca">OHE · MOTOR VIVO v2</div>
+  <div class="bs-info">Obras: <span id="bs-total">0</span> · Sessão: <span id="bs-eixo">—</span></div>
+  <div id="bs-salvo">● SALVO</div>
+  <button id="btn-cofre" onclick="abrirCofre()">📦 COFRE · HISTÓRICO</button>
+</div>
+
+<!-- PAINEL DO COFRE / HISTÓRICO -->
+<div id="painel-cofre">
+  <div class="cofre-inner">
+    <div class="cofre-header">
+      <div class="cofre-titulo">📦 COFRE DE OBRAS · OHE</div>
+      <button class="cofre-fechar" onclick="fecharCofre()">✕ FECHAR</button>
+    </div>
+
+    <div class="alerta-cofre">
+      ⚠ ATENÇÃO: Os dados ficam guardados neste navegador/dispositivo (localStorage). Use os botões abaixo para fazer BACKUP externo antes de trocar de dispositivo ou limpar o navegador.
+    </div>
+
+    <div class="cofre-stats" id="cofre-stats"></div>
+
+    <div class="cofre-acoes-topo">
+      <button class="cofre-btn cofre-btn-p" onclick="exportarTudoTXT()">⬇ BAIXAR TUDO (.TXT)</button>
+      <button class="cofre-btn cofre-btn-p" onclick="exportarTudoJSON()">⬇ BACKUP COMPLETO (.JSON)</button>
+      <button class="cofre-btn cofre-btn-s" onclick="importarJSON()">⬆ RESTAURAR BACKUP (.JSON)</button>
+      <button class="cofre-btn cofre-btn-s" onclick="copiarTudo()">📋 COPIAR TUDO</button>
+      <button class="cofre-btn cofre-btn-d" onclick="limparCofre()">🗑 LIMPAR COFRE</button>
+    </div>
+    <input type="file" id="input-json" accept=".json" style="display:none" onchange="carregarJSON(event)">
+
+    <div class="cofre-busca">
+      <input type="text" id="busca-input" placeholder="Buscar obra por título, heterônimo, eixo..." oninput="renderCofre()">
+    </div>
+
+    <div class="cofre-filtros" id="cofre-filtros">
+      <button class="cofre-filtro ativo" data-f="todos" onclick="setFiltro('todos',this)">TODOS</button>
+      <button class="cofre-filtro" data-f="prosa" onclick="setFiltro('prosa',this)">PROSA</button>
+      <button class="cofre-filtro" data-f="poesia" onclick="setFiltro('poesia',this)">POESIA</button>
+      <button class="cofre-filtro" data-f="hibrido" onclick="setFiltro('hibrido',this)">HÍBRIDO</button>
+      <button class="cofre-filtro" data-f="cordel" onclick="setFiltro('cordel',this)">CORDEL</button>
+    </div>
+
+    <div id="cofre-lista"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- APP PRINCIPAL -->
+<main class="wrap">
+  <header class="topo">
+    <div class="marca">OHE</div>
+    <h1>Oficina Heteronímica da Escrita</h1>
+    <div class="sub">Motor Vivo — eixo único com memória projetiva</div>
+    <div class="sub2">v2 · Salvamento automático · Cofre permanente</div>
+  </header>
+
+  <!-- CONTADORES -->
+  <div class="card">
+    <div class="contadores">
+      <div class="contador"><div class="contador-num" id="cnt-total">0</div><div class="contador-label">Obras salvas</div></div>
+      <div class="contador"><div class="contador-num" id="cnt-prosa">0</div><div class="contador-label">Prosas</div></div>
+      <div class="contador"><div class="contador-num" id="cnt-poesia">0</div><div class="contador-label">Poesias</div></div>
+      <div class="contador"><div class="contador-num" id="cnt-hibrido">0</div><div class="contador-label">Híbridos</div></div>
+      <div class="contador"><div class="contador-num" id="cnt-cordel">0</div><div class="contador-label">Cordéis</div></div>
+    </div>
+    <div style="text-align:center;">
+      <button id="btn-cofre2" class="btn ouro" onclick="abrirCofre()" style="max-width:400px;">📦 Abrir Cofre · Ver e Baixar Obras</button>
+    </div>
+  </div>
+
+  <!-- EIXO CRIATIVO -->
+  <section class="card">
+    <h2>Eixo criativo</h2>
+    <button class="btn tab ativo" data-eixo="prosa">Prosa</button>
+    <button class="btn tab" data-eixo="poesia">Poesia</button>
+    <button class="btn tab" data-eixo="hibrido">Híbrido</button>
+    <button class="btn tab" data-eixo="cordel">Cordel</button>
+    <select id="especialidade"></select>
+    <select id="realidade">
+      <option value="terra">Terra simbólica</option>
+      <option value="terrax">Terra expandida</option>
+      <option value="cosmos">Mundos externos / sci-fi</option>
+      <option value="meta">Realidade metafísica</option>
+    </select>
+    <button class="btn vinho" id="limpar">Limpar sessão atual</button>
+  </section>
+
+  <!-- MÁQUINA DE DADOS -->
+  <section class="card">
+    <h2>Alavanca da Máquina</h2>
+    <p style="font-size:0.9rem;color:#445;margin-bottom:8px;">Novo giro cria nova obra. Continuar desenvolve a obra atual usando memória passada e projeção futura.</p>
+    <div class="roleta" id="roleta">🎰 Máquina parada</div>
+    <button class="btn ouro" id="girar">🎰 Girar Máquina de Dados</button>
+    <div class="grid" id="painel"></div>
+  </section>
+
+  <!-- EXECUÇÃO -->
+  <section class="card">
+    <h2>Execução</h2>
+    <textarea id="texto" placeholder="Texto manual, se houver. Pode ficar vazio."></textarea>
+    <textarea id="obs" placeholder="Ordem interna. Ex: saga em cordel, ciclo de sonetos, conto psicológico etc. Este campo não vira obra."></textarea>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <button class="btn azul-btn" id="ativar" disabled>Ativar dados para escrita</button>
+      <button class="btn verde" id="gerar" disabled>Gerar / continuar documento vivo</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
+      <button class="btn ouro" id="salvar-cofre" disabled>💾 Salvar no Cofre</button>
+      <button class="btn" style="background:#e8dfcd;color:#333;" id="salvar-txt">⬇ Baixar TXT agora</button>
+    </div>
+  </section>
+
+  <!-- MEMÓRIA PROJETIVA -->
+  <section class="card">
+    <h2>Memória projetiva</h2>
+    <div id="memoria" class="status">Aguardando nova obra.</div>
+  </section>
+
+  <!-- DIAGNÓSTICO -->
+  <section class="card">
+    <h2>Diagnóstico interno</h2>
+    <div id="analise" class="status">Aguardando documento vivo.</div>
+  </section>
+
+  <!-- DOCUMENTO CONTÍNUO -->
+  <section class="card">
+    <h2>Documento contínuo OHE</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+      <button class="btn ouro" style="width:auto;padding:10px 20px;" id="btn-salvar-doc" onclick="salvarNoCofreAtual()">💾 Salvar esta obra no Cofre</button>
+      <button class="btn" style="width:auto;padding:10px 20px;background:#e8dfcd;color:#333;" onclick="salvarTXT()">⬇ Baixar TXT</button>
+    </div>
+    <div class="docwrap">
+      <article class="doc" id="doc">
+        <h1>Material sem título</h1>
+        <p>Aguardando a máquina de dados.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<script>
+// ===== DADOS =====
+const $=i=>document.getElementById(i);
+
+// Banco de obras (cofre)
+let cofre = JSON.parse(localStorage.getItem('ohe_cofre') || '[]');
+let filtroAtual = 'todos';
+
+// Estado da sessão atual
+let st={eixo:'prosa',dados:null,ativo:false,saida:'',passado:null,futuro:null,etapa:0,tituloAtual:'',idAtual:null};
+
+const opt={
+  prosa:['sci-fi','medieval','terror psicológico','fantasia sombria','realismo cotidiano','MitoPunkLogia','romance intimista','investigação noir'],
+  poesia:['soneto','pantum','ghazal','ode','haikai','poetrix','limerique','elegia','sextina medieval'],
+  hibrido:['prosa poética','poema narrativo','crônica poética','narrativa lírica','experimento fragmentário'],
+  cordel:['sextilha de cordel','setilha','oitava','décima','martelo','galope à beira-mar','cordel épico','cordel humorístico','cordel sci-fi sertanejo']
+};
+
+const A={
+  escala:['tribo','vila','pequena cidade','média cidade','metrópole','megalópole','fronteira','arquipélago','sertão','costa','montanha'],
+  regiao:['norte','sul','leste','oeste','nordeste','sudeste','sudoeste','noroeste','interior','litoral'],
+  pais:['Brasil','Portugal','Bolívia','Cabo Verde','Angola','Moçambique','França','Espanha'],
+  cosmos:['galáxia periférica','constelação de Ophiuchus','sistema binário','lua artificial','mundo oceânico','estação orbital decadente','região além do buraco negro','cinturão de asteroides'],
+  meta:['cidade impossível','plano de memória','deserto mental','biblioteca fora do tempo','rio que corre para o passado'],
+  p:['mulher que restaura fotografias','homem que conserta relógios','bibliotecária de cartas sem remetente','professor que perdeu a voz','viajante orbital sem planeta'],
+  s:['vizinha que sabe mais do que diz','irmão que voltou sem perdão','criança que encontra objetos impossíveis','androide com saudade programada','cantador que viu o impossível'],
+  t:['carteiro de carta antiga','dona de pensão precisa','vendedor que viu a última conversa','piloto de cápsula quebrada','violeiro de feira antiga'],
+  o:['mãe desaparecida','filho que nunca voltou','amor morto sem despedida','constelação consciente','sereia vista fora do mar'],
+  ant:['memória que mente','casa da infância à venda','promessa em cartório','buraco negro que devolve lembranças','rei mecânico do sertão'],
+  tema:['permanência contra abandono','amor sem posse','culpa familiar','identidade diante do espelho','humanidade contra máquina','destino contra cantoria'],
+  mem:['cheiro de café requentado','som de chuva em telha antiga','botão guardado numa caixa','sal na palma da mão','luz azul de uma lua artificial'],
+  voz:['primeira pessoa contida','terceira pessoa íntima','voz poética concreta','narrador cansado e lúcido','voz oral de cantador'],
+  ritmo:['lento contemplativo','progressão sufocante','cenas curtas','espiral de memória','cadência de feira e viola'],
+  imp:['envelope atrás de quadro','relógio parado às 17h40','chave sem porta','sinal vindo de Ophiuchus','sereia vista fora do mar','boi de ferro no sertão orbital'],
+  prox:['aprofundar a ferida inicial','revelar uma consequência inesperada','aproximar o antagonismo','mudar a pressão emocional','abrir uma bifurcação de arco','preparar uma possível ruptura de livro']
+};
+
+const DNA={
+  prosa:{'sci-fi':['autor de mundos externos','cosmos e tecnologia','conflito humano no impossível'],medieval:['autor de reinos e ruínas','honra e queda','tempo ancestral'],'terror psicológico':['autor de medo íntimo','mente e sombra','ameaça invisível'],'fantasia sombria':['autor de mito escuro','magia e perda','mundo ferido'],'realismo cotidiano':['autor do humano comum','cidade e memória','gesto pequeno'],'MitoPunkLogia':['autor mito-tecnológico','divindade e máquina','civilização híbrida'],'romance intimista':['autor de interiores emocionais','afeto e silêncio','ferida humana'],'investigação noir':['autor de sombra urbana','segredo e culpa','cidade moral']},
+  poesia:{soneto:['Emily','forma fixa','tensão lírica'],pantum:['autor de pantum','refrão circular','memória repetida'],ghazal:['autor de ghazal','dístico autônomo','eco amoroso'],ode:['autor de odes','elevação','louvor e meditação'],haikai:['autor minimalista','instante','natureza cortante'],poetrix:['autor de síntese','três linhas','impacto breve'],limerique:['autor de humor métrico','graça','ritmo leve'],elegia:['autor elegíaco','luto','canto de perda'],'sextina medieval':['autor de sextina','palavras finais','engenharia poética']},
+  hibrido:{'prosa poética':['autor híbrido lírico','imagem e narrativa','fronteira'],'poema narrativo':['autor de canto narrativo','voz e acontecimento','cadência'],'crônica poética':['autor cotidiano lírico','observação e símbolo','cidade íntima'],'narrativa lírica':['autor de fluxo sensível','prosa e poesia','respiração'],'experimento fragmentário':['autor experimental','fragmentos','montagem']},
+  cordel:{'sextilha de cordel':['cordelista de sextilha','6 versos por estrofe','oralidade popular'],setilha:['cordelista de setilha','7 versos','cadência ampliada'],oitava:['cordelista de oitava','8 versos','narrativa folhetinesca'],décima:['cordelista de décima','10 versos','argumento forte'],martelo:['cantador de martelo','decassílabo popular','desafio'],'galope à beira-mar':['cantador de galope','ritmo acelerado','mar e sertão'],'cordel épico':['cordelista épico','saga e façanha','herói popular'],'cordel humorístico':['cordelista de gracejo','riso e crítica','oralidade viva'],'cordel sci-fi sertanejo':['cordelista cósmico sertanejo','sertão e espaço','tecnologia cantada']}
+};
+
+function r(a){return a[Math.floor(Math.random()*a.length)];}
+
+// ===== PERSISTÊNCIA =====
+function salvarCofre(){
+  try{
+    localStorage.setItem('ohe_cofre', JSON.stringify(cofre));
+    atualizarContadores();
+    mostrarSalvo();
+  }catch(e){
+    toast('⚠ Erro ao salvar: armazenamento cheio?');
+  }
+}
+
+function mostrarSalvo(){
+  const el=$('bs-salvo');
+  el.style.opacity='1';
+  el.classList.remove('apagando');
+  clearTimeout(window._salvoTimer);
+  window._salvoTimer=setTimeout(()=>el.classList.add('apagando'),2500);
+}
+
+function atualizarContadores(){
+  const total=cofre.length;
+  const porEixo=(e)=>cofre.filter(o=>o.eixo===e).length;
+  $('cnt-total').textContent=total;
+  $('cnt-prosa').textContent=porEixo('prosa');
+  $('cnt-poesia').textContent=porEixo('poesia');
+  $('cnt-hibrido').textContent=porEixo('hibrido');
+  $('cnt-cordel').textContent=porEixo('cordel');
+  $('bs-total').textContent=total;
+}
+
+function gerarTitulo(){
+  if(!st.dados)return 'Obra sem título';
+  const d=st.dados;
+  const esp=d.especialidade||'';
+  const tema=d.tema||'';
+  const prot=d.protagonista||'';
+  return `${esp.charAt(0).toUpperCase()+esp.slice(1)} — ${tema} [${prot.split(' ')[0]}]`;
+}
+
+function salvarNoCofreAtual(){
+  if(!st.saida){toast('⚠ Nenhum conteúdo gerado ainda.');return;}
+  const titulo=gerarTitulo();
+  const agora=new Date();
+  const dataStr=agora.toLocaleDateString('pt-BR')+' '+agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+
+  if(st.idAtual!==null){
+    // Atualizar obra existente
+    const idx=cofre.findIndex(o=>o.id===st.idAtual);
+    if(idx>=0){
+      cofre[idx].conteudo=st.saida;
+      cofre[idx].passado=st.passado;
+      cofre[idx].futuro=st.futuro;
+      cofre[idx].etapas=st.etapa;
+      cofre[idx].atualizado=dataStr;
+      cofre[idx].dados=st.dados;
+      salvarCofre();
+      toast('✓ Obra atualizada no cofre!');
+      return;
+    }
+  }
+
+  // Nova obra
+  const id=Date.now();
+  st.idAtual=id;
+  cofre.unshift({
+    id,
+    titulo,
+    eixo:st.eixo,
+    especialidade:st.dados?.especialidade||'—',
+    conteudo:st.saida,
+    passado:st.passado||'',
+    futuro:st.futuro||'',
+    etapas:st.etapa,
+    criado:dataStr,
+    atualizado:dataStr,
+    dados:st.dados||{}
+  });
+  salvarCofre();
+  toast('✓ Obra salva no cofre!');
+}
+
+// Auto-salvar a cada geração
+function autoSalvar(){
+  if(st.saida) salvarNoCofreAtual();
+}
+
+// ===== COFRE UI =====
+function abrirCofre(){
+  renderCofre();
+  $('painel-cofre').classList.add('aberto');
+  document.body.style.overflow='hidden';
+}
+
+function fecharCofre(){
+  $('painel-cofre').classList.remove('aberto');
+  document.body.style.overflow='';
+}
+
+function setFiltro(f,el){
+  filtroAtual=f;
+  document.querySelectorAll('.cofre-filtro').forEach(b=>b.classList.remove('ativo'));
+  el.classList.add('ativo');
+  renderCofre();
+}
+
+function renderCofre(){
+  const busca=($('busca-input')?.value||'').toLowerCase();
+  let lista=filtroAtual==='todos'?cofre:cofre.filter(o=>o.eixo===filtroAtual);
+  if(busca) lista=lista.filter(o=>
+    (o.titulo||'').toLowerCase().includes(busca)||
+    (o.especialidade||'').toLowerCase().includes(busca)||
+    (o.conteudo||'').toLowerCase().includes(busca)
+  );
+
+  // Stats
+  $('cofre-stats').innerHTML=`
+    <div class="cofre-stat"><div class="cofre-stat-num">${cofre.length}</div><div class="cofre-stat-label">Total de obras</div></div>
+    <div class="cofre-stat"><div class="cofre-stat-num">${cofre.filter(o=>o.eixo==='prosa').length}</div><div class="cofre-stat-label">Prosas</div></div>
+    <div class="cofre-stat"><div class="cofre-stat-num">${cofre.filter(o=>o.eixo==='poesia').length}</div><div class="cofre-stat-label">Poesias</div></div>
+    <div class="cofre-stat"><div class="cofre-stat-num">${cofre.filter(o=>o.eixo==='cordel').length}</div><div class="cofre-stat-label">Cordéis</div></div>
+    <div class="cofre-stat"><div class="cofre-stat-num">${calcTotalPalavras()}</div><div class="cofre-stat-label">Palavras totais</div></div>
+  `;
+
+  const el=$('cofre-lista');
+  if(lista.length===0){
+    el.innerHTML=`<div class="cofre-vazio"><div class="cofre-vazio-icon">📭</div><div class="cofre-vazio-txt">Nenhuma obra encontrada.<br>${cofre.length===0?'Gire a máquina e salve sua primeira obra.':'Tente outro filtro ou busca.'}</div></div>`;
+    return;
+  }
+
+  el.innerHTML=lista.map(o=>`
+    <div class="obra-card" id="card-${o.id}">
+      <div class="obra-card-header" onclick="togglePreview(${o.id})">
+        <div class="obra-info">
+          <div class="obra-titulo">${o.titulo}</div>
+          <div class="obra-meta">${o.eixo.toUpperCase()} · ${o.especialidade} · ${o.etapas||0} etapa(s) · ${o.criado||'—'} · ${contarPalavras(o.conteudo)} palavras</div>
+        </div>
+        <div class="obra-acoes">
+          <button class="oa-btn dl" onclick="event.stopPropagation();baixarObra(${o.id})">⬇ TXT</button>
+          <button class="oa-btn" onclick="event.stopPropagation();copiarObra(${o.id})">📋</button>
+          <button class="oa-btn rm" onclick="event.stopPropagation();removerObra(${o.id})">✕</button>
+        </div>
+      </div>
+      <div class="obra-preview" id="prev-${o.id}">
+        <div class="obra-preview-txt">${(o.conteudo||'').substring(0,600)}${(o.conteudo||'').length>600?'...\n[Baixe o TXT para ver o texto completo]':''}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function togglePreview(id){
+  const el=$(`prev-${id}`);
+  el.classList.toggle('aberto');
+}
+
+function calcTotalPalavras(){
+  return cofre.reduce((acc,o)=>acc+contarPalavras(o.conteudo),0);
+}
+function contarPalavras(txt){
+  if(!txt)return 0;
+  return txt.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function baixarObra(id){
+  const o=cofre.find(x=>x.id===id);
+  if(!o)return;
+  const conteudo=`OBRA: ${o.titulo}\nEIXO: ${o.eixo.toUpperCase()} · ${o.especialidade}\nCRIADO: ${o.criado}\nATUALIZADO: ${o.atualizado}\nETAPAS: ${o.etapas||0}\n\n${'─'.repeat(60)}\n\nMEMÓRIA PASSADA:\n${o.passado||'—'}\n\nPROJEÇÃO FUTURA:\n${o.futuro||'—'}\n\n${'─'.repeat(60)}\n\nOBRA:\n\n${o.conteudo}`;
+  const nome=`ohe-${o.eixo}-${(o.especialidade||'obra').replace(/\s+/g,'-')}-${o.id}.txt`;
+  baixar(conteudo,nome,'text/plain');
+}
+
+function copiarObra(id){
+  const o=cofre.find(x=>x.id===id);
+  if(!o)return;
+  navigator.clipboard.writeText(o.conteudo).then(()=>toast('✓ Copiado para a área de transferência!'));
+}
+
+function removerObra(id){
+  if(!confirm('Remover esta obra do cofre?'))return;
+  cofre=cofre.filter(o=>o.id!==id);
+  salvarCofre();
+  renderCofre();
+  toast('Obra removida.');
+}
+
+function exportarTudoTXT(){
+  if(cofre.length===0){toast('⚠ Cofre vazio.');return;}
+  const txt=cofre.map(o=>`${'═'.repeat(70)}\n${o.titulo}\n${o.eixo.toUpperCase()} · ${o.especialidade} · ${o.criado}\n${'─'.repeat(70)}\n\n${o.conteudo}\n`).join('\n\n');
+  const data=new Date().toISOString().split('T')[0];
+  baixar(txt,`ohe-obras-completas-${data}.txt`,'text/plain');
+  toast(`✓ ${cofre.length} obras baixadas!`);
+}
+
+function exportarTudoJSON(){
+  if(cofre.length===0){toast('⚠ Cofre vazio.');return;}
+  const backup={versao:'ohe-v2',data:new Date().toISOString(),total:cofre.length,obras:cofre};
+  const data=new Date().toISOString().split('T')[0];
+  baixar(JSON.stringify(backup,null,2),`ohe-backup-${data}.json`,'application/json');
+  toast(`✓ Backup de ${cofre.length} obras exportado!`);
+}
+
+function importarJSON(){$('input-json').click();}
+
+function carregarJSON(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      const obras=data.obras||data;
+      if(!Array.isArray(obras))throw new Error('Formato inválido');
+      if(!confirm(`Importar ${obras.length} obras? As obras atuais serão mantidas (não apagadas).`))return;
+      // Merge: adicionar apenas obras que não existem (por id)
+      const idsExistentes=new Set(cofre.map(o=>o.id));
+      let adicionadas=0;
+      obras.forEach(o=>{
+        if(!idsExistentes.has(o.id)){
+          cofre.unshift(o);
+          adicionadas++;
+        }
+      });
+      salvarCofre();
+      renderCofre();
+      toast(`✓ ${adicionadas} obras importadas!`);
+    }catch(err){toast('⚠ Arquivo inválido ou corrompido.');}
+  };
+  reader.readAsText(file);
+  event.target.value='';
+}
+
+function copiarTudo(){
+  if(cofre.length===0){toast('⚠ Cofre vazio.');return;}
+  const txt=cofre.map(o=>`${o.titulo}\n${'─'.repeat(40)}\n${o.conteudo}`).join('\n\n');
+  navigator.clipboard.writeText(txt).then(()=>toast(`✓ ${cofre.length} obras copiadas!`));
+}
+
+function limparCofre(){
+  if(!confirm(`Tem certeza? Isso vai apagar ${cofre.length} obras do cofre. Faça um backup antes!`))return;
+  if(!confirm('ÚLTIMA CHANCE: confirmar limpeza total do cofre?'))return;
+  cofre=[];
+  salvarCofre();
+  renderCofre();
+  toast('Cofre limpo.');
+}
+
+// ===== MOTOR OHE =====
+function especial(){
+  let s=$('especialidade');
+  s.innerHTML='';
+  opt[st.eixo].forEach(x=>{
+    let o=document.createElement('option');
+    o.value=x;o.textContent=x;s.appendChild(o);
+  });
+}
+
+function territorio(){
+  let real=$('realidade').value;
+  if(st.eixo==='cordel'&&real==='terra') return r(['sertão no nordeste do Brasil','feira de vila no interior','estrada de poeira e cantoria','cidade pequena em dia de folheto']);
+  if(real==='cosmos')return r(A.cosmos);
+  if(real==='meta')return r(A.meta);
+  if(real==='terrax')return r(A.escala)+' no '+r(A.regiao)+' de uma Terra expandida';
+  return r(A.escala)+' no '+r(A.regiao)+' de '+r(A.pais);
+}
+
+function painel(){
+  let d=st.dados;
+  $('painel').innerHTML=d?Object.entries(d).map(([k,v])=>`<div class="dado"><b>${k}</b><span>${v}</span></div>`).join(''):'';
+}
+
+function atualizarMemoria(){
+  if(!st.passado){$('memoria').textContent='Aguardando nova obra.';return;}
+  $('memoria').innerHTML='<b>Memória passada:</b> '+st.passado+'<br><br><b>Projeção futura:</b> '+st.futuro;
+}
+
+function criarMemoria(d){
+  st.passado=`Eixo ${d.eixo}, especialidade ${d.especialidade}, território ${d.territorio}, protagonista ${d.protagonista}, antagonismo ${d.antagonismo}, tema ${d.tema}, símbolo/memória ${d.memoria}.`;
+  st.futuro=`Livro/obra deve ${r(A.prox)} mantendo ${d.tema} e sem trocar o núcleo de ${d.protagonista}.`;
+}
+
+function girar(){
+  let esp=$('especialidade').value;
+  let dna=(DNA[st.eixo]&&DNA[st.eixo][esp])||['DNA livre','campo aberto','execução aberta'];
+  st.dados={eixo:st.eixo,especialidade:esp,autorDNA:dna[0],primario:dna[1],secundario:dna[2],territorio:territorio(),protagonista:r(A.p),apoio:r(A.s),terciario:r(A.t),oculto:r(A.o),antagonismo:r(A.ant),tema:r(A.tema),memoria:r(A.mem),voz:st.eixo==='cordel'?r(['cantador popular','voz de feira','narrador rimado','violeiro épico']):r(A.voz),ritmo:st.eixo==='cordel'?esp+' em cadência oral':r(A.ritmo),impulso:r(A.imp)};
+  $('roleta').textContent='🎰 Dados narrativos gerados';
+  painel();
+  $('ativar').disabled=false;
+  st.saida='';st.etapa=0;st.idAtual=null;
+  criarMemoria(st.dados);
+  atualizarMemoria();
+  render();
+  $('analise').textContent='Nova obra detectada pelo giro. Memória projetiva criada.';
+  $('bs-eixo').textContent=st.eixo;
+}
+
+function ativar(){
+  if(!st.dados)return;
+  st.ativo=true;
+  $('gerar').disabled=false;
+  $('salvar-cofre').disabled=false;
+  $('analise').textContent='Dados ativados. O botão verde desenvolve a obra atual seguindo a projeção futura.';
+}
+
+function bloco(){
+  let d=st.dados,manual=$('texto').value.trim();
+  st.etapa++;
+  if(manual&&st.etapa===1)return manual;
+  let continuidade=st.futuro||'prosseguir sem quebrar o núcleo narrativo';
+  if(d.eixo==='cordel') return `Movimento ${st.etapa} do cordel.\n\nNo ${d.territorio}, ${d.protagonista} recebeu ${d.impulso}.\n\nA cantoria segue em ${d.especialidade}, com ${d.ritmo}, avançando para ${continuidade}.\n\nA oposição será ${d.antagonismo}, enquanto o tema de fundo será ${d.tema}.\n\nO apoio narrativo virá de ${d.apoio}, e a presença oculta será ${d.oculto}.\n\nEste folheto pode virar parte maior se o arco pedir continuação.`;
+  if(d.eixo==='poesia') return `Movimento poético ${st.etapa}.\n\nSob o eixo ${d.especialidade}, a obra orbita ${d.tema}.\n\nA imagem dominante será ${d.memoria}, atravessada por ${d.impulso}.\n\nA voz poética seguirá ${d.voz}, com ritmo ${d.ritmo}.\n\nA projeção desta sequência é ${continuidade}.`;
+  return `Movimento narrativo ${st.etapa}.\n\nEm ${d.territorio}, ${d.protagonista} encontrou ${d.impulso}.\n\nA atmosfera vinha marcada por ${d.memoria}, enquanto o eixo pedia ${d.especialidade}.\n\nO personagem de apoio era ${d.apoio}, e o terciário, ${d.terciario}. O ausente era ${d.oculto}.\n\nA força de oposição era ${d.antagonismo}. O tema subterrâneo era ${d.tema}.\n\nA continuidade prevista é: ${continuidade}\n\nA voz escolhida era ${d.voz}, em ritmo ${d.ritmo}. O título pertence ao heterônimo.`;
+}
+
+function gerar(){
+  if(!st.ativo)return;
+  let add=bloco();
+  st.saida+=(st.saida?'\n\n':'')+add;
+  render();
+  if(st.etapa>1) st.futuro=`próximo avanço deve ${r(A.prox)} sem abandonar ${st.dados.tema}.`;
+  atualizarMemoria();
+  $('analise').textContent=`Sencal: atmosfera — ${st.dados.memoria}. SAI: continuidade guiada por memória projetiva. Etapa ${st.etapa}.`;
+  // AUTO-SALVAR
+  autoSalvar();
+}
+
+function render(){
+  let ps=(st.saida||'').split(/\n\s*\n/).filter(Boolean).map(p=>'<p>'+p.replace(/[&<>]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[s]))+'</p>').join('');
+  $('doc').innerHTML='<h1>Material sem título</h1><h2>'+st.eixo.toUpperCase()+' — '+($('especialidade').value||'documento')+'</h2>'+(ps||'<p>Aguardando a máquina de dados.</p>');
+}
+
+function salvarTXT(){
+  if(!st.saida){toast('⚠ Nenhum conteúdo gerado ainda.');return;}
+  const d=st.dados||{};
+  const pacote=`MEMÓRIA PASSADA:\n${st.passado||''}\n\nPROJEÇÃO FUTURA:\n${st.futuro||''}\n\nOBRA:\n${st.saida}`;
+  baixar(pacote,`ohe-${st.eixo}-${$('especialidade').value||'obra'}.txt`,'text/plain');
+  toast('✓ TXT baixado!');
+}
+
+function salvarNoCofreAtual(){salvarNoCofreAtual===undefined?null:salvarNoCofreAtual();}
+
+function baixar(conteudo,nome,tipo){
+  const b=new Blob([conteudo],{type:tipo});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download=nome;a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
+function toast(msg){
+  const el=$('toast');
+  el.textContent=msg;
+  el.style.display='block';
+  clearTimeout(window._toastTimer);
+  window._toastTimer=setTimeout(()=>el.style.display='none',3000);
+}
+
+// ===== EVENTS =====
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  st.eixo=b.dataset.eixo;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('ativo',x===b));
+  especial();
+  st.dados=null;st.ativo=false;st.saida='';st.passado=null;st.futuro=null;st.etapa=0;st.idAtual=null;
+  $('ativar').disabled=true;$('gerar').disabled=true;$('salvar-cofre').disabled=true;
+  $('roleta').textContent='🎰 Máquina ajustada para '+st.eixo;
+  $('painel').innerHTML='';
+  render();atualizarMemoria();
+  $('analise').textContent='Eixo alterado. Gire a máquina para nova obra.';
+  $('bs-eixo').textContent=st.eixo;
+});
+
+$('girar').onclick=girar;
+$('ativar').onclick=ativar;
+$('gerar').onclick=gerar;
+$('salvar-txt').onclick=salvarTXT;
+$('salvar-cofre').onclick=salvarNoCofreAtual;
+$('limpar').onclick=()=>{
+  if(st.saida&&!confirm('Limpar sessão atual? A obra não será apagada do cofre se já foi salva.'))return;
+  location.reload();
+};
+
+// Tecla ESC fecha cofre
+document.addEventListener('keydown',e=>{if(e.key==='Escape')fecharCofre();});
+
+// ===== INIT =====
+especial();
+render();
+atualizarMemoria();
+atualizarContadores();
+$('bs-eixo').textContent=st.eixo;
+</script>
+</body>
+</html>
