@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balestra · OHE-Peçanha · Masmorra → Lapidar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=IM+Fell+English:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060810;
+  --surface: #0c0f1a;
+  --border: #1e2235;
+  --ouro: #c8a96e;
+  --ouro2: #f0d896;
+  --ouro3: rgba(200,169,110,0.12);
+  --cobre: #a0784a;
+  --verm: #8b2a2a;
+  --verde: #2a6b4a;
+  --verde2: #4caf7a;
+  --texto: #d8d0c0;
+  --muted: #5a5448;
+  --cinzel: 'Cinzel', serif;
+  --fell: 'IM Fell English', serif;
+  --mono: 'DM Mono', monospace;
+  --r: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--fell);
+  background: var(--bg);
+  color: var(--texto);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(200,169,110,0.04), transparent),
+    radial-gradient(ellipse 40% 60% at 0% 100%, rgba(139,42,42,0.06), transparent);
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,8,16,0.97);
+  border-bottom: 1px solid rgba(200,169,110,0.2);
+  backdrop-filter: blur(12px);
+  padding: 12px 28px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.marca { font-family: var(--cinzel); font-size: 13px; color: var(--ouro2); letter-spacing: 3px; }
+.marca small { display: block; font-size: 9px; color: var(--muted); letter-spacing: 2px; margin-top: 2px; }
+.tnav { display: flex; gap: 6px; flex-wrap: wrap; }
+.tnav a {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+  color: var(--muted); text-decoration: none;
+  padding: 5px 12px; border: 1px solid var(--border); border-radius: 999px;
+  transition: all 0.2s;
+}
+.tnav a:hover { color: var(--ouro); border-color: var(--ouro); background: var(--ouro3); }
+
+/* ── HERO ── */
+.hero {
+  padding: 56px 28px 44px;
+  text-align: center;
+  border-bottom: 1px solid rgba(200,169,110,0.15);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '⚔';
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  font-size: 420px; color: rgba(200,169,110,0.018); pointer-events: none; line-height: 1;
+}
+.hero-badge {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 3px;
+  border: 1px solid rgba(200,169,110,0.3); color: rgba(200,169,110,0.6);
+  padding: 5px 16px; border-radius: 999px; display: inline-block; margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--cinzel); font-size: clamp(40px,7vw,88px); font-weight: 900;
+  background: linear-gradient(160deg, var(--ouro2), var(--ouro) 40%, var(--cobre));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  letter-spacing: 6px; margin-bottom: 10px; line-height: 1;
+}
+.hero-sub {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 4px;
+  color: var(--muted); margin-bottom: 18px; text-transform: uppercase;
+}
+.hero-desc {
+  font-size: 17px; font-style: italic; color: rgba(216,208,192,0.65);
+  max-width: 640px; margin: 0 auto; line-height: 1.8;
+}
+
+/* ── WRAP ── */
+.wrap { max-width: 1200px; margin: auto; padding: 36px 28px 80px; display: flex; flex-direction: column; gap: 32px; }
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  font-family: var(--cinzel); font-size: 13px; letter-spacing: 4px;
+  color: var(--ouro); text-transform: uppercase;
+  padding-bottom: 10px; border-bottom: 1px solid rgba(200,169,110,0.15);
+  margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sec-title span { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+
+/* ── PAINEL GERAL ── */
+.painel-geral {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px;
+  margin-bottom: 8px;
+}
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 18px 20px; text-align: center;
+}
+.stat-card .sn {
+  font-family: var(--cinzel); font-size: 36px; color: var(--ouro2);
+  font-weight: 900; display: block; line-height: 1;
+}
+.stat-card .sl {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 2px;
+  color: var(--muted); text-transform: uppercase; margin-top: 6px; display: block;
+}
+.stat-card.alerta { border-color: rgba(200,169,110,0.4); background: rgba(200,169,110,0.05); }
+.stat-card.alerta .sn { color: var(--ouro2); }
+
+/* ── FILTROS ── */
+.filtros {
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.filtro-btn {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+  padding: 6px 14px; border: 1px solid var(--border); border-radius: 999px;
+  background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s;
+}
+.filtro-btn:hover, .filtro-btn.ativo {
+  border-color: var(--ouro); color: var(--ouro); background: var(--ouro3);
+}
+.busca {
+  flex: 1; min-width: 200px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px 14px; font-family: var(--mono); font-size: 12px;
+  color: var(--texto); outline: none; transition: border-color 0.2s;
+}
+.busca::placeholder { color: var(--muted); }
+.busca:focus { border-color: var(--ouro); }
+
+/* ── CELA DO HETERÔNIMO ── */
+.cela {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden; margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+.cela:hover { border-color: rgba(200,169,110,0.25); }
+.cela.pronto { border-color: rgba(76,175,122,0.4); }
+.cela.urgente { border-color: rgba(200,169,110,0.6); }
+
+.cela-header {
+  padding: 18px 22px 14px;
+  display: flex; align-items: center; gap: 16px;
+  cursor: pointer; border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.cela-header:hover { background: rgba(200,169,110,0.03); }
+
+.het-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--cinzel); font-size: 16px; font-weight: 900;
+  color: var(--ouro); background: rgba(200,169,110,0.08);
+  flex-shrink: 0;
+}
+.cela.pronto .het-avatar { border-color: var(--verde2); color: var(--verde2); background: rgba(76,175,122,0.08); }
+.cela.urgente .het-avatar { border-color: var(--ouro); background: rgba(200,169,110,0.12); }
+
+.het-info { flex: 1; }
+.het-nome { font-family: var(--cinzel); font-size: 16px; color: var(--ouro2); letter-spacing: 1px; margin-bottom: 4px; }
+.het-eixo { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+
+.cela-stats {
+  display: flex; gap: 20px; align-items: center; flex-shrink: 0; flex-wrap: wrap;
+}
+.cela-stat { text-align: center; }
+.cela-stat .csn {
+  font-family: var(--cinzel); font-size: 20px; color: var(--ouro2);
+  font-weight: 900; display: block; line-height: 1;
+}
+.cela-stat .csl {
+  font-family: var(--mono); font-size: 9px; color: var(--muted);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* BARRA DE PROGRESSO */
+.progresso-wrap { padding: 0 22px 16px; border-bottom: 1px solid var(--border); }
+.progresso-label {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 6px;
+}
+.barra { height: 4px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.barra-fill {
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--cobre), var(--ouro));
+  transition: width 0.8s ease;
+}
+.barra-fill.verde { background: linear-gradient(90deg, var(--verde), var(--verde2)); }
+.barra-fill.completo { background: linear-gradient(90deg, var(--verde2), #80ffb0); }
+
+/* CELA BODY */
+.cela-body { padding: 0 22px 18px; display: none; }
+.cela-body.aberto { display: block; }
+
+/* OBRAS NA CELA */
+.obras-lista { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.obra-row {
+  background: rgba(6,8,16,0.7); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 14px; display: flex; align-items: center; gap: 12px;
+  font-size: 13px;
+}
+.obra-row .or-titulo { flex: 1; color: var(--texto); font-family: var(--fell); font-style: italic; }
+.obra-row .or-pags {
+  font-family: var(--mono); font-size: 10px; color: var(--muted);
+  background: var(--surface); padding: 3px 8px; border-radius: 999px;
+  border: 1px solid var(--border);
+}
+.obra-row .or-data { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+
+/* LIVROS FORMADOS */
+.livros-preview { margin-top: 18px; }
+.livro-card {
+  background: rgba(200,169,110,0.05); border: 1px solid rgba(200,169,110,0.2);
+  border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
+}
+.livro-card.verde-card { background: rgba(76,175,122,0.05); border-color: rgba(76,175,122,0.25); }
+.livro-titulo { font-family: var(--cinzel); font-size: 14px; color: var(--ouro2); margin-bottom: 6px; letter-spacing: 1px; }
+.livro-titulo.verde-txt { color: var(--verde2); }
+.livro-meta { font-family: var(--mono); font-size: 10px; color: var(--muted); line-height: 1.8; }
+.livro-obras { margin-top: 8px; font-size: 12px; color: rgba(216,208,192,0.6); font-style: italic; line-height: 1.7; }
+
+/* STATUS BADGE */
+.badge {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 1px;
+  padding: 3px 10px; border-radius: 999px; border: 1px solid;
+  display: inline-block; text-transform: uppercase;
+}
+.b-aguardando { border-color: var(--border); color: var(--muted); }
+.b-acumulando { border-color: rgba(200,169,110,0.4); color: var(--ouro); background: rgba(200,169,110,0.08); }
+.b-pronto { border-color: rgba(76,175,122,0.5); color: var(--verde2); background: rgba(76,175,122,0.08); }
+.b-expedido { border-color: rgba(100,180,255,0.4); color: #90ccff; background: rgba(100,180,255,0.06); }
+
+/* AÇÕES */
+.cela-acoes {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px;
+  padding-top: 14px; border-top: 1px solid var(--border);
+}
+.btn {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
+  padding: 9px 18px; border: 1px solid; border-radius: 999px;
+  cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+  background: transparent;
+}
+.btn-despachar {
+  border-color: var(--verde2); color: var(--verde2);
+}
+.btn-despachar:hover { background: rgba(76,175,122,0.15); }
+.btn-despachar:disabled { opacity: 0.3; cursor: not-allowed; }
+.btn-ver { border-color: var(--border); color: var(--muted); }
+.btn-ver:hover { border-color: var(--ouro); color: var(--ouro); }
+.btn-simular { border-color: rgba(200,169,110,0.3); color: var(--ouro); }
+.btn-simular:hover { background: var(--ouro3); }
+
+/* LOG DE EXPEDIÇÕES */
+.log-item {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 16px; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 14px;
+}
+.log-icon { font-size: 18px; flex-shrink: 0; }
+.log-info { flex: 1; }
+.log-titulo { font-family: var(--cinzel); font-size: 13px; color: var(--ouro2); margin-bottom: 3px; }
+.log-meta { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+
+/* MODAL */
+.modal-ov {
+  display: none; position: fixed; inset: 0;
+  background: rgba(6,8,16,0.92); z-index: 200;
+  align-items: center; justify-content: center; padding: 20px;
+}
+.modal-ov.aberto { display: flex; }
+.modal-box {
+  background: var(--surface); border: 1px solid rgba(200,169,110,0.3);
+  border-radius: 20px; padding: 32px; max-width: 680px; width: 100%;
+  max-height: 88vh; overflow-y: auto; position: relative;
+}
+.modal-title { font-family: var(--cinzel); font-size: 22px; color: var(--ouro2); letter-spacing: 2px; margin-bottom: 6px; }
+.modal-sub { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-bottom: 24px; }
+.modal-close { position: absolute; top: 16px; right: 18px; background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; }
+.modal-close:hover { color: var(--ouro); }
+.modal-section { margin-bottom: 20px; }
+.modal-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-bottom: 8px; display: block; }
+.modal-livro {
+  background: rgba(6,8,16,0.6); border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px 16px; margin-bottom: 10px;
+}
+.modal-livro-n { font-family: var(--cinzel); font-size: 13px; color: var(--ouro); margin-bottom: 4px; }
+.modal-livro-pags { font-family: var(--mono); font-size: 11px; color: var(--verde2); }
+.modal-livro-obras { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 6px; line-height: 1.6; }
+.modal-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+.btn-confirmar {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  padding: 11px 24px; border: 1px solid var(--verde2); border-radius: 999px;
+  color: var(--verde2); background: rgba(76,175,122,0.1); cursor: pointer;
+  transition: all 0.2s; text-transform: uppercase;
+}
+.btn-confirmar:hover { background: rgba(76,175,122,0.2); }
+.btn-cancelar {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  padding: 11px 24px; border: 1px solid var(--border); border-radius: 999px;
+  color: var(--muted); background: transparent; cursor: pointer; transition: all 0.2s;
+}
+.btn-cancelar:hover { border-color: var(--texto); color: var(--texto); }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--surface); border: 1px solid var(--verde2);
+  color: var(--verde2); font-family: var(--mono); font-size: 11px; letter-spacing: 1px;
+  padding: 12px 20px; border-radius: 10px; z-index: 300;
+  opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* VAZIO */
+.vazio {
+  text-align: center; padding: 48px 20px;
+  border: 1px dashed var(--border); border-radius: var(--r);
+  font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 1px;
+}
+.vazio .vi { font-size: 40px; display: block; margin-bottom: 14px; opacity: 0.4; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); }
+
+@media (max-width: 700px) {
+  .cela-header { flex-wrap: wrap; }
+  .cela-stats { gap: 12px; }
+  .topbar { padding: 10px 16px; }
+  .wrap { padding: 24px 16px 60px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="marca">BALESTRA · OHE-PEÇANHA<small>MASMORRA → LAPIDAR · MONITOR DE CELAS</small></div>
+  <nav class="tnav">
+    <a href="#celas">Celas</a>
+    <a href="#prontos">Prontos</a>
+    <a href="#log">Log</a>
+    <a href="https://triploohesigmalbpl.vercel.app/espinha_dorsal.html">← Espinha Dorsal</a>
+    <a href="https://triploohesigmalbpl.vercel.app/">← SIGMAL HQ</a>
+  </nav>
+</div>
+
+<header class="hero">
+  <div class="hero-badge">⚔ BALESTRA · MASMORRA · MONITORAMENTO DE CELAS</div>
+  <h1>BALESTRA</h1>
+  <div class="hero-sub">OHE-PEÇANHA · GESTÃO DA MASMORRA · EXPEDIÇÃO PARA O LAPIDAR</div>
+  <p class="hero-desc">Cada heterônimo tem sua cela. O material acumula isolado. Aos 750 dias, ou quando há páginas suficientes para um livro, a Balestra forma os volumes e os despacha para o Lapidar.</p>
+</header>
+
+<main class="wrap">
+
+  <!-- PAINEL GERAL -->
+  <div>
+    <div class="sec-title">// Estado Geral da Masmorra <span id="ultima-verificacao">—</span></div>
+    <div class="painel-geral" id="painel-geral">
+      <div class="stat-card"><span class="sn" id="stat-heteronimos">0</span><span class="sl">Heterônimos na Masmorra</span></div>
+      <div class="stat-card"><span class="sn" id="stat-obras">0</span><span class="sl">Obras acumuladas</span></div>
+      <div class="stat-card"><span class="sn" id="stat-paginas">0</span><span class="sl">Páginas totais</span></div>
+      <div class="stat-card alerta"><span class="sn" id="stat-prontos">0</span><span class="sl">Prontos para despachar</span></div>
+      <div class="stat-card"><span class="sn" id="stat-expedidos">0</span><span class="sl">Livros expedidos</span></div>
+    </div>
+  </div>
+
+  <!-- FILTROS -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="sec-title">// Celas dos Heterônimos <span></span></div>
+    <div class="filtros">
+      <input class="busca" type="text" placeholder="Buscar heterônimo..." oninput="filtrarCelas(this.value)">
+      <button class="filtro-btn ativo" onclick="setFiltro('todos',this)">Todos</button>
+      <button class="filtro-btn" onclick="setFiltro('pronto',this)">Prontos ✓</button>
+      <button class="filtro-btn" onclick="setFiltro('acumulando',this)">Acumulando</button>
+      <button class="filtro-btn" onclick="setFiltro('aguardando',this)">Aguardando</button>
+      <button class="filtro-btn" onclick="simularDados()" style="margin-left:auto;border-color:rgba(200,169,110,0.3);color:var(--ouro)">⚙ Simular dados de teste</button>
+    </div>
+  </div>
+
+  <!-- LISTA DE CELAS -->
+  <div id="lista-celas">
+    <div class="vazio"><span class="vi">⛓</span>Nenhum heterônimo na Masmorra ainda.<br><br>O material chega aqui após geração no SIGMAL HQ via Fernando Peçanha.</div>
+  </div>
+
+  <!-- PRONTOS PARA DESPACHO -->
+  <div id="secao-prontos" style="display:none">
+    <div class="sec-title">// Prontos para Despacho ao Lapidar <span id="cont-prontos">0 livros</span></div>
+    <div id="lista-prontos"></div>
+    <div style="margin-top:16px">
+      <button class="btn btn-despachar" style="font-size:11px;padding:11px 24px" onclick="despacharTodosProntos()">⚡ DESPACHAR TODOS PARA O LAPIDAR</button>
+    </div>
+  </div>
+
+  <!-- LOG DE EXPEDIÇÕES -->
+  <div>
+    <div class="sec-title">// Log de Expedições <span id="cont-log">0 registros</span></div>
+    <div id="lista-log">
+      <div class="vazio"><span class="vi">📜</span>Nenhuma expedição registrada ainda.</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- MODAL DE DESPACHO -->
+<div class="modal-ov" id="modal-despacho">
+  <div class="modal-box">
+    <button class="modal-close" onclick="fecharModal()">✕</button>
+    <div class="modal-title" id="modal-het-nome">—</div>
+    <div class="modal-sub">// FORMAÇÃO DE VOLUMES · EXPEDIÇÃO PARA O LAPIDAR</div>
+
+    <div class="modal-section">
+      <span class="modal-label">// VOLUMES FORMADOS PELA BALESTRA</span>
+      <div id="modal-livros"></div>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-label">// DESTINO NO CELEIRO LITERÁRIO</span>
+      <select id="modal-destino" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--texto);font-family:var(--mono);font-size:12px;padding:10px 12px;border-radius:8px;outline:none">
+        <option value="lapidar">Lapidar · Lapidação editorial</option>
+        <option value="silo_literario">Silo Literário · Arquivo digital</option>
+        <option value="calabouco">Calabouço · Aguardar catapulta</option>
+      </select>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-label">// FORMATO DE SAÍDA</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;cursor:pointer;color:var(--texto)">
+          <input type="checkbox" id="fmt-ebook" checked style="accent-color:var(--ouro)"> E-book
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;cursor:pointer;color:var(--texto)">
+          <input type="checkbox" id="fmt-fisico" style="accent-color:var(--ouro)"> Livro físico
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;cursor:pointer;color:var(--texto)">
+          <input type="checkbox" id="fmt-audio" style="accent-color:var(--ouro)"> Audiobook
+        </label>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-label">// OBSERVAÇÃO EDITORIAL (opcional)</span>
+      <textarea id="modal-obs" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--texto);font-family:var(--mono);font-size:12px;padding:10px 12px;border-radius:8px;outline:none;resize:vertical;min-height:60px" placeholder="Instruções para o Lapidar..."></textarea>
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn-confirmar" onclick="confirmarDespacho()">⚡ CONFIRMAR DESPACHO</button>
+      <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// BALESTRA · OHE-PEÇANHA · LÓGICA CENTRAL
+// ══════════════════════════════════════════════════════════════
+
+const CHAVES_MASMORRA = [
+  'masmorra_itens','masmorra_obras','masmorra_quarentena',
+  'torre_masmorra','masmorra_750','quarentena_itens',
+  'masmorra','obras_quarentena','ohe_masmorra'
+];
+
+const PAGINAS_MIN_LIVRO = 120;   // mínimo para formar um livro
+const PAGINAS_REF = 140;         // referência base
+const DIAS_QUARENTENA = 750;
+
+let celaAtual = null;
+let todasCelas = [];
+let filtroAtual = 'todos';
+
+// ── CALCULA PALAVRAS → PÁGINAS ──
+function palavrasParaPaginas(palavras) {
+  // ~280 palavras por página editorial
+  return Math.max(1, Math.round(palavras / 280));
+}
+
+// ── LÊ MASMORRA DO LOCALSTORAGE ──
+function lerMasmorra() {
+  const heteronimos = {};
+
+  CHAVES_MASMORRA.forEach(k => {
+    try {
+      const raw = localStorage.getItem(k);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      const itens = Array.isArray(parsed) ? parsed : [parsed];
+
+      itens.forEach(item => {
+        if (!item || typeof item !== 'object') return;
+
+        const hetNome = item.heteronimo || item.autor || item.autor_nome ||
+                        item.het || item.name || 'Heterônimo Anônimo';
+        const hetEixo = item.categoria || item.eixo || item.tipo || 'Prosa';
+
+        if (!heteronimos[hetNome]) {
+          heteronimos[hetNome] = {
+            nome: hetNome,
+            eixo: hetEixo,
+            obras: [],
+            totalPaginas: 0,
+            dataMaisAntiga: null,
+            dataMaisRecente: null
+          };
+        }
+
+        const conteudo = item.conteudo || item.texto || item.content ||
+                         item.resultado || item.output || '';
+        const palavras = conteudo.split(/\s+/).filter(Boolean).length;
+        const paginas = palavrasParaPaginas(palavras);
+        const dataItem = item.em || item.data || item.created_at ||
+                         item.timestamp || new Date().toISOString();
+
+        heteronimos[hetNome].obras.push({
+          titulo: item.titulo || item.title || item.assunto || 'Obra sem título',
+          paginas,
+          palavras,
+          data: dataItem,
+          conteudo: conteudo.substring(0, 200)
+        });
+
+        heteronimos[hetNome].totalPaginas += paginas;
+
+        const d = new Date(dataItem);
+        if (!heteronimos[hetNome].dataMaisAntiga || d < new Date(heteronimos[hetNome].dataMaisAntiga)) {
+          heteronimos[hetNome].dataMaisAntiga = dataItem;
+        }
+        if (!heteronimos[hetNome].dataMaisRecente || d > new Date(heteronimos[hetNome].dataMaisRecente)) {
+          heteronimos[hetNome].dataMaisRecente = dataItem;
+        }
+      });
+    } catch(e) {}
+  });
+
+  return Object.values(heteronimos);
+}
+
+// ── CALCULA DIAS DESDE A OBRA MAIS ANTIGA ──
+function calcularDias(dataStr) {
+  if (!dataStr) return 0;
+  const diff = new Date() - new Date(dataStr);
+  return Math.floor(diff / (1000 * 60 * 60 * 24));
+}
+
+// ── DETERMINA STATUS DA CELA ──
+function statusCela(cela) {
+  const dias = calcularDias(cela.dataMaisAntiga);
+  const paginas = cela.totalPaginas;
+
+  if (paginas >= PAGINAS_MIN_LIVRO && dias >= DIAS_QUARENTENA) return 'pronto';
+  if (paginas >= PAGINAS_MIN_LIVRO) return 'pronto'; // páginas suficientes
+  if (dias >= DIAS_QUARENTENA) return 'pronto'; // prazo atingido (mesmo com poucas páginas, aguarda acúmulo)
+  if (paginas > 0) return 'acumulando';
+  return 'aguardando';
+}
+
+// ── FORMA OS LIVROS COM VARIAÇÃO ORGÂNICA ──
+function formarLivros(cela) {
+  const paginas = cela.totalPaginas;
+  const obras = [...cela.obras].sort((a,b) => new Date(a.data) - new Date(b.data));
+
+  if (paginas < PAGINAS_MIN_LIVRO) {
+    return [{
+      numero: 1,
+      paginas: paginas,
+      obras: obras.map(o => o.titulo),
+      completo: false,
+      msg: `Aguardando ${PAGINAS_MIN_LIVRO - paginas} páginas para completar o primeiro volume`
+    }];
+  }
+
+  const livros = [];
+  const numLivros = Math.max(1, Math.floor(paginas / PAGINAS_REF));
+
+  if (numLivros === 1) {
+    return [{
+      numero: 1,
+      paginas: paginas,
+      obras: obras.map(o => o.titulo),
+      completo: true
+    }];
+  }
+
+  // Distribui com variação orgânica — não pode ser igual
+  const base = Math.floor(paginas / numLivros);
+  const variacoes = [];
+  let soma = 0;
+
+  for (let i = 0; i < numLivros - 1; i++) {
+    // Variação de ±15% para cada livro, garantindo assimetria
+    const variacao = Math.floor((Math.random() * 0.3 - 0.15) * base);
+    const pags = base + variacao;
+    variacoes.push(pags);
+    soma += pags;
+  }
+  variacoes.push(paginas - soma); // último livro absorve o restante
+
+  // Garante que nenhum livro seja idêntico ao anterior
+  for (let i = 1; i < variacoes.length; i++) {
+    if (variacoes[i] === variacoes[i-1]) variacoes[i] += 3;
+  }
+
+  // Distribui obras pelos livros
+  let obraIdx = 0;
+  let paginasAcum = 0;
+
+  variacoes.forEach((pags, i) => {
+    const obrasLivro = [];
+    let paginasLivro = 0;
+
+    while (obraIdx < obras.length && paginasLivro < pags) {
+      obrasLivro.push(obras[obraIdx].titulo);
+      paginasLivro += obras[obraIdx].paginas;
+      obraIdx++;
+    }
+
+    livros.push({
+      numero: i + 1,
+      paginas: pags,
+      obras: obrasLivro.length > 0 ? obrasLivro : ['Material compilado'],
+      completo: true
+    });
+  });
+
+  return livros;
+}
+
+// ── INICIAL DO HETERÔNIMO ──
+function inicialHet(nome) {
+  return nome.split(' ').filter(p => p.length > 2).map(p => p[0]).join('').substring(0,2).toUpperCase();
+}
+
+// ── RENDERIZA LISTA DE CELAS ──
+function renderCelas(celas) {
+  const container = document.getElementById('lista-celas');
+  const prontos = celas.filter(c => statusCela(c) === 'pronto');
+
+  if (!celas.length) {
+    container.innerHTML = `<div class="vazio"><span class="vi">⛓</span>Nenhum heterônimo na Masmorra ainda.<br><br>O material chega aqui após geração no SIGMAL HQ.</div>`;
+    return;
+  }
+
+  container.innerHTML = celas.map((cela, idx) => {
+    const status = statusCela(cela);
+    const dias = calcularDias(cela.dataMaisAntiga);
+    const pctDias = Math.min(100, (dias / DIAS_QUARENTENA) * 100);
+    const pctPags = Math.min(100, (cela.totalPaginas / PAGINAS_REF) * 100);
+    const livros = formarLivros(cela);
+
+    const badgeClass = status === 'pronto' ? 'b-pronto' :
+                       status === 'acumulando' ? 'b-acumulando' : 'b-aguardando';
+    const badgeLabel = status === 'pronto' ? '✓ PRONTO' :
+                       status === 'acumulando' ? '◈ ACUMULANDO' : '○ AGUARDANDO';
+
+    return `
+    <div class="cela ${status}" id="cela-${idx}">
+      <div class="cela-header" onclick="toggleCela(${idx})">
+        <div class="het-avatar">${inicialHet(cela.nome)}</div>
+        <div class="het-info">
+          <div class="het-nome">${cela.nome}</div>
+          <div class="het-eixo">${cela.eixo} · <span class="badge ${badgeClass}">${badgeLabel}</span></div>
+        </div>
+        <div class="cela-stats">
+          <div class="cela-stat">
+            <span class="csn">${cela.totalPaginas}</span>
+            <span class="csl">Páginas</span>
+          </div>
+          <div class="cela-stat">
+            <span class="csn">${cela.obras.length}</span>
+            <span class="csl">Obras</span>
+          </div>
+          <div class="cela-stat">
+            <span class="csn">${dias < DIAS_QUARENTENA ? dias : '750+'}</span>
+            <span class="csl">Dias</span>
+          </div>
+          <div class="cela-stat">
+            <span class="csn">${livros.filter(l=>l.completo).length}</span>
+            <span class="csl">Volumes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="progresso-wrap">
+        <div class="progresso-label">
+          <span>Prazo · ${dias} / ${DIAS_QUARENTENA} dias</span>
+          <span>${Math.round(pctDias)}%</span>
+        </div>
+        <div class="barra"><div class="barra-fill ${pctDias >= 100 ? 'completo' : ''}" style="width:${pctDias}%"></div></div>
+        <div class="progresso-label" style="margin-top:8px">
+          <span>Volume · ${cela.totalPaginas} / ~${PAGINAS_REF} páginas</span>
+          <span>${Math.round(pctPags)}%</span>
+        </div>
+        <div class="barra"><div class="barra-fill ${status === 'pronto' ? 'verde completo' : 'verde'}" style="width:${Math.min(100,pctPags)}%"></div></div>
+      </div>
+
+      <div class="cela-body" id="body-${idx}">
+        <div class="obras-lista">
+          ${cela.obras.slice(0,5).map(o => `
+            <div class="obra-row">
+              <div class="or-titulo">${o.titulo}</div>
+              <div class="or-pags">${o.paginas} págs</div>
+              <div class="or-data">${new Date(o.data).toLocaleDateString('pt-BR')}</div>
+            </div>
+          `).join('')}
+          ${cela.obras.length > 5 ? `<div style="font-family:var(--mono);font-size:10px;color:var(--muted);padding:6px 0">... e mais ${cela.obras.length - 5} obras</div>` : ''}
+        </div>
+
+        <div class="livros-preview">
+          <span style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px;display:block;margin-bottom:10px">// VOLUMES FORMADOS PELA BALESTRA</span>
+          ${livros.map(l => `
+            <div class="livro-card ${l.completo ? 'verde-card' : ''}">
+              <div class="livro-titulo ${l.completo ? 'verde-txt' : ''}">${l.completo ? '✦' : '◌'} Volume ${l.numero} · ${l.paginas} páginas</div>
+              ${l.msg ? `<div class="livro-meta" style="color:var(--ouro)">${l.msg}</div>` : ''}
+              <div class="livro-obras">${l.obras.slice(0,4).join(' · ')}${l.obras.length > 4 ? ' ...' : ''}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="cela-acoes">
+          <button class="btn btn-despachar" onclick="abrirDespacho(${idx})" ${status !== 'pronto' ? 'disabled' : ''}>
+            ⚡ DESPACHAR PARA O LAPIDAR
+          </button>
+          <button class="btn btn-ver" onclick="exportarCela(${idx})">↓ EXPORTAR CELA</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCela(idx) {
+  const body = document.getElementById(`body-${idx}`);
+  if (body) body.classList.toggle('aberto');
+}
+
+// ── FILTROS ──
+function setFiltro(f, btn) {
+  filtroAtual = f;
+  document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('ativo'));
+  btn.classList.add('ativo');
+  aplicarFiltros('');
+}
+
+function filtrarCelas(q) {
+  aplicarFiltros(q);
+}
+
+function aplicarFiltros(q) {
+  let resultado = [...todasCelas];
+
+  if (filtroAtual !== 'todos') {
+    resultado = resultado.filter(c => statusCela(c) === filtroAtual);
+  }
+
+  if (q) {
+    resultado = resultado.filter(c =>
+      c.nome.toLowerCase().includes(q.toLowerCase()) ||
+      c.eixo.toLowerCase().includes(q.toLowerCase())
+    );
+  }
+
+  renderCelas(resultado);
+}
+
+// ── MODAL DE DESPACHO ──
+function abrirDespacho(idx) {
+  const cela = todasCelas[idx];
+  celaAtual = { idx, cela };
+  const livros = formarLivros(cela);
+
+  document.getElementById('modal-het-nome').textContent = cela.nome;
+  document.getElementById('modal-livros').innerHTML = livros
+    .filter(l => l.completo)
+    .map(l => `
+      <div class="modal-livro">
+        <div class="modal-livro-n">Volume ${l.numero}</div>
+        <div class="modal-livro-pags">${l.paginas} páginas · ${l.obras.length} obras</div>
+        <div class="modal-livro-obras">${l.obras.join(' · ')}</div>
+      </div>
+    `).join('') || '<div style="color:var(--muted);font-family:var(--mono);font-size:11px">Nenhum volume completo ainda.</div>';
+
+  document.getElementById('modal-obs').value = '';
+  document.getElementById('modal-despacho').classList.add('aberto');
+}
+
+function fecharModal() {
+  document.getElementById('modal-despacho').classList.remove('aberto');
+  celaAtual = null;
+}
+
+function confirmarDespacho() {
+  if (!celaAtual) return;
+
+  const { cela } = celaAtual;
+  const destino = document.getElementById('modal-destino').value;
+  const formatos = [];
+  if (document.getElementById('fmt-ebook').checked) formatos.push('E-book');
+  if (document.getElementById('fmt-fisico').checked) formatos.push('Livro físico');
+  if (document.getElementById('fmt-audio').checked) formatos.push('Audiobook');
+  const obs = document.getElementById('modal-obs').value;
+  const livros = formarLivros(cela).filter(l => l.completo);
+
+  // Registra no log
+  const log = JSON.parse(localStorage.getItem('balestra_log') || '[]');
+  livros.forEach((l, i) => {
+    log.unshift({
+      id: Date.now() + i,
+      heteronimo: cela.nome,
+      volume: l.numero,
+      paginas: l.paginas,
+      obras: l.obras,
+      destino,
+      formatos,
+      obs,
+      expedidoEm: new Date().toISOString()
+    });
+  });
+  localStorage.setItem('balestra_log', JSON.stringify(log));
+
+  // Marca cela como expedida (remove da masmorra)
+  CHAVES_MASMORRA.forEach(k => {
+    try {
+      const raw = localStorage.getItem(k);
+      if (!raw) return;
+      const arr = JSON.parse(raw);
+      if (!Array.isArray(arr)) return;
+      const restantes = arr.filter(item => {
+        const hetNome = item.heteronimo || item.autor || item.het || '';
+        return hetNome !== cela.nome;
+      });
+      localStorage.setItem(k, JSON.stringify(restantes));
+    } catch(e) {}
+  });
+
+  fecharModal();
+  toast(`✦ ${cela.nome} · ${livros.length} volume(s) despachado(s) para o ${destino === 'lapidar' ? 'Lapidar' : destino}`);
+  setTimeout(carregar, 800);
+}
+
+function despacharTodosProntos() {
+  const prontos = todasCelas.filter(c => statusCela(c) === 'pronto');
+  if (!prontos.length) { toast('Nenhum heterônimo pronto para despacho.'); return; }
+
+  const log = JSON.parse(localStorage.getItem('balestra_log') || '[]');
+  prontos.forEach(cela => {
+    const livros = formarLivros(cela).filter(l => l.completo);
+    livros.forEach((l, i) => {
+      log.unshift({
+        id: Date.now() + i,
+        heteronimo: cela.nome,
+        volume: l.numero,
+        paginas: l.paginas,
+        obras: l.obras,
+        destino: 'lapidar',
+        formatos: ['E-book'],
+        obs: 'Despacho em lote automático',
+        expedidoEm: new Date().toISOString()
+      });
+    });
+
+    // Remove da masmorra
+    CHAVES_MASMORRA.forEach(k => {
+      try {
+        const raw = localStorage.getItem(k);
+        if (!raw) return;
+        const arr = JSON.parse(raw);
+        if (!Array.isArray(arr)) return;
+        const restantes = arr.filter(item => {
+          const hetNome = item.heteronimo || item.autor || item.het || '';
+          return hetNome !== cela.nome;
+        });
+        localStorage.setItem(k, JSON.stringify(restantes));
+      } catch(e) {}
+    });
+  });
+
+  localStorage.setItem('balestra_log', JSON.stringify(log));
+  toast(`✦ ${prontos.length} heterônimo(s) despachados para o Lapidar`);
+  setTimeout(carregar, 800);
+}
+
+// ── LOG DE EXPEDIÇÕES ──
+function renderLog() {
+  const log = JSON.parse(localStorage.getItem('balestra_log') || '[]');
+  const cont = document.getElementById('cont-log');
+  cont.textContent = log.length + ' registros';
+
+  const container = document.getElementById('lista-log');
+  if (!log.length) {
+    container.innerHTML = `<div class="vazio"><span class="vi">📜</span>Nenhuma expedição registrada ainda.</div>`;
+    return;
+  }
+
+  container.innerHTML = log.slice(0, 20).map(entry => `
+    <div class="log-item">
+      <div class="log-icon">📬</div>
+      <div class="log-info">
+        <div class="log-titulo">${entry.heteronimo} · Volume ${entry.volume} · ${entry.paginas} páginas</div>
+        <div class="log-meta">
+          Destino: ${entry.destino} ·
+          Formato: ${(entry.formatos||[]).join(', ')} ·
+          ${new Date(entry.expedidoEm).toLocaleDateString('pt-BR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+          ${entry.obs ? ' · ' + entry.obs : ''}
+        </div>
+      </div>
+      <span class="badge b-expedido">EXPEDIDO</span>
+    </div>
+  `).join('');
+}
+
+// ── EXPORTAR CELA ──
+function exportarCela(idx) {
+  const cela = todasCelas[idx];
+  const livros = formarLivros(cela);
+  const txt = `BALESTRA · OHE-PEÇANHA
+${'═'.repeat(60)}
+HETERÔNIMO: ${cela.nome}
+EIXO: ${cela.eixo}
+TOTAL DE PÁGINAS: ${cela.totalPaginas}
+TOTAL DE OBRAS: ${cela.obras.length}
+DIAS NA MASMORRA: ${calcularDias(cela.dataMaisAntiga)}
+STATUS: ${statusCela(cela).toUpperCase()}
+
+${'─'.repeat(60)}
+VOLUMES FORMADOS:
+${livros.map(l => `
+Volume ${l.numero}: ${l.paginas} páginas
+Obras: ${l.obras.join(', ')}
+`).join('')}
+
+${'─'.repeat(60)}
+OBRAS:
+${cela.obras.map(o => `· ${o.titulo} (${o.paginas} págs · ${new Date(o.data).toLocaleDateString('pt-BR')})`).join('\n')}
+`;
+
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([txt], {type:'text/plain;charset=utf-8'}));
+  a.download = `cela_${cela.nome.replace(/\s+/g,'_').toLowerCase()}.txt`;
+  a.click();
+}
+
+// ── SIMULAR DADOS DE TESTE ──
+function simularDados() {
+  const hetTest = [
+    { nome: 'Amanda Fernanda Fisher Leão', eixo: 'Prosa', obras: [
+      { titulo: 'O Abismo Marinho', paginas: 52, dias: 800 },
+      { titulo: 'A Sereia de Ferro', paginas: 48, dias: 600 },
+      { titulo: 'Profundezas de Fomea', paginas: 67, dias: 300 },
+      { titulo: 'Mar de Osssos', paginas: 44, dias: 100 }
+    ]},
+    { nome: 'Imediato Thompson', eixo: 'Prosa Cosmológica', obras: [
+      { titulo: 'Rasalhague — O Portal', paginas: 88, dias: 900 },
+      { titulo: 'Atlântida no Éter', paginas: 71, dias: 400 }
+    ]},
+    { nome: 'A.J. dos Santos', eixo: 'Prosa Urbana', obras: [
+      { titulo: 'Beco dos Esquecidos', paginas: 35, dias: 200 }
+    ]},
+    { nome: 'Creone Porfírio', eixo: 'Prosa', obras: [
+      { titulo: 'O Ministro das Sombras', paginas: 95, dias: 820 },
+      { titulo: 'Corrupção Elegante', paginas: 88, dias: 750 },
+      { titulo: 'A Última Sessão', paginas: 72, dias: 600 }
+    ]}
+  ];
+
+  const agora = new Date();
+  const itens = [];
+
+  hetTest.forEach(h => {
+    h.obras.forEach(o => {
+      const data = new Date(agora - o.dias * 24 * 60 * 60 * 1000);
+      const palavras = o.paginas * 280;
+      const conteudo = Array(palavras).fill('texto').join(' ');
+      itens.push({
+        titulo: o.titulo,
+        heteronimo: h.nome,
+        categoria: h.eixo,
+        conteudo,
+        em: data.toISOString()
+      });
+    });
+  });
+
+  localStorage.setItem('masmorra_itens', JSON.stringify(itens));
+  toast('✦ Dados de teste carregados');
+  setTimeout(carregar, 500);
+}
+
+// ── TOAST ──
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── CARREGAR ──
+function carregar() {
+  todasCelas = lerMasmorra();
+
+  // Atualiza stats gerais
+  const prontos = todasCelas.filter(c => statusCela(c) === 'pronto');
+  const totalPags = todasCelas.reduce((s, c) => s + c.totalPaginas, 0);
+  const totalObras = todasCelas.reduce((s, c) => s + c.obras.length, 0);
+  const log = JSON.parse(localStorage.getItem('balestra_log') || '[]');
+
+  document.getElementById('stat-heteronimos').textContent = todasCelas.length;
+  document.getElementById('stat-obras').textContent = totalObras;
+  document.getElementById('stat-paginas').textContent = totalPags;
+  document.getElementById('stat-prontos').textContent = prontos.length;
+  document.getElementById('stat-expedidos').textContent = log.length;
+  document.getElementById('ultima-verificacao').textContent =
+    'Atualizado: ' + new Date().toLocaleTimeString('pt-BR');
+
+  // Seção prontos
+  const secProntos = document.getElementById('secao-prontos');
+  if (prontos.length > 0) {
+    secProntos.style.display = 'block';
+    document.getElementById('cont-prontos').textContent = prontos.length + ' heterônimo(s)';
+    document.getElementById('lista-prontos').innerHTML = prontos.map(c => {
+      const livros = formarLivros(c).filter(l => l.completo);
+      return `
+        <div class="livro-card verde-card" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <div style="flex:1">
+            <div class="livro-titulo verde-txt">${c.nome}</div>
+            <div class="livro-meta">${livros.length} volume(s) · ${c.totalPaginas} páginas · ${calcularDias(c.dataMaisAntiga)} dias</div>
+          </div>
+          <button class="btn btn-despachar" onclick="abrirDespacho(${todasCelas.indexOf(c)})">⚡ Despachar</button>
+        </div>
+      `;
+    }).join('');
+  } else {
+    secProntos.style.display = 'none';
+  }
+
+  aplicarFiltros('');
+  renderLog();
+}
+
+// Fecha modal clicando fora
+document.getElementById('modal-despacho').addEventListener('click', e => {
+  if (e.target === e.currentTarget) fecharModal();
+});
+
+// Inicializa
+carregar();
+setInterval(carregar, 30000); // atualiza a cada 30s
+</script>
+</body>
+</html>
